@@ -8,17 +8,14 @@
 ## 1. Primary Control: Chat Voting
 All key decisions in the game will be made through chat-based voting in each live stream. This system ensures that the audience from both streams directly influences the fate of their respective characters.
 
--   <b>Voting Method</b>: 
+- <b>Voting Method</b>: 
 Viewers cast their votes by sending specific numerical keywords. <b>(e.g., "1","2","111").</b>
-<br>
 - <b>Valid Votes</b>: 
 A chat message containing only a single digit from a specific set of numbers (e.g., "1", "2"). If the message contains multiple instances of the same valid digit (e.g., "111"), it's still counted as a single vote for that number.
-<br>
 - <b>Invalid Votes</b>:
 <b>A message is invalid if it contains any of the following:</b>
 Multiple, different valid digits: "12"
 Any non-numerical characters: "1 hello", "nice"
-<br>
 - <b>Chat Display</b>
  All chat messages, except for the voting keywords, will be displayed in real-time on the corresponding characters, adding a fun, visual element to their personalities.
 
