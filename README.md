@@ -1,5 +1,5 @@
-<div style="text-align:center;font-size:48pt;line-height:1"><b> Dual Souls Chronicle </b></div>
-<div style="text-align:center;font-size:24pt;color:#666666"><b> An Interactive Live RPG Game </b></div>
+# <center><b> Dual Souls Chronicle </b></center>
+###### <center>An Interactive Live RPG Game</center>
 
 # I. Project Overview
 "Dual Souls Chronicle" is an innovative, interactive live-stream RPG developed using C# and the Godot game engine. The core of this project is its unique "dual live-stream collaboration" gameplay. Two characters in the game are controlled by audiences from two different live streams, who must work together to defeat monsters and bosses. This is not just a game; it's a collective, interactive experience designed to give viewers an unprecedented sense of participation and community.
