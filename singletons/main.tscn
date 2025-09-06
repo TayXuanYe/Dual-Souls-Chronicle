@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://fa8et3553xsj"]
 
 [ext_resource type="Script" uid="uid://743ts6niexy6" path="res://scripts/Main.cs" id="1_gh8hc"]
-[ext_resource type="PackedScene" uid="uid://ddcnaaghl6m8i" path="res://scenes/ui/setup-page.tscn" id="2_js2v3"]
+[ext_resource type="PackedScene" uid="uid://ddcnaaghl6m8i" path="res://scenes/ui/setup_page.tscn" id="2_js2v3"]
 
 [node name="Main" type="Control" node_paths=PackedStringArray("_subViewport1", "_subViewport2")]
 layout_mode = 3
