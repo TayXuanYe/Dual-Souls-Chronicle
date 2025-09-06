@@ -7,7 +7,7 @@ public partial class Main : Control
 	[Export] private SubViewport _subViewport2;
 	public string youtube_api_key;
 
-	public override void Ready()
+	public override void _Ready()
 	{
 		// get api key
 		string configPath = "res://config.json";
