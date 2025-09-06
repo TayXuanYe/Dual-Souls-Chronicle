@@ -10,7 +10,7 @@ public partial class SelectScenes : VBoxContainer
 	[Export] private Panel _voteBarPanel1;
 	[Export] private Panel _voteBarPanel2;
 	[Export] private Panel _voteBarPanel3;
-
+	private int _width = 960;
 	private int _totalVoteCount;
 	private int _vote1Count;
 	private int _vote2Count;
@@ -54,9 +54,9 @@ public partial class SelectScenes : VBoxContainer
 			_votingTimeLabel.Text = $"Voting Time: 0s";
 			return;
 		}
-		_votingTimeLabel.Text = $"Voting Time: {_voteTimeCountdown}s";
+		_votingTimeLabel.Text = $"Voting Time: {_voteTimeCountdown.ToString("F2")}s";
 
-		if (_voteTimeCountdown <= 10f)
+		if (_voteTimeCountdown <= 5f)
 		{
 			if (Math.Floor(_voteTimeCountdown) % 2 == 0)
 				_votingTimeLabel.Modulate = new Color("#FF0000");

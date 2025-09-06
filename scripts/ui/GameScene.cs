@@ -7,7 +7,7 @@ public partial class GameScene : Control
 	public override void _Ready()
 	{
 		if (_selectScene is SelectScenes selectSceneScript)
-			selectSceneScript.Init(100);
+			selectSceneScript.Init(10);
 	}
 	
 	public override void _Process(double delta)
