@@ -34,7 +34,11 @@ public partial class SelectScenes : VBoxContainer
 	{
 		this.Visible = true;
 		_voteTimeCountdown = voteTime;
-
+		_totalVoteCount = 0;
+		_vote1Count = 0;
+		_vote2Count = 0;
+		_vote3Count = 0;
+		_updateTime = 0;
 		isInit = true;
 	}
 
@@ -61,5 +65,11 @@ public partial class SelectScenes : VBoxContainer
 		}
 
 		_voteTimeCountdown -= delta;
+	}
+	
+	public void HiddenScene()
+	{
+		this.Visible = false;
+		isInit = false;
 	}
 }

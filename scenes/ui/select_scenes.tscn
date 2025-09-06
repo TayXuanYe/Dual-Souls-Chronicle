@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://4cu1nmm5exgc"]
 
-[ext_resource type="Script" uid="uid://dytwqpeudr1uw" path="res://scenes/ui/SelectScenes.cs" id="1_fxlv7"]
+[ext_resource type="Script" uid="uid://dytwqpeudr1uw" path="res://scripts/ui/SelectScenes.cs" id="1_fxlv7"]
 
 [sub_resource type="Gradient" id="Gradient_vfafu"]
 colors = PackedColorArray(0, 0, 0, 0.188235, 0, 0, 0, 0.439216)
@@ -24,14 +24,13 @@ bg_color = Color(0.4, 0.8, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_grlss"]
 bg_color = Color(0.982364, 0.794247, 0.183389, 1)
 
-[node name="SelectScenes" type="VBoxContainer" node_paths=PackedStringArray("_voitingTimeLabel", "_voteCountLabel1", "_voteCountLabel2", "_voteCountLabel3", "_voteBarPanel1", "_voteBarPanel2", "_voteBarPanel3")]
+[node name="SelectScenes" type="VBoxContainer" node_paths=PackedStringArray("_voteCountLabel1", "_voteCountLabel2", "_voteCountLabel3", "_voteBarPanel1", "_voteBarPanel2", "_voteBarPanel3")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fxlv7")
-_voitingTimeLabel = NodePath("MarginContainer/VotingTimeLabel")
 _voteCountLabel1 = NodePath("MarginContainer2/HBoxContainer/VoteBarPanel1/CenterContainer/VBoxContainer/VoteCountLabel")
 _voteCountLabel2 = NodePath("MarginContainer2/HBoxContainer/VoteBarPanel2/CenterContainer/VBoxContainer/VoteCountLabel")
 _voteCountLabel3 = NodePath("MarginContainer2/HBoxContainer/VoteBarPanel3/CenterContainer/VBoxContainer/VoteCountLabel")
