@@ -14,22 +14,38 @@ font_size = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cfmu5"]
 bg_color = Color(0.981373, 0.586967, 0.708671, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.980392, 0.588235, 0.709804, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_vfafu"]
 font_size = 17
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vfafu"]
 bg_color = Color(0.4, 0.8, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.8, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_grlss"]
 bg_color = Color(0.982364, 0.794247, 0.183389, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.984314, 0.796078, 0.184314, 1)
 
 [node name="SelectScenes" type="VBoxContainer" node_paths=PackedStringArray("_votingTimeLabel", "_voteCountLabel1", "_voteCountLabel2", "_voteCountLabel3", "_voteBarPanel1", "_voteBarPanel2", "_voteBarPanel3")]
-anchors_preset = 15
+clip_contents = true
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
+offset_bottom = 98.0
 grow_horizontal = 2
-grow_vertical = 2
+theme_override_constants/separation = 0
 script = ExtResource("1_fxlv7")
 _votingTimeLabel = NodePath("MarginContainer/VotingTimeLabel")
 _voteCountLabel1 = NodePath("MarginContainer2/HBoxContainer/VoteBarPanel1/CenterContainer/VBoxContainer/VoteCountLabel")
@@ -41,6 +57,10 @@ _voteBarPanel3 = NodePath("MarginContainer2/HBoxContainer/VoteBarPanel3")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="BG" type="TextureRect" parent="MarginContainer"]
 layout_mode = 2
@@ -54,13 +74,17 @@ horizontal_alignment = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2"]
+clip_contents = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="VoteBarPanel1" type="Panel" parent="MarginContainer2/HBoxContainer"]
-custom_minimum_size = Vector2(100, 30)
+custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_cfmu5")
 

@@ -10,14 +10,13 @@ public partial class SelectScenes : VBoxContainer
 	[Export] private Panel _voteBarPanel1;
 	[Export] private Panel _voteBarPanel2;
 	[Export] private Panel _voteBarPanel3;
-	private int _width = 960;
-	private int _totalVoteCount;
-	private int _vote1Count;
-	private int _vote2Count;
-	private int _vote3Count;
+	private float _width = 960;
+	private int _voteTotalCount;
+	private int _vote1Count = 0;
+	private int _vote2Count = 0;
+	private int _vote3Count = 0;
 	private double _voteTimeCountdown;
-	private double _updateTime;
-	bool isInit = false;
+	private bool _isInit = false;
 	public override void _Ready()
 	{
 		this.Visible = false;
@@ -25,26 +24,88 @@ public partial class SelectScenes : VBoxContainer
 
 	public override void _Process(double delta)
 	{
-		if (!isInit) { return; }
+		if (!_isInit) { return; }
 		DisplayVotingTime(delta);
-
+		UpdateVoteBar();
 	}
 
 	public void Init(double voteTime)
 	{
+		GD.Print("INIT");
+		if (_isInit) { return; }
 		this.Visible = true;
 		_voteTimeCountdown = voteTime;
-		_totalVoteCount = 0;
 		_vote1Count = 0;
 		_vote2Count = 0;
 		_vote3Count = 0;
-		_updateTime = 0;
-		isInit = true;
+		_voteTotalCount = 0;
+		_isInit = true;
 	}
 
-	public void UpdateVoteCount(int vote1Count, int vote2Count, int vote3Count, double updateTime)
+	public void UpdateVoteCount(int vote1Count, int vote2Count, int vote3Count)
 	{
+		_vote1Count += vote1Count;
+		_vote2Count += vote2Count;
+		_vote3Count += vote3Count;
+		_voteTotalCount += vote1Count + vote2Count + vote3Count;
+	}
 
+	private void UpdateVoteBar()
+	{
+		if (_voteTotalCount == 0)
+		{
+			// set width
+			_voteBarPanel1.SetSize(new Vector2(_width / 3, _voteBarPanel1.Size.Y));
+			_voteBarPanel2.SetSize(new Vector2(_width / 3, _voteBarPanel2.Size.Y));
+			_voteBarPanel3.SetSize(new Vector2(_width / 3, _voteBarPanel3.Size.Y));
+
+			// set position
+			_voteBarPanel1.SetPosition(new Vector2(0, _voteBarPanel1.Position.Y));
+			_voteBarPanel2.SetPosition(new Vector2(_width / 3, _voteBarPanel2.Position.Y));
+			_voteBarPanel3.SetPosition(new Vector2(_width / 3 * 2, _voteBarPanel3.Position.Y));
+			return;
+		}
+		float vote1Width = (float)_vote1Count / (float)_voteTotalCount * _width;
+		float vote2Width = (float)_vote2Count / (float)_voteTotalCount * _width;
+		float vote3Width = (float)_vote3Count / (float)_voteTotalCount * _width;
+		GD.Print($"1:{vote1Width},2:{vote2Width}.3:{vote3Width}");
+		// set width
+		_voteBarPanel1.SetSize(new Vector2(vote1Width + 3, _voteBarPanel1.Size.Y));
+		_voteBarPanel2.SetSize(new Vector2(vote2Width + 3, _voteBarPanel2.Size.Y));
+		_voteBarPanel3.SetSize(new Vector2(vote3Width + 3, _voteBarPanel3.Size.Y));
+
+		// set position
+		_voteBarPanel1.SetPosition(new Vector2(0, _voteBarPanel1.Position.Y));
+		_voteBarPanel2.SetPosition(new Vector2(vote1Width, _voteBarPanel2.Position.Y));
+		_voteBarPanel3.SetPosition(new Vector2(vote1Width + vote2Width, _voteBarPanel3.Position.Y));
+		GD.Print($"1:{_voteBarPanel1.Position.X},2:{_voteBarPanel2.Position.X}.3:{_voteBarPanel3.Position.X}");
+
+		if (vote1Width < 50f)
+		{
+			_voteCountLabel1.Visible = false;
+		}
+		else
+		{
+			_voteCountLabel1.Visible = true;
+		}
+
+		if (vote2Width < 50f)
+		{
+			_voteCountLabel2.Visible = false;
+		}
+		else
+		{
+			_voteCountLabel2.Visible = true;
+		}
+
+		if (vote3Width < 50f)
+		{
+			_voteCountLabel3.Visible = false;
+		}
+		else
+		{
+			_voteCountLabel3.Visible = true;
+		}
 	}
 
 	private void DisplayVotingTime(double delta)
@@ -54,7 +115,7 @@ public partial class SelectScenes : VBoxContainer
 			_votingTimeLabel.Text = $"Voting Time: 0s";
 			return;
 		}
-		_votingTimeLabel.Text = $"Voting Time: {_voteTimeCountdown.ToString("F2")}s";
+		_votingTimeLabel.Text = $"Voting Time: {_voteTimeCountdown.ToString("F0")}s";
 
 		if (_voteTimeCountdown <= 5f)
 		{
@@ -66,10 +127,10 @@ public partial class SelectScenes : VBoxContainer
 
 		_voteTimeCountdown -= delta;
 	}
-	
+
 	public void HiddenScene()
 	{
 		this.Visible = false;
-		isInit = false;
+		_isInit = false;
 	}
 }
