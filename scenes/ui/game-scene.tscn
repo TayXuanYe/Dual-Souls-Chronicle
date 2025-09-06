@@ -1,0 +1,180 @@
+[gd_scene load_steps=10 format=3 uid="uid://diry06uq7l28b"]
+
+[sub_resource type="Gradient" id="Gradient_cfmu5"]
+colors = PackedColorArray(0.499509, 0.840723, 0.559345, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vfafu"]
+gradient = SubResource("Gradient_cfmu5")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_vfafu"]
+colors = PackedColorArray(0.0666667, 0.0666667, 0.0666667, 0.8, 0.2, 0.2, 0.2, 0.666667)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_grlss"]
+gradient = SubResource("Gradient_vfafu")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cfmu5"]
+font_size = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cfmu5"]
+bg_color = Color(0.981373, 0.586967, 0.708671, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vfafu"]
+font_size = 17
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vfafu"]
+bg_color = Color(0.4, 0.8, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_grlss"]
+bg_color = Color(0.982364, 0.794247, 0.183389, 1)
+
+[node name="Game-scene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -960.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_vfafu")
+
+[node name="SelectScenes" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SelectScenes"]
+layout_mode = 2
+
+[node name="BG" type="TextureRect" parent="SelectScenes/MarginContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_grlss")
+
+[node name="VotingTimeLabel" type="Label" parent="SelectScenes/MarginContainer"]
+layout_mode = 2
+text = "VotingTime: 10s"
+label_settings = SubResource("LabelSettings_cfmu5")
+horizontal_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="SelectScenes"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SelectScenes/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VoteBarPanel1" type="Panel" parent="SelectScenes/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cfmu5")
+
+[node name="CenterContainer" type="CenterContainer" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.5
+offset_right = 13.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel1/CenterContainer"]
+layout_mode = 2
+
+[node name="VoteCountLabel" type="Label" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel1/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "test"
+label_settings = SubResource("LabelSettings_vfafu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VoteNumverLabel" type="Label" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel1/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VoteBarPanel2" type="Panel" parent="SelectScenes/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vfafu")
+
+[node name="CenterContainer" type="CenterContainer" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.5
+offset_right = 13.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel2/CenterContainer"]
+layout_mode = 2
+
+[node name="VoteCountLabel" type="Label" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel2/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "test"
+label_settings = SubResource("LabelSettings_vfafu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VoteNumverLabel" type="Label" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel2/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VoteBarPanel3" type="Panel" parent="SelectScenes/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_grlss")
+
+[node name="CenterContainer" type="CenterContainer" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.5
+offset_right = 13.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel3/CenterContainer"]
+layout_mode = 2
+
+[node name="VoteCountLabel" type="Label" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel3/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "test"
+label_settings = SubResource("LabelSettings_vfafu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VoteNumverLabel" type="Label" parent="SelectScenes/MarginContainer2/HBoxContainer/VoteBarPanel3/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BattleScene" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
