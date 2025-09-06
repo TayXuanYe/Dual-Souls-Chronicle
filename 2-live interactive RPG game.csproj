@@ -4,4 +4,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>liveinteractiveRPGgame</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.70.0.3847" />
+  </ItemGroup>
 </Project>
