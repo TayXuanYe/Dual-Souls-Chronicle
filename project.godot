@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Main="*res://singletons/main.tscn"
+YoutubeServices="*res://scripts/services/YoutubeServices.cs"
 
 [display]
 
