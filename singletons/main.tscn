@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://fa8et3553xsj"]
 
-[ext_resource type="Script" uid="uid://743ts6niexy6" path="res://scripts/Main.cs" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://743ts6niexy6" path="res://scripts/Main.cs" id="1_gh8hc"]
 
 [node name="Main" type="Control" node_paths=PackedStringArray("_subViewport1", "_subViewport2")]
 custom_minimum_size = Vector2(3840, 1080)
@@ -8,7 +8,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 3840.0
 offset_bottom = 1080.0
-script = ExtResource("1_o5qli")
+script = ExtResource("1_gh8hc")
 _subViewport1 = NodePath("SubViewportContainer/SubViewport1")
 _subViewport2 = NodePath("SubViewportContainer2/SubViewport2")
 
