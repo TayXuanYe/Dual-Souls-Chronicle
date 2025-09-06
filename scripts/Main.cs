@@ -6,14 +6,19 @@ public partial class Main : Control
 {
 	[Export] private SubViewport _subViewport1;
 	[Export] private SubViewport _subViewport2;
-	public string youtube_api_key;
+
+	[Export] private PackedScene _setupScene;
+
+	public YoutubeServices YoutubeServices1 { get; set; }
+	public YoutubeServices YoutubeServices2 { get; set; }
+	public string YoutubeApiKey{ get; private set; }
 
 	public override void _Ready()
 	{
 		// get api key
 		string configPath = "res://config.json";
 		Config config = null;
-		 try
+		try
 		{
 			string jsonString = File.ReadAllText(ProjectSettings.GlobalizePath(configPath));
 			config = JsonSerializer.Deserialize<Config>(jsonString, new JsonSerializerOptions
@@ -41,6 +46,18 @@ public partial class Main : Control
 			return;
 		}
 		GD.Print("Configuration read successfully, API Key loaded.");
-		youtube_api_key = config.YoutubeApiKey;
+		YoutubeApiKey = config.YoutubeApiKey;
+
+		// create setup page and add to sub viewpoint
+		Node setupScene1 = _setupScene.Instantiate();
+		_subViewport1.AddChild(setupScene1);
+		if (setupScene1 is SetupPage setupPageScript1)
+			setupPageScript1.Init(1);
+
+
+		Node setupScene2 = _setupScene.Instantiate();
+		_subViewport2.AddChild(setupScene2);
+		if (setupScene2 is SetupPage setupPageScript2)
+			setupPageScript2.Init(2);
 	}
 }

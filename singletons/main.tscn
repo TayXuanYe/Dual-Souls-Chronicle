@@ -1,36 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://fa8et3553xsj"]
+[gd_scene load_steps=3 format=3 uid="uid://fa8et3553xsj"]
 
 [ext_resource type="Script" uid="uid://743ts6niexy6" path="res://scripts/Main.cs" id="1_gh8hc"]
+[ext_resource type="PackedScene" uid="uid://ddcnaaghl6m8i" path="res://scenes/ui/setup-page.tscn" id="2_js2v3"]
 
 [node name="Main" type="Control" node_paths=PackedStringArray("_subViewport1", "_subViewport2")]
-custom_minimum_size = Vector2(3840, 1080)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 3840.0
-offset_bottom = 1080.0
+offset_right = 1920.0
+offset_bottom = 540.0
 script = ExtResource("1_gh8hc")
 _subViewport1 = NodePath("SubViewportContainer/SubViewport1")
 _subViewport2 = NodePath("SubViewportContainer2/SubViewport2")
+_setupScene = ExtResource("2_js2v3")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-custom_minimum_size = Vector2(1920, 1080)
+custom_minimum_size = Vector2(960, 540)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="SubViewport1" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(1920, 1080)
+size = Vector2i(960, 540)
 render_target_update_mode = 4
 
 [node name="SubViewportContainer2" type="SubViewportContainer" parent="."]
-custom_minimum_size = Vector2(1920, 1080)
+custom_minimum_size = Vector2(960, 540)
 layout_mode = 0
-offset_left = 1920.0
-offset_right = 3840.0
-offset_bottom = 1080.0
+offset_left = 960.0
+offset_right = 1920.0
+offset_bottom = 540.0
 
 [node name="SubViewport2" type="SubViewport" parent="SubViewportContainer2"]
 handle_input_locally = false
-size = Vector2i(1920, 1080)
+size = Vector2i(960, 540)
 render_target_update_mode = 4
