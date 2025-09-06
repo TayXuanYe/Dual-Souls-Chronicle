@@ -9,7 +9,7 @@ colors = PackedColorArray(0.4, 0.8, 1, 1, 0.4, 0.8, 1, 1)
 gradient = SubResource("Gradient_2i1ip")
 fill_to = Vector2(1, 1)
 
-[node name="Setup" type="Control" node_paths=PackedStringArray("_urlInput", "_urlInputErrorLabel", "_submitButton")]
+[node name="Setup" type="Control" node_paths=PackedStringArray("_urlInputErrorLabel", "_submitButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,7 +17,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_60uva")
-_urlInput = NodePath("CenterContainer/VBoxContainer/MarginContainer/VBoxContainer/VideoIdInput")
 _urlInputErrorLabel = NodePath("CenterContainer/VBoxContainer/MarginContainer/VBoxContainer/UrlErrorLabel")
 _submitButton = NodePath("CenterContainer/VBoxContainer/MarginContainer2/SubmitButton")
 

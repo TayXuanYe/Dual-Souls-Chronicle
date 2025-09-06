@@ -14,6 +14,10 @@ config/name="2-live interactive RPG game"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Main="*res://singletons/main.tscn"
+
 [display]
 
 window/size/viewport_width=3840
