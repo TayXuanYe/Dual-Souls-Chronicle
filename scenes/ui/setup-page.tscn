@@ -10,10 +10,12 @@ gradient = SubResource("Gradient_2i1ip")
 fill_to = Vector2(1, 1)
 
 [node name="Setup" type="Control" node_paths=PackedStringArray("_videoIdInput", "_urlInputErrorLabel", "_submitButton")]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 0
 offset_right = 960.0
 offset_bottom = 540.0
+mouse_filter = 1
 script = ExtResource("1_60uva")
 _videoIdInput = NodePath("CenterContainer/VBoxContainer/MarginContainer/VBoxContainer/VideoIdInput")
 _urlInputErrorLabel = NodePath("CenterContainer/VBoxContainer/MarginContainer/VBoxContainer/UrlErrorLabel")
@@ -51,7 +53,7 @@ vertical_alignment = 1
 [node name="VideoIdInput" type="TextEdit" parent="CenterContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(500, 40)
 layout_mode = 2
-placeholder_text = "Enter Your Video  ID"
+placeholder_text = "Enter Your Video ID"
 
 [node name="UrlErrorLabel" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
