@@ -10,10 +10,11 @@ gradient = SubResource("Gradient_2i1ip")
 fill_to = Vector2(1, 1)
 
 [node name="Setup" type="Control" node_paths=PackedStringArray("_urlInputErrorLabel", "_submitButton")]
+custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 3
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1920.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_60uva")
@@ -22,11 +23,9 @@ _submitButton = NodePath("CenterContainer/VBoxContainer/MarginContainer2/SubmitB
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 texture = SubResource("GradientTexture2D_jhu6q")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
@@ -54,7 +53,7 @@ vertical_alignment = 1
 [node name="VideoIdInput" type="TextEdit" parent="CenterContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(500, 40)
 layout_mode = 2
-placeholder_text = "Enter Your Live ID"
+placeholder_text = "Enter Your Video  ID"
 
 [node name="UrlErrorLabel" type="Label" parent="CenterContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
