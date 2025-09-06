@@ -1,4 +1,6 @@
+using System.Text.Json.Serialization;
 public class Config
 {
-    public string YoutubeApiKey { get; set; }
+	[JsonPropertyName("youtube_api_key")]
+	public string YoutubeApiKey { get; set; }
 }
