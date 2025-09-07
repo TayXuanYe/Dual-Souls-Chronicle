@@ -25,7 +25,7 @@ public partial class YoutubeManager : Node
 		if(IsYoutubeServices1Ready && IsYoutubeServices2Ready) {return;}
 		IsYoutubeServices1Ready = _youtubeServices1 != null;
 		IsYoutubeServices2Ready = _youtubeServices2 != null;
-		GD.Print($"v1:{IsYoutubeServices2Ready},v2:{IsYoutubeServices2Ready}");
+		// GD.Print($"v1:{IsYoutubeServices2Ready},v2:{IsYoutubeServices2Ready}");
 	}
 
 
