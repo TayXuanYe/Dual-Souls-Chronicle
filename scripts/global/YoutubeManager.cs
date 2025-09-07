@@ -10,6 +10,9 @@ public partial class YoutubeManager : Node
 	public static YoutubeServices _youtubeServices1;
 	public static YoutubeServices _youtubeServices2;
 
+	public static bool IsYoutubeServices1Ready { get; private set; } = false;
+	public static bool IsYoutubeServices2Ready { get; private set; } = false;
+
 	public string YoutubeApiKey { get; set; }
 
 	public override void _Ready()
@@ -19,10 +22,10 @@ public partial class YoutubeManager : Node
 
 	public override void _Process(double delta)
 	{
-		bool v1R = _youtubeServices1 != null;
-		bool v2R = _youtubeServices2 != null;
-		if(v1R && v2R) {return;}
-		GD.Print($"v1:{v1R},v2:{v2R}");
+		if(IsYoutubeServices1Ready && IsYoutubeServices2Ready) {return;}
+		IsYoutubeServices1Ready = _youtubeServices1 != null;
+		IsYoutubeServices2Ready = _youtubeServices2 != null;
+		GD.Print($"v1:{IsYoutubeServices2Ready},v2:{IsYoutubeServices2Ready}");
 	}
 
 

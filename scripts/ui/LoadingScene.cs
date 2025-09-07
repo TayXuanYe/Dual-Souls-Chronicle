@@ -11,7 +11,9 @@ public partial class LoadingScene : Control
 
 	public override void _Process(double delta)
 	{
-		//GD.Print($"V1 {_isViewport1Ready}, V2 {_isViewport2Ready}");
+		_isViewport1Ready = YoutubeManager.IsYoutubeServices1Ready;
+		_isViewport2Ready = YoutubeManager.IsYoutubeServices2Ready;
+
 		if (_isViewport1Ready)
 		{
 			_viewport1ReadyLabel.Text = "Viewport 1: Ready";
@@ -19,7 +21,6 @@ public partial class LoadingScene : Control
 		else
 		{
 			_viewport1ReadyLabel.Text = "Viewport 1: Not ready";
-			_isViewport1Ready = YoutubeManager.Instance.RegisterYoutubeManager1 != null;
 		}
 
 		if (_isViewport2Ready)
@@ -29,7 +30,6 @@ public partial class LoadingScene : Control
 		else
 		{
 			_viewport2ReadyLabel.Text = "Viewport 2: Not ready";
-			_isViewport2Ready = YoutubeManager.Instance.RegisterYoutubeManager2 != null;
 		}
 		
 	}

@@ -52,7 +52,6 @@ public partial class SetupPage : Control
 		else if (_id == 2)
 		{
 			isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager2(videoId);
-
 		}
 
 		if (isSuccessInit)
