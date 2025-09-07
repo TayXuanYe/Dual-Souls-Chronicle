@@ -42,25 +42,36 @@ public partial class SetupPage : Control
 	
 	private async void OnLinkToLiveRoom(string videoId)
 	{
-		var mainNode = GetNode<Main>("/root/Main");
+		var mainNode = GetNode<Main>("/root/Loader/Main");
 		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()}");
-		var youtubeService = new YoutubeServices(mainNode.YoutubeApiKey, videoId);
-		bool isSuccessInit = await youtubeService.InitializeAsync();
+		bool isSuccessInit = false;
+		if (_id == 1)
+		{
+			isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager1(videoId);
+		}
+		else if (_id == 2)
+		{
+			isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager2(videoId);
+		}
 
 		if (isSuccessInit)
 		{
-			if(_id == 1)
-				mainNode.YoutubeServices1 = youtubeService;
-			else if(_id == 2)
-				mainNode.YoutubeServices2 = youtubeService;
 			GD.Print($"Live linked in sub viewport {_id}");
 			//redirect to another scene
+			mainNode.RedirectTo(_id, "LoadingPage");
+			QueueFree();
 		}
 		else
 		{
-			_urlInputErrorLabel.Text = "Live room not found.";
+			GD.Print($"Live room not found, id:{videoId}");
 		}
-		
+
 		isRequestSend = false;
+	}
+	
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+		GD.Print($"SetupPage instance with ID:{GetInstanceId()} is exiting the tree.");
 	}
 }
