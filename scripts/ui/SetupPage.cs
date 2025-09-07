@@ -49,12 +49,19 @@ public partial class SetupPage : Control
 
 		if (isSuccessInit)
 		{
-			if(_id == 1)
+			if (_id == 1)
+			{
 				mainNode.YoutubeServices1 = youtubeService;
-			else if(_id == 2)
+				mainNode.IsViewport1Ready = true;
+			}
+			else if (_id == 2)
+			{
 				mainNode.YoutubeServices2 = youtubeService;
+				mainNode.IsViewport2Ready = true;
+			}
 			GD.Print($"Live linked in sub viewport {_id}");
 			//redirect to another scene
+			mainNode.RedirectTo(_id, "LoadingPage");
 		}
 		else
 		{

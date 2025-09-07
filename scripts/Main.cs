@@ -8,10 +8,13 @@ public partial class Main : Control
 	[Export] private SubViewport _subViewport2;
 
 	[Export] private PackedScene _setupScene;
+	[Export] private PackedScene _loadingScene;
 
+	public bool IsViewport1Ready { get; set; } = false;
+	public bool IsViewport2Ready { get; set; } = false;
 	public YoutubeServices YoutubeServices1 { get; set; }
 	public YoutubeServices YoutubeServices2 { get; set; }
-	public string YoutubeApiKey{ get; private set; }
+	public string YoutubeApiKey { get; private set; }
 
 	public override void _Ready()
 	{
@@ -48,16 +51,61 @@ public partial class Main : Control
 		GD.Print("Configuration read successfully, API Key loaded.");
 		YoutubeApiKey = config.YoutubeApiKey;
 
-		 // create setup page and add to sub viewpoint
-		 Node setupScene1 = _setupScene.Instantiate();
-		 _subViewport1.AddChild(setupScene1);
-		 if (setupScene1 is SetupPage setupPageScript1)
-		 	setupPageScript1.Init(1);
+		// create setup page and add to sub viewpoint
+		Node setupScene1 = _setupScene.Instantiate();
+		_subViewport1.AddChild(setupScene1);
+		if (setupScene1 is SetupPage setupPageScript1)
+			setupPageScript1.Init(1);
 
 
-		 Node setupScene2 = _setupScene.Instantiate();
-		 _subViewport2.AddChild(setupScene2);
-		 if (setupScene2 is SetupPage setupPageScript2)
-		 	setupPageScript2.Init(2);
+		Node setupScene2 = _setupScene.Instantiate();
+		_subViewport2.AddChild(setupScene2);
+		if (setupScene2 is SetupPage setupPageScript2)
+			setupPageScript2.Init(2);
+	}
+
+	public void RedirectTo(int viewportId, string pageName)
+	{
+		GD.Print("REDIRECT PROGRESS");
+		Node page = null;
+		switch (pageName)
+		{
+			case "LoadingPage":
+				page = _loadingScene.Instantiate();
+				break;
+		}
+		if (page == null) { return; }
+		GD.Print($"REDIRECT TO {page.Name}");
+		GD.Print(viewportId);
+
+		Node targetViewport;
+		if (viewportId == 1)
+		{
+			targetViewport = _subViewport1;
+		}
+		else if (viewportId == 2)
+		{
+			targetViewport = _subViewport2;
+		}
+		else
+		{
+			return;
+		}
+
+		// 将子节点列表复制一份，以避免循环时修改列表
+		var childrenToFree = new Godot.Collections.Array<Node>(targetViewport.GetChildren());
+		
+		// 立即移除所有子节点
+		foreach (Node child in childrenToFree)
+		{
+			GD.Print($"Removing child: {child.Name}");
+			targetViewport.RemoveChild(child);
+			child.QueueFree();
+		}
+		
+		// 延迟添加新节点
+		targetViewport.CallDeferred(Node.MethodName.AddChild, page);
+
+		GD.Print("REDIRECT COMPLETED");
 	}
 }
