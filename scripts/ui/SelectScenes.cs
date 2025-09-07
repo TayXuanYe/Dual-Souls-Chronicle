@@ -31,7 +31,6 @@ public partial class SelectScenes : VBoxContainer
 
 	public void Init(double voteTime)
 	{
-		GD.Print("INIT");
 		if (_isInit) { return; }
 		this.Visible = true;
 		_voteTimeCountdown = voteTime;
@@ -68,7 +67,6 @@ public partial class SelectScenes : VBoxContainer
 		float vote1Width = (float)_vote1Count / (float)_voteTotalCount * _width;
 		float vote2Width = (float)_vote2Count / (float)_voteTotalCount * _width;
 		float vote3Width = (float)_vote3Count / (float)_voteTotalCount * _width;
-		GD.Print($"1:{vote1Width},2:{vote2Width}.3:{vote3Width}");
 		// set width
 		_voteBarPanel1.SetSize(new Vector2(vote1Width + 3, _voteBarPanel1.Size.Y));
 		_voteBarPanel2.SetSize(new Vector2(vote2Width + 3, _voteBarPanel2.Size.Y));
@@ -78,7 +76,6 @@ public partial class SelectScenes : VBoxContainer
 		_voteBarPanel1.SetPosition(new Vector2(0, _voteBarPanel1.Position.Y));
 		_voteBarPanel2.SetPosition(new Vector2(vote1Width, _voteBarPanel2.Position.Y));
 		_voteBarPanel3.SetPosition(new Vector2(vote1Width + vote2Width, _voteBarPanel3.Position.Y));
-		GD.Print($"1:{_voteBarPanel1.Position.X},2:{_voteBarPanel2.Position.X}.3:{_voteBarPanel3.Position.X}");
 
 		if (vote1Width < 50f)
 		{
