@@ -8,7 +8,7 @@ public partial class GameScene : Control
 	{
 		if (_selectScene is SelectScenes selectSceneScript)
 		{
-			selectSceneScript.Init(10);
+			// selectSceneScript.Init(10);
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 		
@@ -20,7 +20,7 @@ public partial class GameScene : Control
 		{
 			if(Math.Floor(delta) % 2 == 0)
 			{
-				selectSceneScript.UpdateVoteCount(GD.RandRange(0,10),GD.RandRange(0,10),GD.RandRange(0,10));
+				// selectSceneScript.UpdateVoteCount(GD.RandRange(0,10),GD.RandRange(0,10),GD.RandRange(0,10));
 			}
 		}
 	}
