@@ -10,12 +10,6 @@ public partial class Main : Control
 	[Export] private PackedScene _setupScene;
 	[Export] private PackedScene _loadingScene;
 
-	public bool IsViewport1Ready { get; set; } = false;
-	public bool IsViewport2Ready { get; set; } = false;
-	public YoutubeServices YoutubeServices1 { get; set; }
-	public YoutubeServices YoutubeServices2 { get; set; }
-	public string YoutubeApiKey { get; private set; }
-
 	public override void _Ready()
 	{
 		// get api key
@@ -49,7 +43,7 @@ public partial class Main : Control
 			return;
 		}
 		GD.Print("Configuration read successfully, API Key loaded.");
-		YoutubeApiKey = config.YoutubeApiKey;
+		YoutubeManager.Instance.YoutubeApiKey = config.YoutubeApiKey;
 
 		// create setup page and add to sub viewpoint
 		Node setupScene1 = _setupScene.Instantiate();
