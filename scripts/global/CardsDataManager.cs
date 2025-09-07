@@ -4,10 +4,14 @@ using System.Collections.Generic;
 
 public partial class CardsDataManager : Node
 {
+    private static CardsDataManager _instance;
+    public static CardsDataManager Instance => _instance;
+   
     public List<CardDto> BuffCards { get; private set; } = new List<CardDto>();
 
     public override void _Ready()
     {
+        _instance = this;
         LoadBuffCards();
     }
 

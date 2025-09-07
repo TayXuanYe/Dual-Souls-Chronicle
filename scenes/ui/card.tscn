@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://s11gn3o6f5jw"]
+[gd_scene load_steps=4 format=3 uid="uid://s11gn3o6f5jw"]
 
 [ext_resource type="Script" uid="uid://cpqbq1j705xi4" path="res://scripts/ui/Card.cs" id="1_2rkeb"]
 
@@ -9,12 +9,14 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2rkeb"]
+
 [node name="VBoxContainer" type="VBoxContainer" node_paths=PackedStringArray("_buffNameLabel", "_imageTextureRect", "_describeLabel", "_markerCollisionPolygon2D", "_cardPanel")]
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_2rkeb")
 _buffNameLabel = NodePath("Card/MarginContainer/VBoxContainer/BuffNameLabel")
-_imageTextureRect = NodePath("Card/MarginContainer/VBoxContainer/TextureRect")
+_imageTextureRect = NodePath("Card/MarginContainer/VBoxContainer/Panel/TextureRect")
 _describeLabel = NodePath("Card/MarginContainer/VBoxContainer/DescribeLaebl")
 _markerCollisionPolygon2D = NodePath("HBoxContainer/Area2D/CollisionPolygon2D")
 _cardPanel = NodePath("Card")
@@ -61,11 +63,23 @@ text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Card/MarginContainer/VBoxContainer"]
+[node name="Panel" type="Panel" parent="Card/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_2rkeb")
+
+[node name="TextureRect" type="TextureRect" parent="Card/MarginContainer/VBoxContainer/Panel"]
+clip_contents = true
 custom_minimum_size = Vector2(150, 90)
 layout_mode = 2
+offset_left = 12.0
+offset_top = 4.0
+offset_right = 162.0
+offset_bottom = 94.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+expand_mode = 3
+stretch_mode = 5
 
 [node name="DescribeLaebl" type="Label" parent="Card/MarginContainer/VBoxContainer"]
 layout_mode = 2

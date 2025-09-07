@@ -8,14 +8,14 @@ public partial class Card : VBoxContainer
 	[Export] private Label _describeLabel;
 	[Export] CollisionPolygon2D _markerCollisionPolygon2D;
 	[Export] Panel _cardPanel;
-	private bool _isInit = true;
+	private bool _isInit = false;
 	public bool IsSelect = false;
-	public void Init(string buffName, TextureRect imageTextureRect, string describe)
+	public void Init(CardDto cardDto)
 	{
-		if(!_isInit) { return; }
-		_buffNameLabel.Text = buffName;
-		_imageTextureRect = imageTextureRect;
-		_describeLabel.Text = describe;
+		if(_isInit) { return; }
+		_buffNameLabel.Text = cardDto.Name;
+		_imageTextureRect.Texture = cardDto.ImageTexture;
+		_describeLabel.Text = cardDto.Describe;
 		Visible = true;
 	}
 	

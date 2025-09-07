@@ -10,6 +10,10 @@ public partial class SelectScenes : VBoxContainer
 	[Export] private Panel _voteBarPanel1;
 	[Export] private Panel _voteBarPanel2;
 	[Export] private Panel _voteBarPanel3;
+
+	[Export] private Node _card1;
+	[Export] private Node _card2;
+	[Export] private Node _card3;
 	private float _width = 960;
 	private int _voteTotalCount;
 	private int _vote1Count = 0;
@@ -17,9 +21,32 @@ public partial class SelectScenes : VBoxContainer
 	private int _vote3Count = 0;
 	private double _voteTimeCountdown;
 	private bool _isInit = false;
+	private Random _random = new Random();
+
 	public override void _Ready()
 	{
-		this.Visible = false;
+		this.Visible = true;
+
+		if (_card1 is Card card1Script)
+		{
+			var randomNum = _random.Next(CardsDataManager.Instance.BuffCards.Count);
+			card1Script.Init(CardsDataManager.Instance.BuffCards[randomNum]);
+			CardsDataManager.Instance.BuffCards.RemoveAt(randomNum);
+		}
+		
+		if (_card1 is Card card2Script)
+		{
+			var randomNum = _random.Next(CardsDataManager.Instance.BuffCards.Count);
+			card2Script.Init(CardsDataManager.Instance.BuffCards[randomNum]);
+			CardsDataManager.Instance.BuffCards.RemoveAt(randomNum);
+		}
+
+		if (_card1 is Card card3Script)
+		{
+			var randomNum = _random.Next(CardsDataManager.Instance.BuffCards.Count);
+			card3Script.Init(CardsDataManager.Instance.BuffCards[randomNum]);
+			CardsDataManager.Instance.BuffCards.RemoveAt(randomNum);
+		}
 	}
 
 	public override void _Process(double delta)
