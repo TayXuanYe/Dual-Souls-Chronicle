@@ -17,6 +17,15 @@ public partial class YoutubeManager : Node
 		_instance = this;
 	}
 
+	public override void _Process(double delta)
+	{
+		bool v1R = _youtubeServices1 != null;
+		bool v2R = _youtubeServices2 != null;
+		if(v1R && v2R) {return;}
+		GD.Print($"v1:{v1R},v2:{v2R}");
+	}
+
+
 	public async Task<bool> RegisterYoutubeManager1(string videoId)
 	{
 		var youtubeService = new YoutubeServices(YoutubeApiKey, videoId);
@@ -40,5 +49,4 @@ public partial class YoutubeManager : Node
 		}
 		return false;
 	}
-	
 }

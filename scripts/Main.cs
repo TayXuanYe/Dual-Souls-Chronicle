@@ -86,10 +86,8 @@ public partial class Main : Control
 			return;
 		}
 
-		// 将子节点列表复制一份，以避免循环时修改列表
 		var childrenToFree = new Godot.Collections.Array<Node>(targetViewport.GetChildren());
 		
-		// 立即移除所有子节点
 		foreach (Node child in childrenToFree)
 		{
 			GD.Print($"Removing child: {child.Name}");
@@ -97,7 +95,6 @@ public partial class Main : Control
 			child.QueueFree();
 		}
 		
-		// 延迟添加新节点
 		targetViewport.CallDeferred(Node.MethodName.AddChild, page);
 
 		GD.Print("REDIRECT COMPLETED");

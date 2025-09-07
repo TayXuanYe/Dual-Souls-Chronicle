@@ -18,7 +18,6 @@ config/icon="res://icon.svg"
 
 CardsDataManager="*res://scripts/global/CardsDataManager.cs"
 YoutubeManager="*res://scripts/global/YoutubeManager.cs"
-Main="*res://singletons/main.tscn"
 
 [display]
 

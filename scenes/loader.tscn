@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwhymytbbi52"]
+
+[ext_resource type="Script" uid="uid://cs2po43rbxcn3" path="res://scripts/Loader.cs" id="1_hsw3t"]
+[ext_resource type="PackedScene" uid="uid://fa8et3553xsj" path="res://scenes/main.tscn" id="2_t6wgt"]
+
+[node name="Loader" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hsw3t")
+_mainScene = ExtResource("2_t6wgt")
