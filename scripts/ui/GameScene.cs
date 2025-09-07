@@ -8,19 +8,31 @@ public partial class GameScene : Control
 	{
 		if (_selectScene is SelectScenes selectSceneScript)
 		{
-			selectSceneScript.Init(10);
+			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
+			selectSceneScript.Init(0, 10, colors, 3, "buff");
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
-		
+
 	}
-	
+
+	private double _timeSinceLastUpdate = 0;
+
 	public override void _Process(double delta)
 	{
+		// 累加时间
+		_timeSinceLastUpdate += delta;
+
+		// 当累积时间超过或等于 1.0 秒时
 		if (_selectScene is SelectScenes selectSceneScript)
 		{
-			if(Math.Floor(delta) % 2 == 0)
+			if (_timeSinceLastUpdate >= 1.0)
 			{
-				selectSceneScript.UpdateVoteCount(GD.RandRange(0,10),GD.RandRange(0,10),GD.RandRange(0,10));
+				// 重置计时器，并保留超出的时间以确保精确
+				_timeSinceLastUpdate -= 1.0;
+
+				// 在这里放置你想要每秒执行一次的代码
+				int[] voteCount = new int[] { GD.RandRange(0, 10), GD.RandRange(0, 10), GD.RandRange(0, 10) };
+				selectSceneScript.UpdateVoteCount(voteCount);
 			}
 		}
 	}
