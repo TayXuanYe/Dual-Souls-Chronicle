@@ -10,9 +10,12 @@ public partial class Card : VBoxContainer
 	private bool _isInit = false;
 	public bool IsSelect = false;
 	private StyleBoxFlat _baseStyleBox;
+	public int Id { get; set; }
+
 	public void Init(CardDto cardDto)
 	{
 		if (_isInit) { return; }
+		Id = cardDto.Id;
 		_buffNameLabel.Text = cardDto.Name;
 		_imageTextureRect.Texture = cardDto.ImageTexture;
 		_describeLabel.Text = cardDto.Describe;
@@ -34,7 +37,6 @@ public partial class Card : VBoxContainer
 	public override void _Process(double delta)
 	{
 		if(!_isInit) { return; }
-		GD.Print(IsSelect);
 		if (IsSelect)
 		{
 			if (_cardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)

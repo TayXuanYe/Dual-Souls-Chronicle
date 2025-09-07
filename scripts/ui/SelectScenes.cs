@@ -60,8 +60,64 @@ public partial class SelectScenes : VBoxContainer
 	public override void _Process(double delta)
 	{
 		if (!_isInit) { return; }
+		if (_voteTimeCountdown <= 0)
+		{
+			OnVoteTimeCountdown();
+			return;
+		}
 		DisplayVotingTime(delta);
 		UpdateVoteBar();
+		UpdateSelectCard();
+	}
+	bool isOnVoteTimeCountdownTrigger = false;
+	public void OnVoteTimeCountdown()
+	{
+		if(isOnVoteTimeCountdownTrigger) { return; }
+		
+		int id = -1;
+		if (_vote1Count > _vote2Count && _vote1Count > _vote3Count)
+		{
+			id = _card1Script.Id;
+		}
+		else
+		{
+			if (_vote2Count > _vote3Count)
+			{
+				id = _card2Script.Id;
+			}
+			else
+			{
+				id = _card3Script.Id;
+			}
+		}
+
+		//signal id temp use print
+		GD.Print(id);
+	}
+
+	public void UpdateSelectCard()
+	{
+		if (_vote1Count > _vote2Count && _vote1Count > _vote3Count)
+		{
+			_card1Script.IsSelect = true;
+			_card2Script.IsSelect = false;
+			_card3Script.IsSelect = false;
+		}
+		else
+		{
+			if (_vote2Count > _vote3Count)
+			{
+				_card1Script.IsSelect = false;
+				_card2Script.IsSelect = true;
+				_card3Script.IsSelect = false;
+			}
+			else
+			{
+				_card1Script.IsSelect = false;
+				_card2Script.IsSelect = false;
+				_card3Script.IsSelect = true;
+			}
+		}
 	}
 
 	public void Init(double voteTime)
@@ -97,6 +153,10 @@ public partial class SelectScenes : VBoxContainer
 			_voteBarPanel1.SetPosition(new Vector2(0, _voteBarPanel1.Position.Y));
 			_voteBarPanel2.SetPosition(new Vector2(_width / 3, _voteBarPanel2.Position.Y));
 			_voteBarPanel3.SetPosition(new Vector2(_width / 3 * 2, _voteBarPanel3.Position.Y));
+
+			_voteCountLabel1.Text = _vote1Count.ToString();
+			_voteCountLabel2.Text = _vote2Count.ToString();
+			_voteCountLabel3.Text = _vote3Count.ToString();
 			return;
 		}
 		float vote1Width = (float)_vote1Count / (float)_voteTotalCount * _width;
@@ -112,6 +172,9 @@ public partial class SelectScenes : VBoxContainer
 		_voteBarPanel2.SetPosition(new Vector2(vote1Width, _voteBarPanel2.Position.Y));
 		_voteBarPanel3.SetPosition(new Vector2(vote1Width + vote2Width, _voteBarPanel3.Position.Y));
 
+		_voteCountLabel1.Text = _vote1Count.ToString();
+		_voteCountLabel2.Text = _vote2Count.ToString();
+		_voteCountLabel3.Text = _vote3Count.ToString();
 		if (vote1Width < 50f)
 		{
 			_voteCountLabel1.Visible = false;
@@ -158,11 +221,5 @@ public partial class SelectScenes : VBoxContainer
 		}
 
 		_voteTimeCountdown -= delta;
-	}
-
-	public void HiddenScene()
-	{
-		this.Visible = false;
-		_isInit = false;
 	}
 }

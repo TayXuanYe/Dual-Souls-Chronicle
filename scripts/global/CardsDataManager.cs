@@ -21,28 +21,28 @@ public partial class CardsDataManager : Node
         string name = "card1";
         string describe = "card1";
         string imagePath = "res://assests/textures/buff/buff_1.png";
-        var card1 = new CardDto(name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+        var card1 = new CardDto(0,name, ResourceLoader.Load<Texture2D>(imagePath), describe);
         BuffCards.Add(card1);
 
         //2
         name = "card2";
         describe = "card2";
         imagePath = "res://assests/textures/buff/buff_2.png";
-        var card2 = new CardDto(name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+        var card2 = new CardDto(1,name, ResourceLoader.Load<Texture2D>(imagePath), describe);
         BuffCards.Add(card2);
 
         //3
         name = "card3";
         describe = "card3";
         imagePath = "res://assests/textures/buff/buff_3.png";
-        var card3 = new CardDto(name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+        var card3 = new CardDto(2,name, ResourceLoader.Load<Texture2D>(imagePath), describe);
         BuffCards.Add(card3);
 
         //4
         name = "card4";
         describe = "card4";
         imagePath = "res://assests/textures/buff/buff_4.png";
-        var card4 = new CardDto(name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+        var card4 = new CardDto(3,name, ResourceLoader.Load<Texture2D>(imagePath), describe);
         BuffCards.Add(card4);
     }   
 }
