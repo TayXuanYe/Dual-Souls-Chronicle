@@ -14,6 +14,7 @@ public partial class SelectScenes : VBoxContainer
 	[Export] private Node _card1;
 	[Export] private Node _card2;
 	[Export] private Node _card3;
+	[Export] private HBoxContainer _cardContainer;
 	private float _width = 960;
 	private int _voteTotalCount;
 	private int _vote1Count = 0;
@@ -22,6 +23,9 @@ public partial class SelectScenes : VBoxContainer
 	private double _voteTimeCountdown;
 	private bool _isInit = false;
 	private Random _random = new Random();
+	private Card _card1Script;
+	private Card _card2Script;
+	private Card _card3Script;
 
 	public override void _Ready()
 	{
@@ -29,24 +33,28 @@ public partial class SelectScenes : VBoxContainer
 
 		if (_card1 is Card card1Script)
 		{
+			_card1Script = card1Script;
 			var randomNum = _random.Next(CardsDataManager.Instance.BuffCards.Count);
-			card1Script.Init(CardsDataManager.Instance.BuffCards[randomNum]);
-			CardsDataManager.Instance.BuffCards.RemoveAt(randomNum);
-		}
-		
-		if (_card1 is Card card2Script)
-		{
-			var randomNum = _random.Next(CardsDataManager.Instance.BuffCards.Count);
-			card2Script.Init(CardsDataManager.Instance.BuffCards[randomNum]);
+			_card1Script.Init(CardsDataManager.Instance.BuffCards[randomNum]);
 			CardsDataManager.Instance.BuffCards.RemoveAt(randomNum);
 		}
 
-		if (_card1 is Card card3Script)
+		if (_card2 is Card card2Script)
 		{
+			_card2Script = card2Script;
 			var randomNum = _random.Next(CardsDataManager.Instance.BuffCards.Count);
-			card3Script.Init(CardsDataManager.Instance.BuffCards[randomNum]);
+			_card2Script.Init(CardsDataManager.Instance.BuffCards[randomNum]);
 			CardsDataManager.Instance.BuffCards.RemoveAt(randomNum);
 		}
+
+		if (_card3 is Card card3Script)
+		{
+			_card3Script = card3Script;
+			var randomNum = _random.Next(CardsDataManager.Instance.BuffCards.Count);
+			_card3Script.Init(CardsDataManager.Instance.BuffCards[randomNum]);
+			CardsDataManager.Instance.BuffCards.RemoveAt(randomNum);
+		}
+		_card3Script.IsSelect = true;
 	}
 
 	public override void _Process(double delta)

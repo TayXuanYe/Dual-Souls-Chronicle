@@ -11,29 +11,14 @@ corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2rkeb"]
 
-[node name="VBoxContainer" type="VBoxContainer" node_paths=PackedStringArray("_buffNameLabel", "_imageTextureRect", "_describeLabel", "_markerCollisionPolygon2D", "_cardPanel")]
+[node name="VBoxContainer" type="VBoxContainer" node_paths=PackedStringArray("_buffNameLabel", "_imageTextureRect", "_describeLabel", "_cardPanel")]
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_2rkeb")
 _buffNameLabel = NodePath("Card/MarginContainer/VBoxContainer/BuffNameLabel")
 _imageTextureRect = NodePath("Card/MarginContainer/VBoxContainer/Panel/TextureRect")
 _describeLabel = NodePath("Card/MarginContainer/VBoxContainer/DescribeLaebl")
-_markerCollisionPolygon2D = NodePath("HBoxContainer/Area2D/CollisionPolygon2D")
 _cardPanel = NodePath("Card")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-visible = false
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="Area2D" type="Area2D" parent="HBoxContainer"]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HBoxContainer/Area2D"]
-modulate = Color(1, 0, 0, 1)
-self_modulate = Color(1, 0, 0, 1)
-polygon = PackedVector2Array(0, 10, 10, -10, -10, -10)
 
 [node name="Card" type="Panel" parent="."]
 custom_minimum_size = Vector2(180, 270)
@@ -78,7 +63,7 @@ offset_right = 162.0
 offset_bottom = 94.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-expand_mode = 3
+expand_mode = 1
 stretch_mode = 5
 
 [node name="DescribeLaebl" type="Label" parent="Card/MarginContainer/VBoxContainer"]
