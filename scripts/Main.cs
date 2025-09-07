@@ -48,16 +48,16 @@ public partial class Main : Control
 		GD.Print("Configuration read successfully, API Key loaded.");
 		YoutubeApiKey = config.YoutubeApiKey;
 
-		// create setup page and add to sub viewpoint
-		Node setupScene1 = _setupScene.Instantiate();
-		_subViewport1.AddChild(setupScene1);
-		if (setupScene1 is SetupPage setupPageScript1)
-			setupPageScript1.Init(1);
+		 // create setup page and add to sub viewpoint
+		 Node setupScene1 = _setupScene.Instantiate();
+		 _subViewport1.AddChild(setupScene1);
+		 if (setupScene1 is SetupPage setupPageScript1)
+		 	setupPageScript1.Init(1);
 
 
-		Node setupScene2 = _setupScene.Instantiate();
-		_subViewport2.AddChild(setupScene2);
-		if (setupScene2 is SetupPage setupPageScript2)
-			setupPageScript2.Init(2);
+		 Node setupScene2 = _setupScene.Instantiate();
+		 _subViewport2.AddChild(setupScene2);
+		 if (setupScene2 is SetupPage setupPageScript2)
+		 	setupPageScript2.Init(2);
 	}
 }
