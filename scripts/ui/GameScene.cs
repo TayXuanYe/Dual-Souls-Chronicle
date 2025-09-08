@@ -2,6 +2,9 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 using Google.Apis.YouTube.v3.Data;
+using System.Collections.Generic;
+using System.Linq;
+using System.Collections;
 
 public partial class GameScene : Control
 {
@@ -9,6 +12,10 @@ public partial class GameScene : Control
 	private int _id;
 	private bool _isInit = false;
 	private long _pollingIntervalMillis = 0;
+	private (Node node, SelectScenes script) selectScene;
+	private (Node node, SelectScenes script) battleScene;
+	private int selectionAmount = 3;
+	// private (Node node, BattleScene script) battleScene;
 	private async Task StartGetChartMessageAsync()
 	{
 		while (true)
@@ -35,10 +42,48 @@ public partial class GameScene : Control
 				if (response?.Items != null)
 				{
 					_pollingIntervalMillis = response.PollingIntervalMillis ?? 5000;
+					Dictionary<int, int> votingData = new Dictionary<int, int>();
+					List<string> messageData = new List<string>();
 					foreach (var message in response.Items)
 					{
 						var messageText = message.Snippet?.DisplayMessage;
-						GD.Print($"[{DateTime.Now}] : {messageText}");
+						if (messageText.All(c => char.IsDigit(c) || char.IsWhiteSpace(c)))
+						{
+							messageText.Replace(" ", "");
+							char firstChar = messageText[0];
+							if (firstChar - '0' != 0 || firstChar - '0' < selectionAmount)
+							{
+								bool foundNotSame = false;
+								for (int i = 1; i < messageText.Count(); i++)
+								{
+									if (messageText[i] != firstChar)
+									{
+										foundNotSame = true;
+										break;
+									}
+								}
+
+								if (!foundNotSame)
+								{
+									votingData.Add(firstChar - '0', 1);
+								}
+							}
+						}
+						else
+						{
+							messageData.Add(messageText);
+						}
+					}
+
+					if (selectScene.script != null)
+					{
+						var votesData = votingData.OrderBy(pair => pair.Key).Select(pair => pair.Value).ToArray();
+						selectScene.script.UpdateVoteCount(votesData);
+					}
+
+					if (battleScene.script != null)
+					{
+						// display text
 					}
 				}
 			}
@@ -92,7 +137,7 @@ public partial class GameScene : Control
 		}
 
 		AddChild(selectScene);
-		// _ = StartGetChartMessageAsync();
+		_ = StartGetChartMessageAsync();
 
 		_isInit = true;
 	}

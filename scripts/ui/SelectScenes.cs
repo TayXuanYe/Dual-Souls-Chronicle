@@ -17,6 +17,7 @@ public partial class SelectScenes : VBoxContainer
 	private double _voteTimeCountdown;
 	private bool _isInit = false;
 	private int _id;
+	private int _cardAmount = 0;
 
 	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type, int randomSeed)
 	{
@@ -24,6 +25,7 @@ public partial class SelectScenes : VBoxContainer
 		_id = id;
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
+		_cardAmount = cardAmount;
 		foreach (string voteBarColor in voteBarColors)
 		{
 			Node voteBar = _voteBarScene.Instantiate();
@@ -110,7 +112,6 @@ public partial class SelectScenes : VBoxContainer
 	{
 		if(!_isInit) { return; }
 		int count = 0;
-		// GD.Print(voteCounts.Length + "::" + _voteBarList.Count);
 		foreach (int voteCount in voteCounts)
 		{
 			_voteBarList[count].script.VoteCount += voteCount;
