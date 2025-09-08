@@ -70,17 +70,9 @@ public partial class Main : Control
 		{
 			case "LoadingPage":
 				page = _loadingScene.Instantiate();
-				if (page is LoadingScene loadingScene)
-				{
-					loadingScene.Init(viewportId);
-				}
 				break;
 			case "GamePage":
 				page = _gameScene.Instantiate();
-				if (page is GameScene gameScene)
-				{
-					gameScene.Init(viewportId);
-				}
 				break;
 		}
 		if (page == null) { return; }

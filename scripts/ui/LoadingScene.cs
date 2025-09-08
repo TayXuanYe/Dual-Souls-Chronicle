@@ -34,11 +34,19 @@ public partial class LoadingScene : Control
 		
 	}
 
-	public void Init(int id)
+	public override void _Ready()
 	{
-		_id = id;
-	}
-	
+		SubViewport parentViewport = GetParent<SubViewport>();
+		if (parentViewport != null)
+		{
+			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data");
+			if (dataNode != null)
+			{
+				_id = dataNode.Id;
+			}
+		}
+    }
+
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventKey keyEvent && keyEvent.Pressed)

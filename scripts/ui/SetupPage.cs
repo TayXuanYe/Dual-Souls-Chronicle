@@ -62,7 +62,6 @@ public partial class SetupPage : Control
 			GD.Print($"Live linked in sub viewport {_id}");
 			//redirect to another scene
 			mainNode.RedirectTo(_id, "LoadingPage");
-			QueueFree();
 		}
 		else
 		{

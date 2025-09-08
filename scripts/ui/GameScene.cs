@@ -52,7 +52,15 @@ public partial class GameScene : Control
 
 	public void Init(int id)
 	{
-		_id = id;
+		SubViewport parentViewport = GetParent<SubViewport>();
+		if (parentViewport != null)
+        {
+            ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data"); 
+            if (dataNode != null)
+            {
+                _id = dataNode.Id;
+            }
+        }
 
 		var selectScene = _selectScene.Instantiate();
 		if (selectScene is SelectScenes selectSceneScript)
@@ -62,7 +70,7 @@ public partial class GameScene : Control
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 
-		// _ = StartGetChartMessageAsync();
+		_ = StartGetChartMessageAsync();
 
 		_isInit = true;
 	}
