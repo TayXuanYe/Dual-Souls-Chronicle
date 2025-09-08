@@ -45,7 +45,6 @@ public partial class Main : Control
 		}
 		GD.Print("Configuration read successfully, API Key loaded.");
 		YoutubeManager.Instance.YoutubeApiKey = config.YoutubeApiKey;
-
 		// create setup page and add to sub viewpoint
 		Node setupScene1 = _setupScene.Instantiate();
 		_subViewport1.AddChild(setupScene1);
@@ -60,6 +59,8 @@ public partial class Main : Control
 		viewportData2.Id = 2;
 		viewportData2.Name = "Data";
 		_subViewport2.AddChild(viewportData2);
+
+		PrintTree();
 	}
 
 	public void RedirectTo(int viewportId, string pageName)

@@ -50,9 +50,9 @@ public partial class GameScene : Control
 		}
 	}
 
-	public void Init(int id)
+	public override void _Ready()
 	{
-		SubViewport parentViewport = GetParent<SubViewport>();
+		SubViewport parentViewport = GetOwner<SubViewport>();
 		if (parentViewport != null)
         {
             ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data"); 
@@ -66,7 +66,7 @@ public partial class GameScene : Control
 		if (selectScene is SelectScenes selectSceneScript)
 		{
 			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
-			selectSceneScript.Init(id, 10, colors, 3, "buff");
+			selectSceneScript.Init(_id, 10, colors, 3, "buff");
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 

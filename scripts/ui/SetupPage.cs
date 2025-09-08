@@ -12,15 +12,15 @@ public partial class SetupPage : Control
 	public override void _Ready()
 	{
 		_submitButton.Pressed += OnSubmitButtonPressed;
-		SubViewport parentViewport = GetParent<SubViewport>();
+		SubViewport parentViewport = GetOwner<SubViewport>();
 		if (parentViewport != null)
-        {
-            ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data"); 
-            if (dataNode != null)
-            {
-                _id = dataNode.Id;
-            }
-        }
+		{
+			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data"); 
+			 if (dataNode != null)
+			 {
+			 	_id = dataNode.Id;
+			 }
+		}
 	} 
 	private bool isRequestSend = false;
 	private void OnSubmitButtonPressed()

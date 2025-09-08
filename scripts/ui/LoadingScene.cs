@@ -33,10 +33,10 @@ public partial class LoadingScene : Control
 		}
 		
 	}
-
+	
 	public override void _Ready()
 	{
-		SubViewport parentViewport = GetParent<SubViewport>();
+		SubViewport parentViewport = GetOwner<SubViewport>();
 		if (parentViewport != null)
 		{
 			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data");
@@ -45,7 +45,7 @@ public partial class LoadingScene : Control
 				_id = dataNode.Id;
 			}
 		}
-    }
+	}
 
 	public override void _Input(InputEvent @event)
 	{
