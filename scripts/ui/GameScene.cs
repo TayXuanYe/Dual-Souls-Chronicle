@@ -87,7 +87,7 @@ public partial class GameScene : Control
 		if (selectScene is SelectScenes selectSceneScript)
 		{
 			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
-			selectSceneScript.Init(_id, 10, colors, 3, "buff");
+			selectSceneScript.Init(_id, 10, colors, 3, "buff", 1);
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 

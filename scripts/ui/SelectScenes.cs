@@ -16,10 +16,9 @@ public partial class SelectScenes : VBoxContainer
 	private List<(Node node, Card script)> _cardList = new List<(Node node, Card script)>();
 	private double _voteTimeCountdown;
 	private bool _isInit = false;
-	private Random _random = new Random();
 	private int _id;
 
-	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type)
+	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type, int randomSeed)
 	{
 		if (_isInit) { return; }
 		_id = id;
@@ -36,16 +35,14 @@ public partial class SelectScenes : VBoxContainer
 			}
 		}
 
-		for (int i = 0; i < cardAmount; i++)
+		foreach (CardDto cardDto in CardsDataManager.Instance.GetBuffCards(cardAmount, randomSeed))
 		{
 			Node card = _cardScene.Instantiate();
 			if (card is Card cardScript)
 			{
-				var randomNum = _random.Next(CardsDataManager.Instance.BuffCards.Count);
-				cardScript.Init(CardsDataManager.Instance.BuffCards[randomNum]);
-				CardsDataManager.Instance.BuffCards.RemoveAt(randomNum);
-
+				cardScript.Init(cardDto);
 				_cardList.Add((card, cardScript));
+
 				_cardContainer.AddChild(card);
 			}
 		}
