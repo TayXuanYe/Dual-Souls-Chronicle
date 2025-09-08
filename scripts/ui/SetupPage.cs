@@ -13,12 +13,6 @@ public partial class SetupPage : Control
 	{
 		_submitButton.Pressed += OnSubmitButtonPressed;
 	} 
-	
-	public void Init(int id)
-	{
-		_id = id;
-		GD.Print($"Setup page init success id:{_id}; Instance ID: {GetInstanceId()}");
-	}
 	private bool isRequestSend = false;
 	private void OnSubmitButtonPressed()
 	{

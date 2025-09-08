@@ -49,14 +49,15 @@ public partial class Main : Control
 		// create setup page and add to sub viewpoint
 		Node setupScene1 = _setupScene.Instantiate();
 		_subViewport1.AddChild(setupScene1);
-		if (setupScene1 is SetupPage setupPageScript1)
-			setupPageScript1.Init(1);
-
+		ViewportData viewportData1 = new ViewportData();
+		viewportData1.Id = 1;
+		_subViewport1.AddChild(viewportData1);
 
 		Node setupScene2 = _setupScene.Instantiate();
 		_subViewport2.AddChild(setupScene2);
-		if (setupScene2 is SetupPage setupPageScript2)
-			setupPageScript2.Init(2);
+		ViewportData viewportData2 = new ViewportData();
+		viewportData2.Id = 2;
+		_subViewport2.AddChild(viewportData2);
 	}
 
 	public void RedirectTo(int viewportId, string pageName)

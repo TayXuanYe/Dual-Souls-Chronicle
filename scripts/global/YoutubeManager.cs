@@ -15,7 +15,6 @@ public partial class YoutubeManager : Node
 	public static bool IsYoutubeServices2Ready { get; private set; } = false;
 
 	public string YoutubeApiKey { get; set; }
-	private	long _pollingIntervalMillis = 0;
 	public override void _Ready()
 	{
 		_instance = this;
