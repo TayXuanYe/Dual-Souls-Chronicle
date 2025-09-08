@@ -5,7 +5,7 @@ using Google.Apis.YouTube.v3.Data;
 
 public partial class GameScene : Control
 {
-	[Export] private Node _selectScene;
+	[Export] private PackedScene _selectScene;
 	private int _id;
 	private bool _isInit = false;
 	private long _pollingIntervalMillis = 0;
@@ -53,14 +53,16 @@ public partial class GameScene : Control
 	public void Init(int id)
 	{
 		_id = id;
-		if (_selectScene is SelectScenes selectSceneScript)
+
+		var selectScene = _selectScene.Instantiate();
+		if (selectScene is SelectScenes selectSceneScript)
 		{
 			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
-			selectSceneScript.Init(0, 10, colors, 3, "buff");
+			selectSceneScript.Init(id, 10, colors, 3, "buff");
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 
-		_ = StartGetChartMessageAsync();
+		// _ = StartGetChartMessageAsync();
 
 		_isInit = true;
 	}

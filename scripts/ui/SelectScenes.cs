@@ -12,17 +12,12 @@ public partial class SelectScenes : VBoxContainer
 	[Export] private HBoxContainer _voteBarContainer;
 	private float _width = 960;
 	private int _voteTotalCount;
-	private List<(Node node, VoteBar script)> _voteBarList;
-	private List<(Node node, Card script)> _cardList;
+	private List<(Node node, VoteBar script)> _voteBarList = new List<(Node node, VoteBar script)>();
+	private List<(Node node, Card script)> _cardList = new List<(Node node, Card script)>();
 	private double _voteTimeCountdown;
 	private bool _isInit = false;
 	private Random _random = new Random();
 	private int _id;
-	public override void _Ready()
-	{
-		_voteBarList = new List<(Node node, VoteBar script)>();
-		_cardList = new List<(Node node, Card script)>();
-	}
 
 	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type)
 	{

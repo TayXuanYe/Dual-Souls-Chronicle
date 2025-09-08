@@ -9,6 +9,7 @@ public partial class Main : Control
 
 	[Export] private PackedScene _setupScene;
 	[Export] private PackedScene _loadingScene;
+	[Export] private PackedScene _gameScene;
 
 	public override void _Ready()
 	{
@@ -66,11 +67,21 @@ public partial class Main : Control
 		{
 			case "LoadingPage":
 				page = _loadingScene.Instantiate();
+				if (page is LoadingScene loadingScene)
+				{
+					loadingScene.Init(viewportId);
+				}
+				break;
+			case "GamePage":
+				page = _gameScene.Instantiate();
+				if (page is GameScene gameScene)
+				{
+					gameScene.Init(viewportId);
+				}
 				break;
 		}
 		if (page == null) { return; }
 		GD.Print($"REDIRECT TO {page.Name}");
-		GD.Print(viewportId);
 
 		Node targetViewport;
 		if (viewportId == 1)
