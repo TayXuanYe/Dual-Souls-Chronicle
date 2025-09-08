@@ -12,6 +12,15 @@ public partial class SetupPage : Control
 	public override void _Ready()
 	{
 		_submitButton.Pressed += OnSubmitButtonPressed;
+		SubViewport parentViewport = GetParent<SubViewport>();
+		if (parentViewport != null)
+        {
+            ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data"); 
+            if (dataNode != null)
+            {
+                _id = dataNode.Id;
+            }
+        }
 	} 
 	private bool isRequestSend = false;
 	private void OnSubmitButtonPressed()
@@ -61,11 +70,5 @@ public partial class SetupPage : Control
 		}
 
 		isRequestSend = false;
-	}
-	
-	public override void _ExitTree()
-	{
-		base._ExitTree();
-		GD.Print($"SetupPage instance with ID:{GetInstanceId()} is exiting the tree.");
 	}
 }
