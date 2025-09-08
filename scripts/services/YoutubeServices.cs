@@ -9,6 +9,7 @@ public class YoutubeServices
 	private readonly YouTubeService _youtubeService;
 	private readonly string _videoId;
 	private string _liveChatId;
+	private string _nextPageToken = null;
 
 	public YoutubeServices(string apiKey, string videoId)
 	{
@@ -16,7 +17,7 @@ public class YoutubeServices
 		_youtubeService = new YouTubeService(new BaseClientService.Initializer()
 		{
 			ApiKey = apiKey,
-			ApplicationName = this.GetType().ToString() 
+			ApplicationName = this.GetType().ToString()
 		});
 	}
 
@@ -51,19 +52,33 @@ public class YoutubeServices
 			return false;
 		}
 	}
-	
-	public async Task<(LiveChatMessageListResponse response, string nextPageToken)> GetChatMessagesAsync(string pageToken = null)
+
+	public async Task<(LiveChatMessageListResponse response, string nextPageToken)> GetChatMessagesAsync()
 	{
 		if (string.IsNullOrEmpty(_liveChatId))
 		{
 			throw new InvalidOperationException("Init not completed, please inti by using InitializeAsync().");
 		}
 
-		var chatRequest = _youtubeService.LiveChatMessages.List(_liveChatId, "snippet,authorDetails");
+		var chatRequest = _youtubeService.LiveChatMessages.List(_liveChatId, "snippet");
+		chatRequest.PageToken = _nextPageToken;
+
+		var chatResponse = await chatRequest.ExecuteAsync();
+		_nextPageToken = chatResponse.NextPageToken;
+		return (chatResponse, chatResponse.NextPageToken);
+	}
+	public async Task<(LiveChatMessageListResponse response, string nextPageToken)> GetChatMessagesAsync(string pageToken)
+	{
+		if (string.IsNullOrEmpty(_liveChatId))
+		{
+			throw new InvalidOperationException("Init not completed, please inti by using InitializeAsync().");
+		}
+
+		var chatRequest = _youtubeService.LiveChatMessages.List(_liveChatId, "snippet");
 		chatRequest.PageToken = pageToken;
 		
 		var chatResponse = await chatRequest.ExecuteAsync();
-		
+		_nextPageToken = chatResponse.NextPageToken;
 		return (chatResponse, chatResponse.NextPageToken);
 	}
 }

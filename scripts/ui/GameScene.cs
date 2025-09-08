@@ -1,11 +1,58 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
+using Google.Apis.YouTube.v3.Data;
 
 public partial class GameScene : Control
 {
 	[Export] private Node _selectScene;
-	public override void _Ready()
+	private int _id;
+	private bool _isInit = false;
+	private long _pollingIntervalMillis = 0;
+	private async Task StartGetChartMessageAsync()
 	{
+		while (true)
+		{
+			try
+			{
+				await Task.Delay(TimeSpan.FromMilliseconds(_pollingIntervalMillis));
+				YoutubeServices service;
+				if (_id == 1)
+				{
+					service = YoutubeManager.YoutubeServices1;
+				}
+				else if (_id == 2)
+				{
+					service = YoutubeManager.YoutubeServices2;
+				}
+				else
+				{
+					return;
+				}
+
+				var (response, newNextPageToken) = await service.GetChatMessagesAsync();
+
+				if (response?.Items != null)
+				{
+					_pollingIntervalMillis = response.PollingIntervalMillis ?? 5000;
+					foreach (var message in response.Items)
+					{
+						var messageText = message.Snippet?.DisplayMessage;
+						GD.Print($"[{DateTime.Now}] : {messageText}");
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				GD.PrintErr($"Error: {ex.Message}");
+				break;
+			}
+		}
+	}
+
+	public void Init(int id)
+	{
+		_id = id;
 		if (_selectScene is SelectScenes selectSceneScript)
 		{
 			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
@@ -13,27 +60,8 @@ public partial class GameScene : Control
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 
-	}
+		_ = StartGetChartMessageAsync();
 
-	private double _timeSinceLastUpdate = 0;
-
-	public override void _Process(double delta)
-	{
-		// 累加时间
-		_timeSinceLastUpdate += delta;
-
-		// 当累积时间超过或等于 1.0 秒时
-		if (_selectScene is SelectScenes selectSceneScript)
-		{
-			if (_timeSinceLastUpdate >= 1.0)
-			{
-				// 重置计时器，并保留超出的时间以确保精确
-				_timeSinceLastUpdate -= 1.0;
-
-				// 在这里放置你想要每秒执行一次的代码
-				int[] voteCount = new int[] { GD.RandRange(0, 10), GD.RandRange(0, 10), GD.RandRange(0, 10) };
-				selectSceneScript.UpdateVoteCount(voteCount);
-			}
-		}
+		_isInit = true;
 	}
 }
