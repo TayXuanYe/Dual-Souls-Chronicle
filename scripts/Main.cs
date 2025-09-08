@@ -92,12 +92,15 @@ public partial class Main : Control
 		}
 
 		var childrenToFree = new Godot.Collections.Array<Node>(targetViewport.GetChildren());
-		
+
 		foreach (Node child in childrenToFree)
 		{
-			GD.Print($"Removing child: {child.Name}");
-			targetViewport.RemoveChild(child);
-			child.QueueFree();
+			if (child.Name != "Data")
+			{
+				GD.Print($"Removing child: {child.Name}");
+				targetViewport.RemoveChild(child);
+				child.QueueFree();
+			}
 		}
 		
 		targetViewport.CallDeferred(Node.MethodName.AddChild, page);

@@ -6,15 +6,10 @@ public partial class LoadingScene : Control
 	[Export] private Label _viewport1ReadyLabel;
 	[Export] private Label _viewport2ReadyLabel;
 	private int _id;
-	private bool _isViewport1Ready = false;
-	private bool _isViewport2Ready = false;
 
 	public override void _Process(double delta)
 	{
-		_isViewport1Ready = YoutubeManager.IsYoutubeServices1Ready;
-		_isViewport2Ready = YoutubeManager.IsYoutubeServices2Ready;
-
-		if (_isViewport1Ready)
+		if (YoutubeManager.IsYoutubeServices1Ready)
 		{
 			_viewport1ReadyLabel.Text = "Viewport 1: Ready";
 		}
@@ -23,7 +18,7 @@ public partial class LoadingScene : Control
 			_viewport1ReadyLabel.Text = "Viewport 1: Not ready";
 		}
 
-		if (_isViewport2Ready)
+		if (YoutubeManager.IsYoutubeServices2Ready)
 		{
 			_viewport2ReadyLabel.Text = "Viewport 2: Ready";
 		}
@@ -38,6 +33,7 @@ public partial class LoadingScene : Control
 	{
 		Node current = this;
 		SubViewport parentViewport = null;
+		int count = 0;
 		while (current != null)
 		{
 			if (current is SubViewport viewport)
@@ -45,7 +41,8 @@ public partial class LoadingScene : Control
 				parentViewport = viewport;
 				break;
 			}
-			current = current.GetParent(); 
+			current = current.GetParent();
+			GD.Print($"Finding {current.Name}, count {count++}");
 		}
 
 		if (parentViewport != null)
@@ -72,9 +69,9 @@ public partial class LoadingScene : Control
 		if (@event is InputEventKey keyEvent && keyEvent.Pressed)
 		{
 			if (keyEvent.Keycode != Key.P) { return; }
-
+			GD.Print("KEY P PRESS");
 			var mainNode = GetNode<Main>("/root/Loader/Main");
-			if (_isViewport1Ready && _isViewport2Ready)
+			if (YoutubeManager.IsYoutubeServices1Ready && YoutubeManager.IsYoutubeServices2Ready)
 			{
 				mainNode.RedirectTo(_id, "GamePage");
 			}

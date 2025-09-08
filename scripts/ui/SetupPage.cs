@@ -65,6 +65,7 @@ public partial class SetupPage : Control
 	
 	private async void OnLinkToLiveRoom(string videoId)
 	{
+		isRequestSend = true;
 		var mainNode = GetNode<Main>("/root/Loader/Main");
 		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()},_id{_id}");
 		bool isSuccessInit = false;
