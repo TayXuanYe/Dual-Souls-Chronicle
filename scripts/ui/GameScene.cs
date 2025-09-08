@@ -52,6 +52,7 @@ public partial class GameScene : Control
 
 	public override void _Ready()
 	{
+		Size = new Vector2(960,540);
 		Node current = this;
 		SubViewport parentViewport = null;
 		while (current != null)
@@ -61,7 +62,7 @@ public partial class GameScene : Control
 				parentViewport = viewport;
 				break;
 			}
-			current = current.GetParent(); 
+			current = current.GetParent();
 		}
 
 		if (parentViewport != null)
@@ -82,7 +83,7 @@ public partial class GameScene : Control
 			GD.Print($"Owner not found");
 		}
 
-		var selectScene = _selectScene.Instantiate();
+		Node selectScene = _selectScene.Instantiate();
 		if (selectScene is SelectScenes selectSceneScript)
 		{
 			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
@@ -90,7 +91,8 @@ public partial class GameScene : Control
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 
-		_ = StartGetChartMessageAsync();
+		AddChild(selectScene);
+		// _ = StartGetChartMessageAsync();
 
 		_isInit = true;
 	}

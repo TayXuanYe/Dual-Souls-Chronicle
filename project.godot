@@ -17,8 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-CardsDataManager="*res://scripts/global/CardsDataManager.cs"
 YoutubeManager="*res://scripts/global/YoutubeManager.cs"
+CardsDataManager="*res://scripts/global/CardsDataManager.cs"
 
 [display]
 

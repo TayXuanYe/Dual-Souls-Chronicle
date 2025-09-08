@@ -25,7 +25,6 @@ public partial class SelectScenes : VBoxContainer
 		_id = id;
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
-		int countTemp = 0;
 		foreach (string voteBarColor in voteBarColors)
 		{
 			Node voteBar = _voteBarScene.Instantiate();
@@ -34,7 +33,6 @@ public partial class SelectScenes : VBoxContainer
 				voteBarScript.Init(new Color(voteBarColor));
 				_voteBarList.Add((voteBar, voteBarScript));
 				_voteBarContainer.AddChild(voteBar);
-				GD.Print($"vote bar count: {countTemp++}:: {_voteBarList.Count} ");
 			}
 		}
 
