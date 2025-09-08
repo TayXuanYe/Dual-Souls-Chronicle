@@ -9,6 +9,7 @@ public partial class Main : Control
 
 	[Export] private PackedScene _setupScene;
 	[Export] private PackedScene _loadingScene;
+	[Export] private PackedScene _gameScene;
 
 	public override void _Ready()
 	{
@@ -44,18 +45,20 @@ public partial class Main : Control
 		}
 		GD.Print("Configuration read successfully, API Key loaded.");
 		YoutubeManager.Instance.YoutubeApiKey = config.YoutubeApiKey;
-
 		// create setup page and add to sub viewpoint
+		ViewportData viewportData1 = new ViewportData();
+		viewportData1.Id = 1;
+		viewportData1.Name = "Data";
+		_subViewport1.AddChild(viewportData1);
 		Node setupScene1 = _setupScene.Instantiate();
 		_subViewport1.AddChild(setupScene1);
-		if (setupScene1 is SetupPage setupPageScript1)
-			setupPageScript1.Init(1);
 
-
+		ViewportData viewportData2 = new ViewportData();
+		viewportData2.Id = 2;
+		viewportData2.Name = "Data";
+		_subViewport2.AddChild(viewportData2);
 		Node setupScene2 = _setupScene.Instantiate();
 		_subViewport2.AddChild(setupScene2);
-		if (setupScene2 is SetupPage setupPageScript2)
-			setupPageScript2.Init(2);
 	}
 
 	public void RedirectTo(int viewportId, string pageName)
@@ -67,10 +70,12 @@ public partial class Main : Control
 			case "LoadingPage":
 				page = _loadingScene.Instantiate();
 				break;
+			case "GamePage":
+				page = _gameScene.Instantiate();
+				break;
 		}
 		if (page == null) { return; }
 		GD.Print($"REDIRECT TO {page.Name}");
-		GD.Print(viewportId);
 
 		Node targetViewport;
 		if (viewportId == 1)
@@ -87,12 +92,15 @@ public partial class Main : Control
 		}
 
 		var childrenToFree = new Godot.Collections.Array<Node>(targetViewport.GetChildren());
-		
+
 		foreach (Node child in childrenToFree)
 		{
-			GD.Print($"Removing child: {child.Name}");
-			targetViewport.RemoveChild(child);
-			child.QueueFree();
+			if (child.Name != "Data")
+			{
+				GD.Print($"Removing child: {child.Name}");
+				targetViewport.RemoveChild(child);
+				child.QueueFree();
+			}
 		}
 		
 		targetViewport.CallDeferred(Node.MethodName.AddChild, page);

@@ -12,13 +12,36 @@ public partial class SetupPage : Control
 	public override void _Ready()
 	{
 		_submitButton.Pressed += OnSubmitButtonPressed;
+		Node current = this;
+		SubViewport parentViewport = null;
+		while (current != null)
+		{
+			if (current is SubViewport viewport)
+			{
+				parentViewport = viewport;
+				break;
+			}
+			current = current.GetParent(); 
+		}
+
+		if (parentViewport != null)
+		{
+			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data");
+			if (dataNode != null)
+			{
+				_id = dataNode.Id;
+				GD.Print($"Init id:{_id}");
+			}
+			else
+			{
+				GD.Print($"Init id: fail");
+			}
+		}
+		else
+		{
+			GD.Print($"Owner not found");
+		}
 	} 
-	
-	public void Init(int id)
-	{
-		_id = id;
-		GD.Print($"Setup page init success id:{_id}; Instance ID: {GetInstanceId()}");
-	}
 	private bool isRequestSend = false;
 	private void OnSubmitButtonPressed()
 	{
@@ -42,8 +65,9 @@ public partial class SetupPage : Control
 	
 	private async void OnLinkToLiveRoom(string videoId)
 	{
+		isRequestSend = true;
 		var mainNode = GetNode<Main>("/root/Loader/Main");
-		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()}");
+		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()},_id{_id}");
 		bool isSuccessInit = false;
 		if (_id == 1)
 		{
@@ -59,7 +83,6 @@ public partial class SetupPage : Control
 			GD.Print($"Live linked in sub viewport {_id}");
 			//redirect to another scene
 			mainNode.RedirectTo(_id, "LoadingPage");
-			QueueFree();
 		}
 		else
 		{
@@ -67,11 +90,5 @@ public partial class SetupPage : Control
 		}
 
 		isRequestSend = false;
-	}
-	
-	public override void _ExitTree()
-	{
-		base._ExitTree();
-		GD.Print($"SetupPage instance with ID:{GetInstanceId()} is exiting the tree.");
 	}
 }

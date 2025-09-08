@@ -12,25 +12,18 @@ public partial class SelectScenes : VBoxContainer
 	[Export] private HBoxContainer _voteBarContainer;
 	private float _width = 960;
 	private int _voteTotalCount;
-	private List<(Node node, VoteBar script)> _voteBarList;
-	private List<(Node node, Card script)> _cardList;
+	private List<(Node node, VoteBar script)> _voteBarList = new List<(Node node, VoteBar script)>();
+	private List<(Node node, Card script)> _cardList = new List<(Node node, Card script)>();
 	private double _voteTimeCountdown;
 	private bool _isInit = false;
-	private Random _random = new Random();
 	private int _id;
-	public override void _Ready()
-	{
-		_voteBarList = new List<(Node node, VoteBar script)>();
-		_cardList = new List<(Node node, Card script)>();
-	}
 
-	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type)
+	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type, int randomSeed)
 	{
 		if (_isInit) { return; }
 		_id = id;
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
-		int countTemp = 0;
 		foreach (string voteBarColor in voteBarColors)
 		{
 			Node voteBar = _voteBarScene.Instantiate();
@@ -39,20 +32,17 @@ public partial class SelectScenes : VBoxContainer
 				voteBarScript.Init(new Color(voteBarColor));
 				_voteBarList.Add((voteBar, voteBarScript));
 				_voteBarContainer.AddChild(voteBar);
-				GD.Print($"vote bar count: {countTemp++}:: {_voteBarList.Count} ");
 			}
 		}
 
-		for (int i = 0; i < cardAmount; i++)
+		foreach (CardDto cardDto in CardsDataManager.Instance.GetBuffCards(cardAmount, randomSeed))
 		{
 			Node card = _cardScene.Instantiate();
 			if (card is Card cardScript)
 			{
-				var randomNum = _random.Next(CardsDataManager.Instance.BuffCards.Count);
-				cardScript.Init(CardsDataManager.Instance.BuffCards[randomNum]);
-				CardsDataManager.Instance.BuffCards.RemoveAt(randomNum);
-
+				cardScript.Init(cardDto);
 				_cardList.Add((card, cardScript));
+
 				_cardContainer.AddChild(card);
 			}
 		}

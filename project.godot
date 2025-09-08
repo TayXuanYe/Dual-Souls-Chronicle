@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="2-live interactive RPG game"
+run/main_scene="uid://cwhymytbbi52"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-CardsDataManager="*res://scripts/global/CardsDataManager.cs"
 YoutubeManager="*res://scripts/global/YoutubeManager.cs"
+CardsDataManager="*res://scripts/global/CardsDataManager.cs"
 
 [display]
 
