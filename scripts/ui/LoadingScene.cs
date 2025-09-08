@@ -36,14 +36,34 @@ public partial class LoadingScene : Control
 	
 	public override void _Ready()
 	{
-		SubViewport parentViewport = GetOwner<SubViewport>();
+		Node current = this;
+		SubViewport parentViewport = null;
+		while (current != null)
+		{
+			if (current is SubViewport viewport)
+			{
+				parentViewport = viewport;
+				break;
+			}
+			current = current.GetParent(); 
+		}
+
 		if (parentViewport != null)
 		{
 			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data");
 			if (dataNode != null)
 			{
 				_id = dataNode.Id;
+				GD.Print($"Init id:{_id}");
 			}
+			else
+			{
+				GD.Print($"Init id: fail");
+			}
+		}
+		else
+		{
+			GD.Print($"Owner not found");
 		}
 	}
 

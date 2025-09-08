@@ -12,14 +12,34 @@ public partial class SetupPage : Control
 	public override void _Ready()
 	{
 		_submitButton.Pressed += OnSubmitButtonPressed;
-		SubViewport parentViewport = GetOwner<SubViewport>();
+		Node current = this;
+		SubViewport parentViewport = null;
+		while (current != null)
+		{
+			if (current is SubViewport viewport)
+			{
+				parentViewport = viewport;
+				break;
+			}
+			current = current.GetParent(); 
+		}
+
 		if (parentViewport != null)
 		{
-			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data"); 
-			 if (dataNode != null)
-			 {
-			 	_id = dataNode.Id;
-			 }
+			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data");
+			if (dataNode != null)
+			{
+				_id = dataNode.Id;
+				GD.Print($"Init id:{_id}");
+			}
+			else
+			{
+				GD.Print($"Init id: fail");
+			}
+		}
+		else
+		{
+			GD.Print($"Owner not found");
 		}
 	} 
 	private bool isRequestSend = false;
@@ -46,7 +66,7 @@ public partial class SetupPage : Control
 	private async void OnLinkToLiveRoom(string videoId)
 	{
 		var mainNode = GetNode<Main>("/root/Loader/Main");
-		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()}");
+		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()},_id{_id}");
 		bool isSuccessInit = false;
 		if (_id == 1)
 		{
