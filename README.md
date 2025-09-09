@@ -32,9 +32,7 @@ The game currently features four basic classes, each with a unique role and play
  - <b>Warrior</b>: Medium Attack, Medium Defense. A balanced and steady choice, suitable for various situations.
 
  - <b>Mage</b>: High Attack, Low Defense. Excels at quickly eliminating enemies but requires protection from teammates.
-
- - <b>Cleric</b>: Low Attack, Low Defense. Their primary role is to heal teammates, ensuring the team's longevity.
-
+ 
  - <b>Shield guard</b>: Low Attack, High Defense. Acts as the team's solid wall, effectively absorbing damage.
 
 # IV. Technical Implementation
