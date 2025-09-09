@@ -23,6 +23,7 @@ public partial class SelectScenes : VBoxContainer
 	{
 		if (_isInit) { return; }
 		_id = id;
+		GD.Print("select scene init id" + id);
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
 		_cardAmount = cardAmount;

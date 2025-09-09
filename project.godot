@@ -23,7 +23,7 @@ CardsDataManager="*res://scripts/global/CardsDataManager.cs"
 [display]
 
 window/size/viewport_width=1920
-window/size/viewport_height=540
+window/size/viewport_height=720
 
 [dotnet]
 

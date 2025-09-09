@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://diry06uq7l28b"]
+[gd_scene load_steps=8 format=3 uid="uid://diry06uq7l28b"]
 
 [ext_resource type="Script" uid="uid://bu22shg14awid" path="res://scripts/ui/GameScene.cs" id="1_ko4ld"]
 [ext_resource type="PackedScene" uid="uid://4cu1nmm5exgc" path="res://scenes/ui/select_scenes.tscn" id="2_nwe1t"]
@@ -10,7 +10,14 @@ colors = PackedColorArray(0.133333, 0.133333, 0.133333, 1, 0.133333, 0.133333, 0
 gradient = SubResource("Gradient_cfmu5")
 fill_to = Vector2(1, 1)
 
-[node name="Game-scene" type="Control"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ko4ld"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ko4ld"]
+bg_color = Color(0.314316, 0.314316, 0.314316, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nwe1t"]
+
+[node name="Game-scene" type="Control" node_paths=PackedStringArray("_player1ChartDisplayVBox", "_player2ChartDisplayVBox")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,6 +27,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ko4ld")
 _selectScene = ExtResource("2_nwe1t")
+_player1ChartDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel/ScrollContainer/Player1ChartDisplayVBox")
+_player2ChartDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel/ScrollContainer/Player2ChartDisplayVBox")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -29,3 +38,91 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_vfafu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 5
+
+[node name="Player1ChartDisplayPanel" type="Panel" parent="VBoxContainer/HBoxContainer2/MarginContainer"]
+custom_minimum_size = Vector2(250, 350)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ko4ld")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Player1ChartDisplayVBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Player1DataPanel" type="Panel" parent="VBoxContainer/HBoxContainer2/MarginContainer2"]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_ko4ld")
+
+[node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Player2DataPanel" type="Panel" parent="VBoxContainer/HBoxContainer2/MarginContainer3"]
+custom_minimum_size = Vector2(200, 150)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_ko4ld")
+
+[node name="MarginContainer4" type="MarginContainer" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
+
+[node name="PLayer2ChartDisplayPanel" type="Panel" parent="VBoxContainer/HBoxContainer2/MarginContainer4"]
+custom_minimum_size = Vector2(250, 350)
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxEmpty_nwe1t")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Player2ChartDisplayVBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3

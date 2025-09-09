@@ -9,6 +9,8 @@ using System.Collections;
 public partial class GameScene : Control
 {
 	[Export] private PackedScene _selectScene;
+	[Export] private VBoxContainer _player1ChartDisplayVBox;
+	[Export] private VBoxContainer _player2ChartDisplayVBox;
 	private int _id;
 	private bool _isInit = false;
 	private long _pollingIntervalMillis = 0;
@@ -94,10 +96,11 @@ public partial class GameScene : Control
 			}
 		}
 	}
-
+	
+	
 	public override void _Ready()
 	{
-		Size = new Vector2(960,540);
+		Size = new Vector2(960, 720);
 		Node current = this;
 		SubViewport parentViewport = null;
 		while (current != null)
