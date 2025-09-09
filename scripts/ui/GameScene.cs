@@ -12,6 +12,9 @@ public partial class GameScene : Control
 	[Export] private PackedScene _dialogue;
 	[Export] private VBoxContainer _player1DialogDisplayVBox;
 	[Export] private VBoxContainer _player2DialogDisplayVBox;
+	[Export] private Panel _player1DataPanel;
+	[Export] private Panel _player2DataPanel;
+	
 	private int _id;
 	private bool _isInit = false;
 	private long _pollingIntervalMillis = 0;

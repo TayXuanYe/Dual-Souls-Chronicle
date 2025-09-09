@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bu22shg14awid" path="res://scripts/ui/GameScene.cs" id="1_ko4ld"]
 [ext_resource type="PackedScene" uid="uid://4cu1nmm5exgc" path="res://scenes/ui/select_scenes.tscn" id="2_nwe1t"]
 [ext_resource type="PackedScene" uid="uid://b4vdglmsxapvs" path="res://scenes/ui/Dialogue.tscn" id="3_nwe1t"]
+[ext_resource type="PackedScene" uid="uid://c83dcfq0gssyu" path="res://scenes/ui/player_data_panel.tscn" id="4_ucfjb"]
 
 [sub_resource type="Gradient" id="Gradient_cfmu5"]
 colors = PackedColorArray(0.133333, 0.133333, 0.133333, 1, 0.133333, 0.133333, 0.133333, 1)
@@ -13,12 +14,9 @@ fill_to = Vector2(1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ko4ld"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ko4ld"]
-bg_color = Color(0.314316, 0.314316, 0.314316, 1)
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nwe1t"]
 
-[node name="Game-scene" type="Control" node_paths=PackedStringArray("_player1DialogDisplayVBox", "_player2DialogDisplayVBox")]
+[node name="Game-scene" type="Control" node_paths=PackedStringArray("_player1DialogDisplayVBox", "_player2DialogDisplayVBox", "_player1DataPanel", "_player2DataPanel")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,6 +29,8 @@ _selectScene = ExtResource("2_nwe1t")
 _dialogue = ExtResource("3_nwe1t")
 _player1DialogDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel/Player1ChartDisplayVBox")
 _player2DialogDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel/Player2ChartDisplayVBox")
+_player1DataPanel = NodePath("VBoxContainer/HBoxContainer2/MarginContainer2/Player1DataPanel")
+_player2DataPanel = NodePath("VBoxContainer/HBoxContainer2/MarginContainer3/Player2DataPanel")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -81,27 +81,19 @@ alignment = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Player1DataPanel" type="Panel" parent="VBoxContainer/HBoxContainer2/MarginContainer2"]
-custom_minimum_size = Vector2(200, 150)
+[node name="Player1DataPanel" parent="VBoxContainer/HBoxContainer2/MarginContainer2" instance=ExtResource("4_ucfjb")]
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-theme_override_styles/panel = SubResource("StyleBoxFlat_ko4ld")
 
 [node name="MarginContainer3" type="MarginContainer" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 30
+theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 0
 
-[node name="Player2DataPanel" type="Panel" parent="VBoxContainer/HBoxContainer2/MarginContainer3"]
-custom_minimum_size = Vector2(200, 150)
+[node name="Player2DataPanel" parent="VBoxContainer/HBoxContainer2/MarginContainer3" instance=ExtResource("4_ucfjb")]
 layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_styles/panel = SubResource("StyleBoxFlat_ko4ld")
 
 [node name="MarginContainer4" type="MarginContainer" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
