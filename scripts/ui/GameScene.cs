@@ -23,7 +23,7 @@ public partial class GameScene : Control
 	private Queue<(Node node, Dialogue script)> _dialogueInstants1 = new Queue<(Node node, Dialogue script)>();
 	private Queue<(Node node, Dialogue script)> _dialogueInstants2 = new Queue<(Node node, Dialogue script)>();
 	private int _selectionAmount = 3;
-	// private (Node node, BattleScene script) battleScene;
+
 	private async Task StartGetChartMessageAsync()
 	{
 		while (true)
@@ -99,7 +99,7 @@ public partial class GameScene : Control
 		}
 	}
 
-	private int maxDialogAmount = 7;
+	private int maxDialogAmount = 5;
 	public void OnDisplayDialog(string message, int id)
 	{
 		GD.Print($"Receive signal in {_id}, {message},{id}");

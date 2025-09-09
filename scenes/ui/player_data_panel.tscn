@@ -8,7 +8,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ko4ld"]
 bg_color = Color(0.314316, 0.314316, 0.314316, 1)
 
-[node name="Player1DataPanel" type="Panel" node_paths=PackedStringArray("LiveRoomNameLabel", "HPLabel", "AttackLabel", "DefenceLabel", "BuffLabel")]
+[node name="Player1DataPanel" type="Panel" node_paths=PackedStringArray("LiveRoomNameLabel", "HPLabel", "AttackLabel", "DefenseLabel", "BuffLabel")]
 custom_minimum_size = Vector2(200, 180)
 size_flags_horizontal = 4
 size_flags_vertical = 8
@@ -17,7 +17,7 @@ script = ExtResource("1_15m8h")
 LiveRoomNameLabel = NodePath("MarginContainer/VBoxContainer/LiveRoomName")
 HPLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HP")
 AttackLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Attach")
-DefenceLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer2/Defence")
+DefenseLabel = NodePath("MarginContainer/VBoxContainer/HBoxContainer2/Defence")
 BuffLabel = NodePath("MarginContainer/VBoxContainer/BuffsLabel")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

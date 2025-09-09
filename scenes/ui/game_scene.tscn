@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bu22shg14awid" path="res://scripts/ui/GameScene.cs" id="1_ko4ld"]
 [ext_resource type="PackedScene" uid="uid://4cu1nmm5exgc" path="res://scenes/ui/select_scenes.tscn" id="2_nwe1t"]
-[ext_resource type="PackedScene" uid="uid://b4vdglmsxapvs" path="res://scenes/ui/Dialogue.tscn" id="3_nwe1t"]
+[ext_resource type="PackedScene" uid="uid://b4vdglmsxapvs" path="res://scenes/ui/dialogue.tscn" id="3_nwe1t"]
 [ext_resource type="PackedScene" uid="uid://c83dcfq0gssyu" path="res://scenes/ui/player_data_panel.tscn" id="4_ucfjb"]
 
 [sub_resource type="Gradient" id="Gradient_cfmu5"]
