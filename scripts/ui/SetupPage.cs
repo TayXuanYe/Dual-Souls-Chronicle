@@ -44,10 +44,10 @@ public partial class SetupPage : Control
 			GD.Print($"Owner not found");
 		}
 	} 
-	private bool isRequestSend = false;
+	private bool _isRequestSend = false;
 	private void OnSubmitButtonPressed()
 	{
-		if (isRequestSend)
+		if (_isRequestSend)
 		{
 			return;
 		}
@@ -77,7 +77,7 @@ public partial class SetupPage : Control
 	
 	private async void OnLinkToLiveRoom(string videoId)
 	{
-		isRequestSend = true;
+		_isRequestSend = true;
 		var mainNode = GetNode<Main>("/root/Loader/Main");
 		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()},_id{_id}");
 		bool isSuccessInit = false;
@@ -104,6 +104,6 @@ public partial class SetupPage : Control
 			GD.Print($"Live room not found, id:{videoId}");
 		}
 
-		isRequestSend = false;
+		_isRequestSend = false;
 	}
 }

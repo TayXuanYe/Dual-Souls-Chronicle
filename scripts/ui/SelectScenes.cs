@@ -37,13 +37,22 @@ public partial class SelectScenes : VBoxContainer
 				_voteBarContainer.AddChild(voteBar);
 			}
 		}
-
+		List<CardDto> cardsData;
+		switch (type)
+		{
+			case "buff":
+				cardsData = CardsDataManager.Instance.GetBuffCards(cardAmount, randomSeed);
+				break;
+			case "character":
+				cardsData = CardsDataManager.Instance.GetCharacterCards();
+				break;
+		}
 		foreach (CardDto cardDto in CardsDataManager.Instance.GetBuffCards(cardAmount, randomSeed))
 		{
 			Node card = _cardScene.Instantiate();
 			if (card is Card cardScript)
 			{
-				cardScript.Init(cardDto);
+				cardScript.Init(cardDto, type);
 				_cardList.Add((card, cardScript));
 
 				_cardContainer.AddChild(card);
@@ -69,9 +78,9 @@ public partial class SelectScenes : VBoxContainer
 	bool isOnVoteTimeCountdownTrigger = false;
 	public void OnVoteTimeCountdown()
 	{
-		if(isOnVoteTimeCountdownTrigger) { return; }
+		if (isOnVoteTimeCountdownTrigger) { return; }
 
-		int id = -1;
+		string id = "1";
 		int maxVoteCount = -1;
 		int count = 0;
 		foreach ((Node, VoteBar script) voteBar in _voteBarList)
@@ -86,7 +95,8 @@ public partial class SelectScenes : VBoxContainer
 		}
 
 		//signal id temp use print
-		// GD.Print(id);
+		isOnVoteTimeCountdownTrigger = true;
+		GD.Print(id);
 	}
 
 	public void UpdateSelectCard()
