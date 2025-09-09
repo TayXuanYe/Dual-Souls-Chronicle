@@ -86,7 +86,7 @@ public partial class SelectScenes : VBoxContainer
 		}
 
 		//signal id temp use print
-		GD.Print(id);
+		// GD.Print(id);
 	}
 
 	public void UpdateSelectCard()

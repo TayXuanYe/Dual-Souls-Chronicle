@@ -9,14 +9,17 @@ using System.Collections;
 public partial class GameScene : Control
 {
 	[Export] private PackedScene _selectScene;
-	[Export] private VBoxContainer _player1ChartDisplayVBox;
-	[Export] private VBoxContainer _player2ChartDisplayVBox;
+	[Export] private PackedScene _dialogue;
+	[Export] private VBoxContainer _player1DialogDisplayVBox;
+	[Export] private VBoxContainer _player2DialogDisplayVBox;
 	private int _id;
 	private bool _isInit = false;
 	private long _pollingIntervalMillis = 0;
-	private (Node node, SelectScenes script) selectScene;
-	private (Node node, SelectScenes script) battleScene;
-	private int selectionAmount = 3;
+	private (Node node, SelectScenes script) _selectSceneInstant;
+	private (Node node, SelectScenes script) _battleSceneInstant;
+	private Queue<(Node node, Dialogue script)> _dialogueInstants1 = new Queue<(Node node, Dialogue script)>();
+	private Queue<(Node node, Dialogue script)> _dialogueInstants2 = new Queue<(Node node, Dialogue script)>();
+	private int _selectionAmount = 3;
 	// private (Node node, BattleScene script) battleScene;
 	private async Task StartGetChartMessageAsync()
 	{
@@ -45,7 +48,6 @@ public partial class GameScene : Control
 				{
 					_pollingIntervalMillis = response.PollingIntervalMillis ?? 5000;
 					Dictionary<int, int> votingData = new Dictionary<int, int>();
-					List<string> messageData = new List<string>();
 					foreach (var message in response.Items)
 					{
 						var messageText = message.Snippet?.DisplayMessage;
@@ -53,7 +55,7 @@ public partial class GameScene : Control
 						{
 							messageText.Replace(" ", "");
 							char firstChar = messageText[0];
-							if (firstChar - '0' != 0 || firstChar - '0' < selectionAmount)
+							if (firstChar - '0' != 0 || firstChar - '0' < _selectionAmount)
 							{
 								bool foundNotSame = false;
 								for (int i = 1; i < messageText.Count(); i++)
@@ -73,19 +75,16 @@ public partial class GameScene : Control
 						}
 						else
 						{
-							messageData.Add(messageText);
+							SignalManager.Instance.EmitChatSignal(messageText, _id);
+							// EmitSignal(SignalName.DisplayDialog, messageText, _id);
+							GD.Print($"EmitSignal: {messageText},{_id}");
 						}
 					}
 
-					if (selectScene.script != null)
+					if (_selectSceneInstant.script != null)
 					{
 						var votesData = votingData.OrderBy(pair => pair.Key).Select(pair => pair.Value).ToArray();
-						selectScene.script.UpdateVoteCount(votesData);
-					}
-
-					if (battleScene.script != null)
-					{
-						// display text
+						_selectSceneInstant.script.UpdateVoteCount(votesData);
 					}
 				}
 			}
@@ -96,10 +95,50 @@ public partial class GameScene : Control
 			}
 		}
 	}
-	
-	
+
+	private int maxDialogAmount = 7;
+	public void OnDisplayDialog(string message, int id)
+	{
+		GD.Print($"Receive signal in {_id}, {message},{id}");
+		if (id == 1)
+		{
+			Node dialog = _dialogue.Instantiate();
+			if (dialog is Dialogue script)
+			{
+				script.Init(message);
+				_dialogueInstants1.Enqueue((dialog, script));
+
+				_player1DialogDisplayVBox.AddChild(dialog);
+			}
+
+			if (_dialogueInstants1.Count > maxDialogAmount)
+			{
+				Node node = _dialogueInstants1.Dequeue().node;
+				node.QueueFree();
+			}
+		}
+		if (id == 2)
+		{
+			Node dialog = _dialogue.Instantiate();
+			if (dialog is Dialogue script)
+			{
+				script.Init(message);
+				_dialogueInstants2.Enqueue((dialog, script));
+
+				_player2DialogDisplayVBox.AddChild(dialog);
+			}
+
+			if (_dialogueInstants2.Count > maxDialogAmount)
+			{
+				Node node = _dialogueInstants2.Dequeue().node;
+				node.QueueFree();
+			}
+		}
+	}
 	public override void _Ready()
 	{
+		SignalManager.Instance.DisplayDialog  += OnDisplayDialog;
+
 		Size = new Vector2(960, 720);
 		Node current = this;
 		SubViewport parentViewport = null;
