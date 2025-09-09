@@ -18,6 +18,7 @@ public partial class SelectScenes : VBoxContainer
 	private bool _isInit = false;
 	private int _id;
 	private int _cardAmount = 0;
+	string _type;
 
 	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type, int randomSeed)
 	{
@@ -27,6 +28,7 @@ public partial class SelectScenes : VBoxContainer
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
 		_cardAmount = cardAmount;
+		_type = type;
 		foreach (string voteBarColor in voteBarColors)
 		{
 			Node voteBar = _voteBarScene.Instantiate();
@@ -37,7 +39,7 @@ public partial class SelectScenes : VBoxContainer
 				_voteBarContainer.AddChild(voteBar);
 			}
 		}
-		List<CardDto> cardsData;
+		List<CardDto> cardsData = new List<CardDto>();
 		switch (type)
 		{
 			case "buff":
@@ -46,8 +48,10 @@ public partial class SelectScenes : VBoxContainer
 			case "character":
 				cardsData = CardsDataManager.Instance.GetCharacterCards();
 				break;
+			default:
+				break;
 		}
-		foreach (CardDto cardDto in CardsDataManager.Instance.GetBuffCards(cardAmount, randomSeed))
+		foreach (CardDto cardDto in cardsData)
 		{
 			Node card = _cardScene.Instantiate();
 			if (card is Card cardScript)
@@ -96,7 +100,14 @@ public partial class SelectScenes : VBoxContainer
 
 		//signal id temp use print
 		isOnVoteTimeCountdownTrigger = true;
-		GD.Print(id);
+		switch (_type)
+		{
+			case "buff":
+				break;
+			case "character":
+				SignalManager.Instance.EmitSelectCharacterSignal(id, _id);
+				break;
+		}
 	}
 
 	public void UpdateSelectCard()
