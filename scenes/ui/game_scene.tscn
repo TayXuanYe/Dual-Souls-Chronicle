@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://diry06uq7l28b"]
+[gd_scene load_steps=9 format=3 uid="uid://diry06uq7l28b"]
 
 [ext_resource type="Script" uid="uid://bu22shg14awid" path="res://scripts/ui/GameScene.cs" id="1_ko4ld"]
 [ext_resource type="PackedScene" uid="uid://4cu1nmm5exgc" path="res://scenes/ui/select_scenes.tscn" id="2_nwe1t"]
+[ext_resource type="PackedScene" uid="uid://b4vdglmsxapvs" path="res://scenes/ui/Dialogue.tscn" id="3_nwe1t"]
 
 [sub_resource type="Gradient" id="Gradient_cfmu5"]
 colors = PackedColorArray(0.133333, 0.133333, 0.133333, 1, 0.133333, 0.133333, 0.133333, 1)
@@ -17,7 +18,7 @@ bg_color = Color(0.314316, 0.314316, 0.314316, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nwe1t"]
 
-[node name="Game-scene" type="Control" node_paths=PackedStringArray("_player1ChartDisplayVBox", "_player2ChartDisplayVBox")]
+[node name="Game-scene" type="Control" node_paths=PackedStringArray("_player1DialogDisplayVBox", "_player2DialogDisplayVBox")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,8 +28,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ko4ld")
 _selectScene = ExtResource("2_nwe1t")
-_player1ChartDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel/ScrollContainer/Player1ChartDisplayVBox")
-_player2ChartDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel/ScrollContainer/Player2ChartDisplayVBox")
+_dialogue = ExtResource("3_nwe1t")
+_player1DialogDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel/Player1ChartDisplayVBox")
+_player2DialogDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel/Player2ChartDisplayVBox")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -56,7 +58,9 @@ alignment = 1
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/margin_left = 5
 theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="Player1ChartDisplayPanel" type="Panel" parent="VBoxContainer/HBoxContainer2/MarginContainer"]
 custom_minimum_size = Vector2(250, 350)
@@ -64,18 +68,14 @@ layout_mode = 2
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ko4ld")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Player1ChartDisplayVBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel/ScrollContainer"]
+[node name="Player1ChartDisplayVBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel"]
+clip_contents = true
 layout_mode = 2
+offset_right = 250.0
+offset_bottom = 350.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+alignment = 2
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/HBoxContainer2"]
 layout_mode = 2
@@ -107,6 +107,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_ko4ld")
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="PLayer2ChartDisplayPanel" type="Panel" parent="VBoxContainer/HBoxContainer2/MarginContainer4"]
 custom_minimum_size = Vector2(250, 350)
@@ -114,15 +116,11 @@ layout_mode = 2
 size_flags_vertical = 8
 theme_override_styles/panel = SubResource("StyleBoxEmpty_nwe1t")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Player2ChartDisplayVBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel/ScrollContainer"]
+[node name="Player2ChartDisplayVBox" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel"]
+clip_contents = true
 layout_mode = 2
+offset_right = 250.0
+offset_bottom = 350.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+alignment = 2
