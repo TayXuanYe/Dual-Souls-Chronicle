@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public partial class CharacterDataManager : Node
 {
     public static CharacterDataManager Instance;
-    public List<(CharacterDto character, int id)> Characters = new List<(CharacterDto character, int id)>();
+    public Dictionary<int, CharacterDto> Characters = new Dictionary<int, CharacterDto>();
 
     public override void _Ready()
     {

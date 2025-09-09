@@ -79,7 +79,6 @@ public partial class GameScene : Control
 						else
 						{
 							SignalManager.Instance.EmitChatSignal(messageText, _id);
-							// EmitSignal(SignalName.DisplayDialog, messageText, _id);
 							GD.Print($"EmitSignal: {messageText},{_id}");
 						}
 					}
@@ -182,6 +181,17 @@ public partial class GameScene : Control
 		}
 
 		AddChild(selectScene);
+
+		if (_player1DataPanel is PlayerDataPanel player1DataPanelScript)
+		{
+			player1DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters[1].CharacterName;
+		}
+
+		if (_player2DataPanel is PlayerDataPanel player2DataPanelScript)
+		{
+			player2DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters[2].CharacterName;
+		}
+
 		_ = StartGetChartMessageAsync();
 
 		_isInit = true;

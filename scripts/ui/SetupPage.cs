@@ -95,7 +95,7 @@ public partial class SetupPage : Control
 			GD.Print($"Live linked in sub viewport {_id}");
 			CharacterDto characterDto = new CharacterDto();
 			characterDto.CharacterName = _nameInput.Text.Trim();
-			CharacterDataManager.Instance.Characters.Add((characterDto,_id));
+			CharacterDataManager.Instance.Characters.Add(_id, characterDto);
 			//redirect to another scene
 			mainNode.RedirectTo(_id, "LoadingPage");
 		}
