@@ -8,6 +8,8 @@ public partial class SetupPage : Control
 	[Export] private TextEdit _videoIdInput;
 	[Export] private Label _urlInputErrorLabel;
 	[Export] private Button _submitButton;
+	[Export] private TextEdit _nameInput;
+	[Export] private Label _nameErrorLabel;
 
 	public override void _Ready()
 	{
@@ -21,7 +23,7 @@ public partial class SetupPage : Control
 				parentViewport = viewport;
 				break;
 			}
-			current = current.GetParent(); 
+			current = current.GetParent();
 		}
 
 		if (parentViewport != null)
@@ -48,6 +50,16 @@ public partial class SetupPage : Control
 		if (isRequestSend)
 		{
 			return;
+		}
+
+		if(string.IsNullOrWhiteSpace(_nameInput.Text))
+		{
+			_nameErrorLabel.Text = "Name cannot be null or empty.";
+			return;
+		}
+		else
+		{
+			_nameErrorLabel.Text = "";
 		}
 		
 		if (string.IsNullOrWhiteSpace(_videoIdInput.Text))
@@ -81,6 +93,9 @@ public partial class SetupPage : Control
 		if (isSuccessInit)
 		{
 			GD.Print($"Live linked in sub viewport {_id}");
+			CharacterDto characterDto = new CharacterDto();
+			characterDto.CharacterName = _nameInput.Text.Trim();
+			CharacterDataManager.Instance.Characters.Add(_id, characterDto);
 			//redirect to another scene
 			mainNode.RedirectTo(_id, "LoadingPage");
 		}
