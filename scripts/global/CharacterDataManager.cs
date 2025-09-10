@@ -14,7 +14,9 @@ public partial class CharacterDataManager : Node
         100,
         100,
         100,
-        100
+        100,
+        "Average, attack, defense and health are balanced",
+        "res://assests/textures/character/warrior/warrior_normal.png"
     );
     public readonly static CharacterModel Mage = new CharacterModel
     (
@@ -22,7 +24,9 @@ public partial class CharacterDataManager : Node
         50,
         50,
         200,
-        50
+        50,
+        "High damage but super squishy",
+        "res://assests/textures/character/mega/mega_normal.png"
     );
     public readonly static CharacterModel ShieldGuard = new CharacterModel
     (
@@ -30,7 +34,9 @@ public partial class CharacterDataManager : Node
         200,
         200,
         30,
-        200
+        200,
+        "Low damage but super tanky",
+        "res://assests/textures/character/shieldguard/shieldguard_normal.png"
     );
 
     public override void _Ready()

@@ -26,21 +26,26 @@ public class CharacterModel
     public List<BuffModel> Buff { get; set; }
 
     public CharacterModel() { }
-    public CharacterModel(Role characterRole, int hpLimit, int hp, int attack, int defense)
+    public CharacterModel(Role characterRole, int hpLimit, int hp, int attack, int defense, string describe, string imagePath)
     {
         CharacterRole = characterRole;
         HpLimit = hpLimit;
         Hp = hp;
-        this.Attack = attack;
+        Attack = attack;
         Defense = defense;
+        Describe = describe;
+        ImagePath = imagePath;
     }
     public void Init(CharacterModel characterDto)
     {
+        
         CharacterRole = characterDto.CharacterRole;
         HpLimit = characterDto.HpLimit;
         Hp = characterDto.Hp;
         Attack = characterDto.Attack;
         Defense = characterDto.Defense;
+        Describe = characterDto.Describe;
+        ImagePath = characterDto.ImagePath;
     }
     public bool IsAssignRole()
     {
