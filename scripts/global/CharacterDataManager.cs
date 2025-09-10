@@ -49,10 +49,9 @@ public partial class CharacterDataManager : Node
         SignalManager.Instance.AddBuffCharacter += OnAddBuffCharacterSignalReceipt;
     }
 
-    private void OnSelectCharacterSignalReceipt(string name, string groupName)
+    private void OnSelectCharacterSignalReceipt(string role, string groupName)
     {
         if (!Characters.ContainsKey(groupName)) { return; }
-        string role = name.Replace(" ","");
         var characterDto = Characters[groupName];
         CharacterModel.Role roleEnum;
         if (Enum.TryParse(role, true, out roleEnum))

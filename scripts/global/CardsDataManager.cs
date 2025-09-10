@@ -22,10 +22,11 @@ public partial class CardsDataManager : Node
 		foreach (var buffData in BuffManager.Instance.Buffs)
 		{
 			string id = $"card_{buffData.Value.Id}";
+			string carryData = buffData.Value.Id;
 			string name = buffData.Value.Name;
 			string describe = buffData.Value.Describe;
 			string imagePath = buffData.Value.ImagePath;
-			var card1 = new CardModel(id, name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+			var card1 = new CardModel(id, carryData, name, ResourceLoader.Load<Texture2D>(imagePath), describe);
 			BuffCards.Add((card1, false));
 		}
 	}
@@ -69,12 +70,13 @@ public partial class CardsDataManager : Node
 	private CardModel ConvertCharacterModelToCardModel(CharacterModel characterModel)
 	{
 		string cardId = $"card_{characterModel.Id}";
+		CharacterModel.Role carryData = characterModel.CharacterRole;
 		string name = characterModel.CharacterName;
 		string describe = characterModel.Describe;
 		string imagePath = characterModel.ImagePath;
 		Texture2D imageTexture = ResourceLoader.Load<Texture2D>(imagePath);
 
-		CardModel cardModel = new CardModel(cardId, name, imageTexture, describe);
+		CardModel cardModel = new CardModel(cardId, carryData.ToString(), name, imageTexture, describe);
 		return cardModel;
 	}
 	private string parentGroup1SelectBuffCardId;

@@ -13,11 +13,14 @@ public partial class Card : VBoxContainer
 	private StyleBoxFlat _baseStyleBox;
 	private (Node node, CardFiller script) _cardFillerInstance;
 	public string Id { get; set; }
+	public string CarryData { get; set; }
 
-	public void Init(CardModel cardDto, string type)
+	public void Init(CardModel cardModel, string type)
 	{
 		if (_isInit) { return; }
 		type = type.ToLower();
+		Id = cardModel.Id;
+		CarryData = cardModel.CarryData;
 		switch (type)
 		{
 			case "buff":
@@ -35,7 +38,7 @@ public partial class Card : VBoxContainer
 				}
 				break;
 		}
-		SetCardFillerDetails(cardDto);
+		SetCardFillerDetails(cardModel);
 		AddChild(_cardFillerInstance.node);
 		_isInit = true;
 	}
