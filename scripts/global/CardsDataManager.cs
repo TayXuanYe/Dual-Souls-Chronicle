@@ -65,7 +65,7 @@ public partial class CardsDataManager : Node
 		returnValue.Add(ConvertCharacterModelToCardModel(CharacterDataManager.Warrior));
 		returnValue.Add(ConvertCharacterModelToCardModel(CharacterDataManager.Mage));
 		returnValue.Add(ConvertCharacterModelToCardModel(CharacterDataManager.ShieldGuard));
-		return null;
+		return returnValue;
 	}
 	private CardModel ConvertCharacterModelToCardModel(CharacterModel characterModel)
 	{
