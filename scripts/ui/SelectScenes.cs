@@ -16,7 +16,7 @@ public partial class SelectScenes : VBoxContainer
 	private float _width = 960;
 	private int _voteTotalCount;
 	private double _voteTimeCountdown;
-	private string _parrentGroupName;
+	private string _parentGroupName;
 	private int _selectAmount;
 	string _type;
 	private bool _isInit = false;
@@ -118,10 +118,10 @@ public partial class SelectScenes : VBoxContainer
 		switch (type)
 		{
 			case "buff":
-				SignalManager.Instance.EmitSelectBuffSignal(id, _parrentGroupName);
+				SignalManager.Instance.EmitSelectBuffSignal(id, _parentGroupName);
 				break;
 			case "character":
-				SignalManager.Instance.EmitSelectCharacterSignal(id, _parrentGroupName);
+				SignalManager.Instance.EmitSelectCharacterSignal(id, _parentGroupName);
 				break;
 		}
 	}
