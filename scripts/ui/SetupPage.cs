@@ -3,7 +3,7 @@ using System;
 
 public partial class SetupPage : Control
 {
-	private int _id;
+	private string _parrentGroupName;
 	private string _videoId;
 	[Export] private TextEdit _videoIdInput;
 	[Export] private Label _urlInputErrorLabel;
@@ -14,36 +14,14 @@ public partial class SetupPage : Control
 	public override void _Ready()
 	{
 		_submitButton.Pressed += OnSubmitButtonPressed;
-		Node current = this;
-		SubViewport parentViewport = null;
-		while (current != null)
+		_parrentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
+		if (string.IsNullOrEmpty(_parrentGroupName))
 		{
-			if (current is SubViewport viewport)
-			{
-				parentViewport = viewport;
-				break;
-			}
-			current = current.GetParent();
+			GD.Print("Parent group name is null or empty");
+			return;
 		}
+	}
 
-		if (parentViewport != null)
-		{
-			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data");
-			if (dataNode != null)
-			{
-				_id = dataNode.Id;
-				GD.Print($"Init id:{_id}");
-			}
-			else
-			{
-				GD.Print($"Init id: fail");
-			}
-		}
-		else
-		{
-			GD.Print($"Owner not found");
-		}
-	} 
 	private bool _isRequestSend = false;
 	private void OnSubmitButtonPressed()
 	{
@@ -79,25 +57,18 @@ public partial class SetupPage : Control
 	{
 		_isRequestSend = true;
 		var mainNode = GetNode<Main>("/root/Loader/Main");
-		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()},_id{_id}");
+		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()}, Parent Group: {_parrentGroupName}");
 		bool isSuccessInit = false;
-		if (_id == 1)
-		{
-			isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager1(videoId);
-		}
-		else if (_id == 2)
-		{
-			isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager2(videoId);
-		}
+		isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager(videoId, _parrentGroupName);
 
 		if (isSuccessInit)
 		{
-			GD.Print($"Live linked in sub viewport {_id}");
-			CharacterDto characterDto = new CharacterDto();
-			characterDto.CharacterName = _nameInput.Text.Trim();
-			CharacterDataManager.Instance.Characters.Add(_id, characterDto);
+			GD.Print($"Live linked in sub viewport {_parrentGroupName}");
+			CharacterModel characterModel = new CharacterModel();
+			characterModel.CharacterName = _nameInput.Text.Trim();
+			CharacterDataManager.Instance.Characters.Add(_parrentGroupName, characterModel);
 			//redirect to another scene
-			mainNode.RedirectTo(_id, "LoadingPage");
+			mainNode.RedirectTo(_parrentGroupName, "LoadingPage");
 		}
 		else
 		{

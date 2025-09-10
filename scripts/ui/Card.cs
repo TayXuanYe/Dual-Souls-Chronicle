@@ -4,46 +4,47 @@ using System.Diagnostics;
 
 public partial class Card : VBoxContainer
 {
-	[Export] private Label _nameLabel;
-	[Export] private TextureRect _imageTextureRect;
-	[Export] private Label _describeLabel;
-	[Export] private Panel _cardPanel;
-	[Export] private Panel _imageContainerPanel;
-	[Export] VBoxContainer _container;
+	[Export] private PackedScene _buffFiller;
+	[Export] private PackedScene _characterFiller;
+
+
 	private bool _isInit = false;
 	public bool IsSelect = false;
 	private StyleBoxFlat _baseStyleBox;
+	private (Node node, CardFiller script) _cardFillerInstance;
 	public string Id { get; set; }
 
-	public void Init(CardDto cardDto, string type)
+	public void Init(CardModel cardDto, string type)
 	{
 		if (_isInit) { return; }
+		type = type.ToLower();
 		switch (type)
 		{
 			case "buff":
+				var buffNode = _buffFiller.Instantiate();
+				if (buffNode is CardFiller buffscript)
+				{
+					_cardFillerInstance = (buffNode, buffscript);
+				}
 				break;
 			case "character":
-				_container.MoveChild(_nameLabel, 1);
+				var characterBuff = _characterFiller.Instantiate();
+				if (characterBuff is CardFiller characterScript)
+				{
+					_cardFillerInstance = (characterBuff, characterScript);
+				}
 				break;
 		}
-
-		Id = cardDto.Id;
-		_nameLabel.Text = cardDto.Name;
-		_imageTextureRect.Texture = cardDto.ImageTexture;
-		_describeLabel.Text = cardDto.Describe;
-
-		if (_cardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)
-		{
-			_baseStyleBox = (StyleBoxFlat)styleBox.Duplicate();
-			_cardPanel.AddThemeStyleboxOverride("panel", _baseStyleBox);
-		}
-
+		SetCardFillerDetails(cardDto);
+		AddChild(_cardFillerInstance.node);
 		_isInit = true;
 	}
 
-	public override void _Ready()
+	private void SetCardFillerDetails(CardModel cardDto)
 	{
-		Visible = true;
+		_cardFillerInstance.script.NameLabel.Text = cardDto.CardName;
+		_cardFillerInstance.script.DescribeLabel.Text = cardDto.Describe;
+		_cardFillerInstance.script.ImageTextureRect.Texture = cardDto.ImageTexture;
 	}
 
 	public override void _Process(double delta)
@@ -51,7 +52,7 @@ public partial class Card : VBoxContainer
 		if (!_isInit) { return; }
 		if (IsSelect)
 		{
-			if (_cardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)
+			if (_cardFillerInstance.script.CardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)
 			{
 				styleBox.BorderColor = new Color(1, 0, 0);
 
@@ -63,7 +64,7 @@ public partial class Card : VBoxContainer
 		}
 		else
 		{
-			if (_cardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)
+			if (_cardFillerInstance.script.CardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)
 			{
 				styleBox.BorderColor = new Color("#FFFFFFFF");
 

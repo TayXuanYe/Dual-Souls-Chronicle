@@ -1,57 +1,57 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 public partial class SelectScenes : VBoxContainer
 {
 	[Export] private PackedScene _voteBarScene;
 	[Export] private PackedScene _cardScene;
-
 	[Export] private Label _votingTimeLabel;
 	[Export] private HBoxContainer _cardContainer;
 	[Export] private HBoxContainer _voteBarContainer;
-	private float _width = 960;
-	private int _voteTotalCount;
+	
 	private List<(Node node, VoteBar script)> _voteBarList = new List<(Node node, VoteBar script)>();
 	private List<(Node node, Card script)> _cardList = new List<(Node node, Card script)>();
+	private float _width = 960;
+	private int _voteTotalCount;
 	private double _voteTimeCountdown;
-	private bool _isInit = false;
-	private int _id;
-	private int _cardAmount = 0;
+	private string _parrentGroupName;
+	private int _selectAmount;
 	string _type;
+	private bool _isInit = false;
 
-	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type, int randomSeed)
+	public void Init(double voteTime,int selectAmount, string[] voteBarColors, string type, int randomSeed)
 	{
 		if (_isInit) { return; }
-		_id = id;
-		GD.Print("select scene init id" + id);
+		if(voteBarColors.Length != selectAmount) { return; }
+
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
-		_cardAmount = cardAmount;
+		_selectAmount = selectAmount;
 		_type = type;
-		foreach (string voteBarColor in voteBarColors)
-		{
-			Node voteBar = _voteBarScene.Instantiate();
-			if (voteBar is VoteBar voteBarScript)
-			{
-				voteBarScript.Init(new Color(voteBarColor));
-				_voteBarList.Add((voteBar, voteBarScript));
-				_voteBarContainer.AddChild(voteBar);
-			}
-		}
-		List<CardDto> cardsData = new List<CardDto>();
+
+		InitVoteBar(voteBarColors);
+		InitCards(_selectAmount, type, randomSeed);
+
+		_isInit = true;
+	}
+	private void InitCards(int selectAmount, string type, int randomSeed)
+	{
+		List<CardModel> cardsData = new List<CardModel>();
 		switch (type)
 		{
 			case "buff":
-				cardsData = CardsDataManager.Instance.GetBuffCards(cardAmount, randomSeed);
+				cardsData = CardsDataManager.Instance.GetBuffCards(selectAmount, randomSeed);
 				break;
 			case "character":
-				cardsData = CardsDataManager.Instance.GetCharacterCards();
+				cardsData = CardsDataManager.Instance.GetCharacterCards(selectAmount, randomSeed);
 				break;
 			default:
 				break;
 		}
-		foreach (CardDto cardDto in cardsData)
+		
+		foreach (CardModel cardDto in cardsData)
 		{
 			Node card = _cardScene.Instantiate();
 			if (card is Card cardScript)
@@ -62,10 +62,20 @@ public partial class SelectScenes : VBoxContainer
 				_cardContainer.AddChild(card);
 			}
 		}
-
-		_isInit = true;
 	}
-	
+	private void InitVoteBar(string[] voteBarColors)
+	{
+		for (int i = 0; i < voteBarColors.Length; i++)
+		{
+			Node voteBarNode = _voteBarScene.Instantiate();
+			if (voteBarNode is VoteBar voteBarScript)
+			{
+				voteBarScript.Init(new Color(voteBarColors[i]), i.ToString());
+				_voteBarList.Add((voteBarNode, voteBarScript));
+				_voteBarContainer.AddChild(voteBarNode);
+			}
+		}
+	}
 	public override void _Process(double delta)
 	{
 		if (!_isInit) { return; }
@@ -100,12 +110,18 @@ public partial class SelectScenes : VBoxContainer
 
 		//signal id temp use print
 		isOnVoteTimeCountdownTrigger = true;
-		switch (_type)
+		EmitSignalByType(_type, id);
+	}
+
+	private void EmitSignalByType(string type, string id)
+	{
+		switch (type)
 		{
 			case "buff":
+				SignalManager.Instance.EmitSelectBuffSignal(id, _parrentGroupName);
 				break;
 			case "character":
-				SignalManager.Instance.EmitSelectCharacterSignal(id, _id);
+				SignalManager.Instance.EmitSelectCharacterSignal(id, _parrentGroupName);
 				break;
 		}
 	}
@@ -126,19 +142,18 @@ public partial class SelectScenes : VBoxContainer
 			_cardList[count].script.IsSelect = false;
 			count++;
 		}
-
 		_cardList[maxCountIndex].script.IsSelect = true;
 	}
 
 	public void UpdateVoteCount(int[] voteCounts)
 	{
 		if(!_isInit) { return; }
-		int count = 0;
-		foreach (int voteCount in voteCounts)
+		if(voteCounts.Length != _selectAmount) { return; }
+
+		for (int i = 0; i < voteCounts.Length; i++)
 		{
-			_voteBarList[count].script.VoteCount += voteCount;
-			_voteTotalCount += voteCount;
-			count++;
+			_voteBarList[i].script.VoteCount = voteCounts[i];
+			_voteTotalCount += voteCounts[i];
 		}
 	}
 

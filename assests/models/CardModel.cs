@@ -1,17 +1,17 @@
 using Godot;
 using System;
 
-public class CardDto
+public class CardModel
 {
     public string Id { get; set; }
-    public string Name { get; set; }
+    public string CardName { get; set; }
     public Texture2D ImageTexture { get; set; }
     public string Describe;
 
-    public CardDto(string id,string name, Texture2D imageTexture, string describe)
+    public CardModel(string id,string name, Texture2D imageTexture, string describe)
     {
         Id = id;
-        Name = name;
+        CardName = name;
         ImageTexture = imageTexture;
         Describe = describe;
     }

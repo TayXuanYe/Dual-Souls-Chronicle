@@ -6,27 +6,27 @@ using System.Collections.Generic;
 public partial class CharacterDataManager : Node
 {
     public static CharacterDataManager Instance;
-    public Dictionary<int, CharacterDto> Characters = new Dictionary<int, CharacterDto>();
+    public Dictionary<string, CharacterModel> Characters = new Dictionary<string, CharacterModel>();
 
-    private readonly static CharacterDto _warrior = new CharacterDto
+    private readonly static CharacterModel _warrior = new CharacterModel
     (
-        CharacterDto.Role.Warrior,
+        CharacterModel.Role.Warrior,
         100,
         100,
         100,
         100
     );
-    private readonly static CharacterDto _mage = new CharacterDto
+    private readonly static CharacterModel _mage = new CharacterModel
     (
-        CharacterDto.Role.Mage,
+        CharacterModel.Role.Mage,
         50,
         50,
         200,
         50
     );
-    private readonly static CharacterDto _shieldGuard = new CharacterDto
+    private readonly static CharacterModel _shieldGuard = new CharacterModel
     (
-        CharacterDto.Role.ShieldGuard,
+        CharacterModel.Role.ShieldGuard,
         200,
         200,
         30,
@@ -39,29 +39,29 @@ public partial class CharacterDataManager : Node
         SignalManager.Instance.SelectCharacter += OnSelectCharacterSignalReceipt;
     }
 
-    private void OnSelectCharacterSignalReceipt(string roleData, int id)
+    private void OnSelectCharacterSignalReceipt(string roleData, string groupName)
     {
-        if (!Characters.ContainsKey(id)) { return; }
+        if (!Characters.ContainsKey(groupName)) { return; }
         string role = roleData.Split('_')[1];
-        var characterDto = Characters[id];
-        CharacterDto.Role roleEnum;
+        var characterDto = Characters[groupName];
+        CharacterModel.Role roleEnum;
         if (Enum.TryParse(role, true, out roleEnum))
         {
             InitCharacter(characterDto, roleEnum);
         }
     }
 
-    private void InitCharacter(CharacterDto characterDto, CharacterDto.Role role)
+    private void InitCharacter(CharacterModel characterDto, CharacterModel.Role role)
     {
         switch (role)
         {
-            case CharacterDto.Role.Warrior:
+            case CharacterModel.Role.Warrior:
                 characterDto.Init(_warrior);
                 break;
-            case CharacterDto.Role.Mage:
+            case CharacterModel.Role.Mage:
                 characterDto.Init(_mage);
                 break;
-            case CharacterDto.Role.ShieldGuard:
+            case CharacterModel.Role.ShieldGuard:
                 characterDto.Init(_shieldGuard);
                 break;
             default:

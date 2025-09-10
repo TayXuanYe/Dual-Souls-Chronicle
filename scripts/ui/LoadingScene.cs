@@ -5,11 +5,11 @@ public partial class LoadingScene : Control
 {
 	[Export] private Label _viewport1ReadyLabel;
 	[Export] private Label _viewport2ReadyLabel;
-	private int _id;
+	private string _parrentGroupName;
 
 	public override void _Process(double delta)
 	{
-		if (YoutubeManager.IsYoutubeServices1Ready)
+		if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport1"))
 		{
 			_viewport1ReadyLabel.Text = "Viewport 1: Ready";
 		}
@@ -18,7 +18,7 @@ public partial class LoadingScene : Control
 			_viewport1ReadyLabel.Text = "Viewport 1: Not ready";
 		}
 
-		if (YoutubeManager.IsYoutubeServices2Ready)
+		if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport2"))
 		{
 			_viewport2ReadyLabel.Text = "Viewport 2: Ready";
 		}
@@ -28,40 +28,10 @@ public partial class LoadingScene : Control
 		}
 		
 	}
-	
+
 	public override void _Ready()
 	{
-		Node current = this;
-		SubViewport parentViewport = null;
-		int count = 0;
-		while (current != null)
-		{
-			if (current is SubViewport viewport)
-			{
-				parentViewport = viewport;
-				break;
-			}
-			current = current.GetParent();
-			GD.Print($"Finding {current.Name}, count {count++}");
-		}
-
-		if (parentViewport != null)
-		{
-			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data");
-			if (dataNode != null)
-			{
-				_id = dataNode.Id;
-				GD.Print($"Init id:{_id}");
-			}
-			else
-			{
-				GD.Print($"Init id: fail");
-			}
-		}
-		else
-		{
-			GD.Print($"Owner not found");
-		}
+		_parrentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
 	}
 
 	public override void _Input(InputEvent @event)
@@ -71,11 +41,10 @@ public partial class LoadingScene : Control
 			if (keyEvent.Keycode != Key.P) { return; }
 			GD.Print("KEY P PRESS");
 			var mainNode = GetNode<Main>("/root/Loader/Main");
-			if (YoutubeManager.IsYoutubeServices1Ready && YoutubeManager.IsYoutubeServices2Ready)
+			if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport1") && YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport2"))
 			{
-				mainNode.RedirectTo(_id, "GamePage");
+				mainNode.RedirectTo(_parrentGroupName, "GamePage");
 			}
-
 		}
 	}
 

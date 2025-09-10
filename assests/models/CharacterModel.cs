@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class CharacterDto
+public class CharacterModel
 {
     public string CharacterName { get; set; }
     public enum Role
@@ -14,10 +14,10 @@ public class CharacterDto
     public int Hp { get; set; }
     public int Attack { get; set; }
     public int Defense { get; set; }
-    public List<string> Buff { get; set; }
+    public List<BuffModel> Buff { get; set; }
 
-    public CharacterDto() { }
-    public CharacterDto(Role characterRole, int hpLimit, int hp, int attack, int defense)
+    public CharacterModel() { }
+    public CharacterModel(Role characterRole, int hpLimit, int hp, int attack, int defense)
     {
         CharacterRole = characterRole;
         HpLimit = hpLimit;
@@ -25,7 +25,7 @@ public class CharacterDto
         Attack = attack;
         Defense = defense;
     }
-    public void Init(CharacterDto characterDto)
+    public void Init(CharacterModel characterDto)
     {
         CharacterRole = characterDto.CharacterRole;
         HpLimit = characterDto.HpLimit;

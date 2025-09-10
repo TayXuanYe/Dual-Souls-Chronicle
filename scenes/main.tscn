@@ -23,7 +23,7 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="SubViewport1" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport1" type="SubViewport" parent="SubViewportContainer" groups=["IsInViewport1"]]
 handle_input_locally = false
 size = Vector2i(960, 720)
 render_target_update_mode = 4
@@ -35,7 +35,7 @@ offset_left = 960.0
 offset_right = 1920.0
 offset_bottom = 540.0
 
-[node name="SubViewport2" type="SubViewport" parent="SubViewportContainer2"]
+[node name="SubViewport2" type="SubViewport" parent="SubViewportContainer2" groups=["IsInViewport2"]]
 handle_input_locally = false
 size = Vector2i(960, 720)
 render_target_update_mode = 4

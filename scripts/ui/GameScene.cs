@@ -15,7 +15,7 @@ public partial class GameScene : Control
 	[Export] private Panel _player1DataPanel;
 	[Export] private Panel _player2DataPanel;
 	
-	private int _id;
+	private string _parentGroupName;
 	private bool _isInit = false;
 	private long _pollingIntervalMillis = 0;
 	private (Node node, SelectScenes script) _selectSceneInstant;
@@ -31,63 +31,14 @@ public partial class GameScene : Control
 			try
 			{
 				await Task.Delay(TimeSpan.FromMilliseconds(_pollingIntervalMillis));
-				YoutubeServices service;
-				if (_id == 1)
-				{
-					service = YoutubeManager.YoutubeServices1;
-				}
-				else if (_id == 2)
-				{
-					service = YoutubeManager.YoutubeServices2;
-				}
-				else
-				{
-					return;
-				}
+				YoutubeServices service = YoutubeManager.YoutubeServicesMap[_parentGroupName];
 
 				var (response, newNextPageToken) = await service.GetChatMessagesAsync();
 
 				if (response?.Items != null)
 				{
 					_pollingIntervalMillis = response.PollingIntervalMillis ?? 5000;
-					Dictionary<int, int> votingData = new Dictionary<int, int>();
-					foreach (var message in response.Items)
-					{
-						var messageText = message.Snippet?.DisplayMessage;
-						if (messageText.All(c => char.IsDigit(c) || char.IsWhiteSpace(c)))
-						{
-							messageText.Replace(" ", "");
-							char firstChar = messageText[0];
-							if (firstChar - '0' != 0 || firstChar - '0' < _selectionAmount)
-							{
-								bool foundNotSame = false;
-								for (int i = 1; i < messageText.Count(); i++)
-								{
-									if (messageText[i] != firstChar)
-									{
-										foundNotSame = true;
-										break;
-									}
-								}
-
-								if (!foundNotSame)
-								{
-									votingData.Add(firstChar - '0', 1);
-								}
-							}
-						}
-						else
-						{
-							SignalManager.Instance.EmitChatSignal(messageText, _id);
-							GD.Print($"EmitSignal: {messageText},{_id}");
-						}
-					}
-
-					if (_selectSceneInstant.script != null)
-					{
-						var votesData = votingData.OrderBy(pair => pair.Key).Select(pair => pair.Value).ToArray();
-						_selectSceneInstant.script.UpdateVoteCount(votesData);
-					}
+					ProcessChartResponse(response);
 				}
 			}
 			catch (Exception ex)
@@ -98,11 +49,61 @@ public partial class GameScene : Control
 		}
 	}
 
-	private int maxDialogAmount = 5;
-	public void OnDisplayDialog(string message, int id)
+	private void ProcessChartResponse(LiveChatMessageListResponse response)
 	{
-		GD.Print($"Receive signal in {_id}, {message},{id}");
-		if (id == 1)
+		Dictionary<int, int> votingData = new Dictionary<int, int>();
+		foreach (var message in response.Items)
+		{
+			var messageText = message.Snippet?.DisplayMessage;
+			if (messageText.All(c => char.IsDigit(c) || char.IsWhiteSpace(c)))
+			{
+				var result = JustifyAndConvertVoteMessageValid(messageText);
+				if (result.isValid)
+				{
+					votingData.Add(result.data, 1);
+				}
+			}
+			else
+			{
+				SignalManager.Instance.EmitChatSignal(messageText, _parentGroupName);
+			}
+		}
+		
+		// is select page found if found update vote
+		if (_selectSceneInstant.script != null)
+		{
+			var votesData = votingData.OrderBy(pair => pair.Key).Select(pair => pair.Value).ToArray();
+			_selectSceneInstant.script.UpdateVoteCount(votesData);
+		}
+	}
+
+	private (bool isValid, int data) JustifyAndConvertVoteMessageValid(string message)
+	{
+		message.Replace(" ", "");
+		char firstChar = message[0];
+		if (firstChar - '0' != 0 || firstChar - '0' < _selectionAmount)
+		{
+			bool foundNotSame = false;
+			for (int i = 1; i < message.Count(); i++)
+			{
+				if (message[i] != firstChar)
+				{
+					foundNotSame = true;
+					break;
+				}
+			}
+			if (!foundNotSame)
+			{
+				return (true, firstChar - '0');
+			}
+		}
+		return (false, -1);
+	}
+
+	private int maxDialogAmount = 5;
+	public void OnDisplayDialog(string message, string parentGroupName)
+	{
+		if (parentGroupName == "IsInViewport1")
 		{
 			Node dialog = _dialogue.Instantiate();
 			if (dialog is Dialogue script)
@@ -119,7 +120,7 @@ public partial class GameScene : Control
 				node.QueueFree();
 			}
 		}
-		if (id == 2)
+		if (parentGroupName == "IsInViewport2")
 		{
 			Node dialog = _dialogue.Instantiate();
 			if (dialog is Dialogue script)
@@ -139,44 +140,16 @@ public partial class GameScene : Control
 	}
 	public override void _Ready()
 	{
-		SignalManager.Instance.DisplayDialog  += OnDisplayDialog;
-
 		Size = new Vector2(960, 720);
-		Node current = this;
-		SubViewport parentViewport = null;
-		while (current != null)
-		{
-			if (current is SubViewport viewport)
-			{
-				parentViewport = viewport;
-				break;
-			}
-			current = current.GetParent();
-		}
 
-		if (parentViewport != null)
-		{
-			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data");
-			if (dataNode != null)
-			{
-				_id = dataNode.Id;
-				GD.Print($"Init id:{_id}");
-			}
-			else
-			{
-				GD.Print($"Init id: fail");
-			}
-		}
-		else
-		{
-			GD.Print($"Owner not found");
-		}
+		SignalManager.Instance.DisplayDialog  += OnDisplayDialog;
+		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
 
 		Node selectScene = _selectScene.Instantiate();
 		if (selectScene is SelectScenes selectSceneScript)
 		{
 			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
-			selectSceneScript.Init(_id, 10, colors, 3, "character", 1);
+			selectSceneScript.Init(10, 3, colors, "buff", 1);
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 
@@ -184,12 +157,12 @@ public partial class GameScene : Control
 
 		if (_player1DataPanel is PlayerDataPanel player1DataPanelScript)
 		{
-			player1DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters[1].CharacterName;
+			player1DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].CharacterName;
 		}
 
 		if (_player2DataPanel is PlayerDataPanel player2DataPanelScript)
 		{
-			player2DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters[2].CharacterName;
+			player2DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].CharacterName;
 		}
 
 		_ = StartGetChartMessageAsync();

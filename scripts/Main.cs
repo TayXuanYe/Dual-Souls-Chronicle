@@ -14,6 +14,21 @@ public partial class Main : Control
 	public override void _Ready()
 	{
 		// get api key
+		if (!GetApiKey())
+		{
+			return;
+		}
+
+		// create setup page and add to sub viewpoint
+		Node setupScene1 = _setupScene.Instantiate();
+		_subViewport1.AddChild(setupScene1);
+
+		Node setupScene2 = _setupScene.Instantiate();
+		_subViewport2.AddChild(setupScene2);
+	}
+
+	public bool GetApiKey()
+	{
 		string configPath = "res://config.json";
 		Config config = null;
 		try
@@ -28,40 +43,28 @@ public partial class Main : Control
 		{
 			GD.PrintErr($"Error: Config not found: {configPath}");
 			GetTree().Quit();
-			return;
+			return false;
 		}
 		catch (JsonException e)
 		{
 			GD.PrintErr($"Error: Failed to parse the configuration file. Please check if the format of {configPath} is correct. Details: {e.Message}");
 			GetTree().Quit();
-			return;
+			return false;
 		}
 
 		if (config == null || string.IsNullOrWhiteSpace(config.YoutubeApiKey))
 		{
 			GD.PrintErr("Error: The configuration file content is invalid, API Key is missing.");
 			GetTree().Quit();
-			return;
+			return false;
 		}
 		GD.Print("Configuration read successfully, API Key loaded.");
 		YoutubeManager.Instance.YoutubeApiKey = config.YoutubeApiKey;
-		// create setup page and add to sub viewpoint
-		ViewportData viewportData1 = new ViewportData();
-		viewportData1.Id = 1;
-		viewportData1.Name = "Data";
-		_subViewport1.AddChild(viewportData1);
-		Node setupScene1 = _setupScene.Instantiate();
-		_subViewport1.AddChild(setupScene1);
 
-		ViewportData viewportData2 = new ViewportData();
-		viewportData2.Id = 2;
-		viewportData2.Name = "Data";
-		_subViewport2.AddChild(viewportData2);
-		Node setupScene2 = _setupScene.Instantiate();
-		_subViewport2.AddChild(setupScene2);
+		return true;
 	}
 
-	public void RedirectTo(int viewportId, string pageName)
+	public void RedirectTo(string groupName, string pageName)
 	{
 		GD.Print("REDIRECT PROGRESS");
 		Node page = null;
@@ -77,20 +80,20 @@ public partial class Main : Control
 		if (page == null) { return; }
 		GD.Print($"REDIRECT TO {page.Name}");
 
-		Node targetViewport;
-		if (viewportId == 1)
+		Node targetViewport = new Node();
+		switch (groupName)
 		{
-			targetViewport = _subViewport1;
+			case "IsInViewport1":
+				targetViewport = _subViewport1;
+				break;
+			case "IsInViewport2":
+				targetViewport = _subViewport2;
+				break;
+			default:
+				break;
+				
 		}
-		else if (viewportId == 2)
-		{
-			targetViewport = _subViewport2;
-		}
-		else
-		{
-			return;
-		}
-
+		GD.Print($"REMOVING NODE {groupName}");
 		var childrenToFree = new Godot.Collections.Array<Node>(targetViewport.GetChildren());
 
 		foreach (Node child in childrenToFree)
@@ -102,7 +105,7 @@ public partial class Main : Control
 				child.QueueFree();
 			}
 		}
-		
+
 		targetViewport.CallDeferred(Node.MethodName.AddChild, page);
 
 		GD.Print("REDIRECT COMPLETED");
