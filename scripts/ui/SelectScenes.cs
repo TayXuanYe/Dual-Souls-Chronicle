@@ -6,49 +6,50 @@ public partial class SelectScenes : VBoxContainer
 {
 	[Export] private PackedScene _voteBarScene;
 	[Export] private PackedScene _cardScene;
-
 	[Export] private Label _votingTimeLabel;
 	[Export] private HBoxContainer _cardContainer;
 	[Export] private HBoxContainer _voteBarContainer;
-	private float _width = 960;
-	private int _voteTotalCount;
+	
 	private List<(Node node, VoteBar script)> _voteBarList = new List<(Node node, VoteBar script)>();
 	private List<(Node node, Card script)> _cardList = new List<(Node node, Card script)>();
+	private float _width = 960;
+	private int _voteTotalCount;
 	private double _voteTimeCountdown;
-	private bool _isInit = false;
-	private int _id;
-	private int _cardAmount = 0;
+	private string _parrentGroupName;
+	private int _selectAmount;
 	string _type;
+	private bool _isInit = false;
 
-	public void Init(double voteTime, string[] voteBarColors, int cardAmount, string type, int randomSeed)
+	public void Init(double voteTime,int selectAmount, string[] voteBarColors, string type, int randomSeed)
 	{
 		if (_isInit) { return; }
+		if(voteBarColors.Length != selectAmount) { return; }
+
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
-		_cardAmount = cardAmount;
+		_selectAmount = selectAmount;
 		_type = type;
-		foreach (string voteBarColor in voteBarColors)
-		{
-			Node voteBar = _voteBarScene.Instantiate();
-			if (voteBar is VoteBar voteBarScript)
-			{
-				voteBarScript.Init(new Color(voteBarColor));
-				_voteBarList.Add((voteBar, voteBarScript));
-				_voteBarContainer.AddChild(voteBar);
-			}
-		}
+
+		InitVoteBar(voteBarColors);
+		InitCards(_selectAmount, type, randomSeed);
+
+		_isInit = true;
+	}
+	private void InitCards(int selectAmount, string type, int randomSeed)
+	{
 		List<CardModel> cardsData = new List<CardModel>();
 		switch (type)
 		{
 			case "buff":
-				cardsData = CardsDataManager.Instance.GetBuffCards(cardAmount, randomSeed);
+				cardsData = CardsDataManager.Instance.GetBuffCards(selectAmount, randomSeed);
 				break;
 			case "character":
-				cardsData = CardsDataManager.Instance.GetCharacterCards();
+				cardsData = CardsDataManager.Instance.GetCharacterCards(selectAmount, randomSeed);
 				break;
 			default:
 				break;
 		}
+		
 		foreach (CardModel cardDto in cardsData)
 		{
 			Node card = _cardScene.Instantiate();
@@ -60,10 +61,20 @@ public partial class SelectScenes : VBoxContainer
 				_cardContainer.AddChild(card);
 			}
 		}
-
-		_isInit = true;
 	}
-	
+	private void InitVoteBar(string[] voteBarColors)
+	{
+		foreach (string voteBarColor in voteBarColors)
+		{
+			Node voteBar = _voteBarScene.Instantiate();
+			if (voteBar is VoteBar voteBarScript)
+			{
+				voteBarScript.Init(new Color(voteBarColor));
+				_voteBarList.Add((voteBar, voteBarScript));
+				_voteBarContainer.AddChild(voteBar);
+			}
+		}
+	}
 	public override void _Process(double delta)
 	{
 		if (!_isInit) { return; }
@@ -103,7 +114,7 @@ public partial class SelectScenes : VBoxContainer
 			case "buff":
 				break;
 			case "character":
-				SignalManager.Instance.EmitSelectCharacterSignal(id, _id);
+				SignalManager.Instance.EmitSelectCharacterSignal(id, _parrentGroupName);
 				break;
 		}
 	}

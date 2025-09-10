@@ -76,7 +76,7 @@ public partial class CardsDataManager : Node
 
         return returnValue;
     }
-    public List<CardModel> GetCharacterCards()
+    public List<CardModel> GetCharacterCards(int amount, int seed)
     {
 
         return null;
