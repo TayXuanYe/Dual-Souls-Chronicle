@@ -84,11 +84,11 @@ public partial class CharacterDataManager : Node
         {
             if (BuffManager.Instance.Buffs.TryGetValue(buffId, out var buff))
             {
-            character.Buff.Add(buff);
+                character.Buff.Add(buff);
             }
             else
             {
-            GD.PrintErr($"Buff with ID '{buffId}' not found.");
+                GD.PrintErr($"Buff with ID '{buffId}' not found.");
             }
         }
         else
