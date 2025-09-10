@@ -9,7 +9,7 @@ public partial class LoadingScene : Control
 
 	public override void _Process(double delta)
 	{
-		if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewwport1"))
+		if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport1"))
 		{
 			_viewport1ReadyLabel.Text = "Viewport 1: Ready";
 		}
@@ -18,7 +18,7 @@ public partial class LoadingScene : Control
 			_viewport1ReadyLabel.Text = "Viewport 1: Not ready";
 		}
 
-		if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewwport2"))
+		if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport2"))
 		{
 			_viewport2ReadyLabel.Text = "Viewport 2: Ready";
 		}
@@ -41,7 +41,7 @@ public partial class LoadingScene : Control
 			if (keyEvent.Keycode != Key.P) { return; }
 			GD.Print("KEY P PRESS");
 			var mainNode = GetNode<Main>("/root/Loader/Main");
-			if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewwport1") && YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewwport2"))
+			if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport1") && YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport2"))
 			{
 				mainNode.RedirectTo(_parrentGroupName, "GamePage");
 			}

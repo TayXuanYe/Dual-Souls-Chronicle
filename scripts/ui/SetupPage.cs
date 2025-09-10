@@ -59,7 +59,7 @@ public partial class SetupPage : Control
 		var mainNode = GetNode<Main>("/root/Loader/Main");
 		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()}, Parent Group: {_parrentGroupName}");
 		bool isSuccessInit = false;
-		isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager(videoId);
+		isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager(videoId, _parrentGroupName);
 
 		if (isSuccessInit)
 		{

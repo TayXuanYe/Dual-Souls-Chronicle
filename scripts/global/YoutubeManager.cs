@@ -17,9 +17,9 @@ public partial class YoutubeManager : Node
 		_instance = this;
 	}
 
-	public async Task<bool> RegisterYoutubeManager(string videoId)
+	public async Task<bool> RegisterYoutubeManager(string videoId, string parrentGroupName)
 	{
-		if (YoutubeServicesMap.ContainsKey(videoId))
+		if (YoutubeServicesMap.ContainsKey(parrentGroupName))
 		{
 			return true;
 		}
@@ -27,14 +27,14 @@ public partial class YoutubeManager : Node
 		bool isSuccessInit = await youtubeService.InitializeAsync();
 		if (isSuccessInit)
 		{
-			YoutubeServicesMap[videoId] = youtubeService;
+			YoutubeServicesMap[parrentGroupName] = youtubeService;
 			return true;
 		}
 		return false;
 	}
 
-	public bool IsYoutubeManagerRegistered(string videoId)
+	public bool IsYoutubeManagerRegistered(string parrentGroupName)
 	{
-		return YoutubeServicesMap.ContainsKey(videoId);
+		return YoutubeServicesMap.ContainsKey(parrentGroupName);
 	}
 }
