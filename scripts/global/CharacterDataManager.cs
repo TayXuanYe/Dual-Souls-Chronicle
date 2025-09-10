@@ -10,6 +10,7 @@ public partial class CharacterDataManager : Node
 
     public readonly static CharacterModel Warrior = new CharacterModel
     (
+        "Warrior",
         CharacterModel.Role.Warrior,
         100,
         100,
@@ -20,6 +21,7 @@ public partial class CharacterDataManager : Node
     );
     public readonly static CharacterModel Mage = new CharacterModel
     (
+        "Mega",
         CharacterModel.Role.Mage,
         50,
         50,
@@ -30,6 +32,7 @@ public partial class CharacterDataManager : Node
     );
     public readonly static CharacterModel ShieldGuard = new CharacterModel
     (
+        "ShieldGuard",
         CharacterModel.Role.ShieldGuard,
         200,
         200,
@@ -46,10 +49,10 @@ public partial class CharacterDataManager : Node
         SignalManager.Instance.AddBuffCharacter += OnAddBuffCharacterSignalReceipt;
     }
 
-    private void OnSelectCharacterSignalReceipt(string roleData, string groupName)
+    private void OnSelectCharacterSignalReceipt(string name, string groupName)
     {
         if (!Characters.ContainsKey(groupName)) { return; }
-        string role = roleData.Split('_')[1];
+        string role = name.Replace(" ","");
         var characterDto = Characters[groupName];
         CharacterModel.Role roleEnum;
         if (Enum.TryParse(role, true, out roleEnum))

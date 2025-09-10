@@ -45,7 +45,7 @@ public partial class SelectScenes : VBoxContainer
 				cardsData = CardsDataManager.Instance.GetBuffCards(selectAmount, randomSeed);
 				break;
 			case "character":
-				cardsData = CardsDataManager.Instance.GetCharacterCards(selectAmount, randomSeed);
+				cardsData = CardsDataManager.Instance.GetCharacterCards(selectAmount);
 				break;
 			default:
 				break;

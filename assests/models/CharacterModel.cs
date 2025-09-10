@@ -26,8 +26,9 @@ public class CharacterModel
     public List<BuffModel> Buff { get; set; }
 
     public CharacterModel() { }
-    public CharacterModel(Role characterRole, int hpLimit, int hp, int attack, int defense, string describe, string imagePath)
+    public CharacterModel(string name, Role characterRole, int hpLimit, int hp, int attack, int defense, string describe, string imagePath)
     {
+        CharacterName = name;
         CharacterRole = characterRole;
         HpLimit = hpLimit;
         Hp = hp;
