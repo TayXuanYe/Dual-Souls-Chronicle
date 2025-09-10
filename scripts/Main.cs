@@ -80,20 +80,20 @@ public partial class Main : Control
 		if (page == null) { return; }
 		GD.Print($"REDIRECT TO {page.Name}");
 
-		Node targetViewport;
-		if (groupName == "IsInViewwport1")
+		Node targetViewport = new Node();
+		switch (groupName)
 		{
-			targetViewport = _subViewport1;
+			case "IsInViewport1":
+				targetViewport = _subViewport1;
+				break;
+			case "IsInViewport2":
+				targetViewport = _subViewport2;
+				break;
+			default:
+				break;
+				
 		}
-		else if (groupName == "IsInViewport2")
-		{
-			targetViewport = _subViewport2;
-		}
-		else
-		{
-			return;
-		}
-
+		GD.Print($"REMOVING NODE {groupName}");
 		var childrenToFree = new Godot.Collections.Array<Node>(targetViewport.GetChildren());
 
 		foreach (Node child in childrenToFree)

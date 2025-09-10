@@ -17,9 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+SignalManager="*res://scripts/global/SignalManager.cs"
 YoutubeManager="*res://scripts/global/YoutubeManager.cs"
 CardsDataManager="*res://scripts/global/CardsDataManager.cs"
-SignalManager="*res://scripts/global/SignalManager.cs"
 CharacterDataManager="*res://scripts/global/CharacterDataManager.cs"
 
 [display]
