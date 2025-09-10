@@ -15,12 +15,13 @@ border_color = Color(0.980392, 0.588235, 0.709804, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_vfafu"]
 font_size = 17
 
-[node name="VoteBarPanel" type="Panel" node_paths=PackedStringArray("VoteNumberLabel", "VoteBarPanel")]
+[node name="VoteBarPanel" type="Panel" node_paths=PackedStringArray("VoteNumberLabel", "VoteCountLabel", "VoteBarPanel")]
 custom_minimum_size = Vector2(50, 60)
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ikucy")
 script = ExtResource("1_ikucy")
 _color = Color(0, 0.67451, 0, 1)
 VoteNumberLabel = NodePath("VoteBarPanel/VoteNumverLabel")
+VoteCountLabel = NodePath("VoteCountLabel")
 VoteBarPanel = NodePath(".")
 
 [node name="VoteBarPanel" type="Panel" parent="."]
@@ -58,5 +59,5 @@ offset_top = -24.0
 offset_right = 16.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "test"
 label_settings = SubResource("LabelSettings_vfafu")
+horizontal_alignment = 1

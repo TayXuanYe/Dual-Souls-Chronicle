@@ -50,7 +50,7 @@ public partial class SelectScenes : VBoxContainer
 			default:
 				break;
 		}
-		
+
 		foreach (CardModel cardModel in cardsData)
 		{
 			Node card = _cardScene.Instantiate();
@@ -70,7 +70,7 @@ public partial class SelectScenes : VBoxContainer
 			Node voteBarNode = _voteBarScene.Instantiate();
 			if (voteBarNode is VoteBar voteBarScript)
 			{
-				voteBarScript.Init(new Color(voteBarColors[i]), i.ToString());
+				voteBarScript.Init(new Color(voteBarColors[i]), (i+1).ToString());
 				_voteBarList.Add((voteBarNode, voteBarScript));
 				_voteBarContainer.AddChild(voteBarNode);
 			}
@@ -85,7 +85,7 @@ public partial class SelectScenes : VBoxContainer
 			return;
 		}
 		DisplayVotingTime(delta);
-		UpdateVoteBar();
+		UpdateVoteBarSize();
 		UpdateSelectCard();
 	}
 
@@ -159,7 +159,7 @@ public partial class SelectScenes : VBoxContainer
 		}
 	}
 
-	private void UpdateVoteBar()
+	private void UpdateVoteBarSize()
 	{
 		float continuousPosition = 0;
 		if (_voteTotalCount == 0)

@@ -79,23 +79,18 @@ public partial class GameScene : Control
 
 	private (bool isValid, int data) JustifyAndConvertVoteMessageValid(string message)
 	{
-		message.Replace(" ", "");
+		message = message.Replace(" ", "");
 		char firstChar = message[0];
-		if (firstChar - '0' != 0 || firstChar - '0' < _selectionAmount)
+		if (firstChar - '0' >= 1 && firstChar - '0' <= _selectionAmount)
 		{
-			bool foundNotSame = false;
 			for (int i = 1; i < message.Count(); i++)
 			{
 				if (message[i] != firstChar)
 				{
-					foundNotSame = true;
-					break;
+					return (false, -1);
 				}
 			}
-			if (!foundNotSame)
-			{
-				return (true, firstChar - '0');
-			}
+			return (true, firstChar - '0');
 		}
 		return (false, -1);
 	}
