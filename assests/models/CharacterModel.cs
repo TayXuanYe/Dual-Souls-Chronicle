@@ -14,7 +14,7 @@ public class CharacterModel
     public int Hp { get; set; }
     public int Attack { get; set; }
     public int Defense { get; set; }
-    public List<string> Buff { get; set; }
+    public List<BuffModel> Buff { get; set; }
 
     public CharacterModel() { }
     public CharacterModel(Role characterRole, int hpLimit, int hp, int attack, int defense)
