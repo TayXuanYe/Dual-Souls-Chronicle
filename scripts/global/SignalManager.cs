@@ -10,6 +10,10 @@ public partial class SignalManager : Node
 	public delegate void SelectCharacterEventHandler(string roleData, string parentGroupName);
 	[Signal]
 	public delegate void SelectBuffEventHandler(string buffId, string parentGroupName);
+	[Signal]
+	public delegate void AddBuffCharacterEventHandler(string buffId, string parentGroupName);
+	[Signal]
+	public delegate void RemoveBuffCharacterEventHandler(string buffId, string parentGroupName);
 
 	public override void _Ready()
 	{
@@ -34,5 +38,15 @@ public partial class SignalManager : Node
 	public void EmitSelectBuffSignal(string buffId, string parentGroupName)
 	{
 		EmitSignal(SignalName.SelectBuff, buffId, parentGroupName);
+	}
+
+	public void EmitAddBuffCharacterSignal(string buffId, string parentGroupName)
+	{
+		EmitSignal(SignalName.AddBuffCharacter, buffId, parentGroupName);
+	}
+
+	public void EmitRemoveBuffCharacterSignal(string buffId, string parentGroupName)
+	{
+		EmitSignal(SignalName.RemoveBuffCharacter, buffId, parentGroupName);
 	}
 }

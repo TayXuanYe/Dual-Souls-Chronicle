@@ -82,25 +82,26 @@ public partial class CardsDataManager : Node
         return null;
     }
 
-        public void OnSelectBuffSignalReceipt(string cardId, int id)
+    public void OnSelectBuffSignalReceipt(string cardId, string parentGroupName)
+    {
+        for (int i = 0; i < BuffCards.Count; i++)
         {
-            for (int i = 0; i < BuffCards.Count; i++)
+            if (BuffCards[i].card.Id == cardId)
             {
-                if (BuffCards[i].card.Id == cardId)
+                if (BuffCards[i].IsSelect)
                 {
-                    if (BuffCards[i].IsSelect)
-                    {
-                        // signal to show buff destroy effect
-                        break;
-                    }
-                    else
-                    {
-                        // signal add buff
-                        BuffCards[i] = (BuffCards[i].card, true);
-                        
-                        break;
-                    }
+                    // signal to show buff destroy effect
+                    SignalManager.Instance.EmitRemoveBuffCharacterSignal(cardId, parentGroupName);
+                    break;
+                }
+                else
+                {
+                    // signal add buff
+                    SignalManager.Instance.EmitAddBuffCharacterSignal(cardId, parentGroupName);
+                    BuffCards[i] = (BuffCards[i].card, true);
+                    break;
                 }
             }
         }
+    }
 }
