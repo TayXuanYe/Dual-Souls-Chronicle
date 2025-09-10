@@ -8,7 +8,7 @@ public partial class CharacterDataManager : Node
     public static CharacterDataManager Instance;
     public Dictionary<string, CharacterModel> Characters = new Dictionary<string, CharacterModel>();
 
-    private readonly static CharacterModel _warrior = new CharacterModel
+    public readonly static CharacterModel Warrior = new CharacterModel
     (
         CharacterModel.Role.Warrior,
         100,
@@ -16,7 +16,7 @@ public partial class CharacterDataManager : Node
         100,
         100
     );
-    private readonly static CharacterModel _mage = new CharacterModel
+    public readonly static CharacterModel Mage = new CharacterModel
     (
         CharacterModel.Role.Mage,
         50,
@@ -24,7 +24,7 @@ public partial class CharacterDataManager : Node
         200,
         50
     );
-    private readonly static CharacterModel _shieldGuard = new CharacterModel
+    public readonly static CharacterModel ShieldGuard = new CharacterModel
     (
         CharacterModel.Role.ShieldGuard,
         200,
@@ -57,13 +57,13 @@ public partial class CharacterDataManager : Node
         switch (role)
         {
             case CharacterModel.Role.Warrior:
-                characterDto.Init(_warrior);
+                characterDto.Init(Warrior);
                 break;
             case CharacterModel.Role.Mage:
-                characterDto.Init(_mage);
+                characterDto.Init(Mage);
                 break;
             case CharacterModel.Role.ShieldGuard:
-                characterDto.Init(_shieldGuard);
+                characterDto.Init(ShieldGuard);
                 break;
             default:
                 break;
