@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwpyppy8bv58j"
-path="res://.godot/imported/buff_3.png-5fcd3f0f1531c722dc460d4efb4a4fa3.ctex"
+uid="uid://b7ce7mjsp53uj"
+path="res://.godot/imported/buff_knockoff_undying_totem.png-ff9e78825e2d0ab23cf326657ddef51f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assests/textures/buff/buff_3.png"
-dest_files=["res://.godot/imported/buff_3.png-5fcd3f0f1531c722dc460d4efb4a4fa3.ctex"]
+source_file="res://assests/textures/buff/buff_knockoff_undying_totem.png"
+dest_files=["res://.godot/imported/buff_knockoff_undying_totem.png-ff9e78825e2d0ab23cf326657ddef51f.ctex"]
 
 [params]
 

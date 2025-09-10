@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chikcfrjv3384"
-path="res://.godot/imported/buff_4.png-6ae982b6fb980ea892c4b5e14db9cef1.ctex"
+uid="uid://bb5l4g54ngtrd"
+path="res://.godot/imported/buff_sharpness_v.png-884620f1249010360ef329114bdd29cd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assests/textures/buff/buff_4.png"
-dest_files=["res://.godot/imported/buff_4.png-6ae982b6fb980ea892c4b5e14db9cef1.ctex"]
+source_file="res://assests/textures/buff/buff_sharpness_v.png"
+dest_files=["res://.godot/imported/buff_sharpness_v.png-884620f1249010360ef329114bdd29cd.ctex"]
 
 [params]
 

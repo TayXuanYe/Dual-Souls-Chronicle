@@ -18,20 +18,20 @@ public partial class BuffManager : Node
 
     private void LoadBuffs()
     {
-        CreateBuffImpregnable();
+        CreateBuffChestplate();
         CreateBuffSharpIV();
         CreateBuffSharpV();
         CreateBuffRustBlade();
         CreateBuffGoldenApple();
-        CreateBuffVitalityInfusion();
+        CreateBuffGoldenApple();
         CreateBuffKnockoffUndyingTotem();
         CreateBuffShadeCloak();
-        CreateBuffKnockoffUndyingTotem();
+        CreateBuffUndyingTotem();
     }
 
-    private void CreateBuffImpregnable()
+    private void CreateBuffChestplate()
     {
-        string name = "Impregnable";
+        string name = "Chestplate";
         string id = $"card_{name.ToLower()}";
         string describe =
         @"As hard as steel
@@ -115,35 +115,35 @@ public partial class BuffManager : Node
         var buffModel = new BuffModel(id, name, describe, onApply, onRemove, imagePath);
         Buffs.Add(id, buffModel);
     }
-    private void CreateBuffVitalityInfusion()
-    {
-        string name = "Vitality Infusion";
-        string id = $"card_{name.ToLower().Replace(" ", "_")}";
-        string describe =
-        @"A mystical energy flows through your veins
-        HP limit +15
-        HP +15
-        ";
-        Action<CharacterModel> onApply = (CharacterModel character) =>
-        {
-            character.HpLimit += 10;
-            character.Hp += 10;
-        };
-        Action<CharacterModel> onRemove = (CharacterModel character) =>
-        {
-            character.HpLimit -= 10;
-            character.Hp -= 10;
-        };
-        string imagePath = $"res://assests/textures/buff/buff_{name.ToLower().Replace(" ", "_")}.png";
-        var buffModel = new BuffModel(id, name, describe, onApply, onRemove, imagePath);
-        Buffs.Add(id, buffModel);
-    }
     private void CreateBuffGoldenApple()
     {
         string name = "Golden Apple";
         string id = $"card_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"An exquisite apple made of pure gold. 
+        HP limit +15
+        HP +15
+        ";
+        Action<CharacterModel> onApply = (CharacterModel character) =>
+        {
+            character.HpLimit += 15;
+            character.Hp += 15;
+        };
+        Action<CharacterModel> onRemove = (CharacterModel character) =>
+        {
+            character.HpLimit -= 15;
+            character.Hp -= 15;
+        };
+        string imagePath = $"res://assests/textures/buff/buff_{name.ToLower().Replace(" ", "_")}.png";
+        var buffModel = new BuffModel(id, name, describe, onApply, onRemove, imagePath);
+        Buffs.Add(id, buffModel);
+    }
+    private void CreateBuffHealingPotion()
+    {
+        string name = "Healing potion";
+        string id = $"card_{name.ToLower().Replace(" ", "_")}";
+        string describe =
+        @"Instantly restores health upon consumption.
         HP +50
         ";
         Action<CharacterModel> onApply = (CharacterModel character) =>

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnn0hnb3iuiuv"
-path="res://.godot/imported/buff_2.png-c6b15a40c849ccb3780f9a27762c3796.ctex"
+uid="uid://dtl0pbnnnhbsv"
+path="res://.godot/imported/buff_undying_totem.png-a767f84a7e2282ca2087ba003104c094.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assests/textures/buff/buff_2.png"
-dest_files=["res://.godot/imported/buff_2.png-c6b15a40c849ccb3780f9a27762c3796.ctex"]
+source_file="res://assests/textures/buff/buff_undying_totem.png"
+dest_files=["res://.godot/imported/buff_undying_totem.png-a767f84a7e2282ca2087ba003104c094.ctex"]
 
 [params]
 
