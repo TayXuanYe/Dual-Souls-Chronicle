@@ -18,7 +18,7 @@ script = ExtResource("1_17rv8")
 NameLabel = NodePath("MarginContainer/VBoxContainer/NameLabel")
 ImageTextureRect = NodePath("MarginContainer/VBoxContainer/Panel/TextureRect")
 DescribeLabel = NodePath("MarginContainer/VBoxContainer/DescribeLabel")
-CardPanel = NodePath("MarginContainer/VBoxContainer/Panel")
+CardPanel = NodePath(".")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

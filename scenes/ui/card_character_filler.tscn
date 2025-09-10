@@ -11,10 +11,14 @@ corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2rkeb"]
 
-[node name="Card" type="Panel"]
+[node name="Card" type="Panel" node_paths=PackedStringArray("NameLabel", "ImageTextureRect", "DescribeLabel", "CardPanel")]
 custom_minimum_size = Vector2(180, 270)
 theme_override_styles/panel = SubResource("StyleBoxFlat_fxlv7")
 script = ExtResource("1_3nxfv")
+NameLabel = NodePath("MarginContainer/VBoxContainer/NameLabel")
+ImageTextureRect = NodePath("MarginContainer/VBoxContainer/Panel/TextureRect")
+DescribeLabel = NodePath("MarginContainer/VBoxContainer/DescribeLabel")
+CardPanel = NodePath(".")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
