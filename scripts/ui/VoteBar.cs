@@ -5,6 +5,7 @@ public partial class VoteBar : Panel
 {
 	[Export] private Color _color;
 	[Export] public Label VoteNumberLabel;
+	[Export] public Label VoteCountLabel;
 	[Export] public Panel VoteBarPanel;
 	public int VoteCount { get; set; } = 0;
 	private bool _isInit;
@@ -14,10 +15,11 @@ public partial class VoteBar : Panel
 		VoteBarPanel.Modulate = _color;
 		VoteNumberLabel.SelfModulate = new Color("#FFFFFF");
 		VoteNumberLabel.Text = voteNumberText;
+		VoteCountLabel.Text = "0";    
 	}
 
 	public override void _Process(double delta)
 	{
-		VoteNumberLabel.Text = VoteCount.ToString();    
+		VoteCountLabel.Text = VoteCount.ToString();    
 	}
 }
