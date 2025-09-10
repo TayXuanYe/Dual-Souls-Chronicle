@@ -7,7 +7,7 @@ public partial class SignalManager : Node
 	[Signal]
 	public delegate void DisplayDialogEventHandler(string message, int id);
 	[Signal]
-	public delegate void SelectCharacterEventHandler(string roleData, int id);
+	public delegate void SelectCharacterEventHandler(string roleData, string parentGroupName);
 	[Signal]
 	public delegate void SelectBuffEventHandler(string buffId, int id);
 
@@ -26,9 +26,9 @@ public partial class SignalManager : Node
 		EmitSignal(SignalName.DisplayDialog, message, id);
 	}
 
-	public void EmitSelectCharacterSignal(string roleData, int id)
+	public void EmitSelectCharacterSignal(string roleData, string parentGroupName)
 	{
-		EmitSignal(SignalName.SelectCharacter, roleData, id);
+		EmitSignal(SignalName.SelectCharacter, roleData, parentGroupName);
 	}
 
 	public void EmitSelectBuffSignal(string buffId, int id)

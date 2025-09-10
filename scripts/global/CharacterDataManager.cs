@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public partial class CharacterDataManager : Node
 {
     public static CharacterDataManager Instance;
-    public Dictionary<int, CharacterModel> Characters = new Dictionary<int, CharacterModel>();
+    public Dictionary<string, CharacterModel> Characters = new Dictionary<string, CharacterModel>();
 
     private readonly static CharacterModel _warrior = new CharacterModel
     (
@@ -39,11 +39,11 @@ public partial class CharacterDataManager : Node
         SignalManager.Instance.SelectCharacter += OnSelectCharacterSignalReceipt;
     }
 
-    private void OnSelectCharacterSignalReceipt(string roleData, int id)
+    private void OnSelectCharacterSignalReceipt(string roleData, string groupName)
     {
-        if (!Characters.ContainsKey(id)) { return; }
+        if (!Characters.ContainsKey(groupName)) { return; }
         string role = roleData.Split('_')[1];
-        var characterDto = Characters[id];
+        var characterDto = Characters[groupName];
         CharacterModel.Role roleEnum;
         if (Enum.TryParse(role, true, out roleEnum))
         {
