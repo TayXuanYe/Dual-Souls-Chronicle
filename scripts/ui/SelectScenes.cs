@@ -51,12 +51,12 @@ public partial class SelectScenes : VBoxContainer
 				break;
 		}
 		
-		foreach (CardModel cardDto in cardsData)
+		foreach (CardModel cardModel in cardsData)
 		{
 			Node card = _cardScene.Instantiate();
 			if (card is Card cardScript)
 			{
-				cardScript.Init(cardDto, type);
+				cardScript.Init(cardModel, type);
 				_cardList.Add((card, cardScript));
 
 				_cardContainer.AddChild(card);
@@ -94,7 +94,7 @@ public partial class SelectScenes : VBoxContainer
 	{
 		if (isOnVoteTimeCountdownTrigger) { return; }
 
-		string id = "1";
+		string carryData = null;
 		int maxVoteCount = -1;
 		int count = 0;
 		foreach ((Node, VoteBar script) voteBar in _voteBarList)
@@ -103,25 +103,27 @@ public partial class SelectScenes : VBoxContainer
 			if (voteScript.VoteCount > maxVoteCount)
 			{
 				maxVoteCount = voteScript.VoteCount;
-				id = _cardList[count].script.Id;
+				carryData = _cardList[count].script.CarryData;
 			}
 			count++;
 		}
 
 		//signal id temp use print
 		isOnVoteTimeCountdownTrigger = true;
-		EmitSignalByType(_type, id);
+		EmitSignalByType(_type, carryData);
 	}
 
-	private void EmitSignalByType(string type, string id)
+	private void EmitSignalByType(string type, string carryData)
 	{
+		if(string.IsNullOrEmpty(carryData)) { return; }
+		
 		switch (type)
 		{
 			case "buff":
-				SignalManager.Instance.EmitSelectBuffSignal(id, _parentGroupName);
+				SignalManager.Instance.EmitSelectBuffSignal(carryData, _parentGroupName);
 				break;
 			case "character":
-				SignalManager.Instance.EmitSelectCharacterSignal(id, _parentGroupName);
+				SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
 				break;
 		}
 	}
