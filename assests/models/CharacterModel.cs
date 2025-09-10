@@ -2,7 +2,10 @@ using System.Collections.Generic;
 
 public class CharacterModel
 {
+    public string Id { get; set; }
     public string CharacterName { get; set; }
+    public string Describe { get; set; }
+    public string ImagePath { get; set; }
     public enum Role
     {
         None,
@@ -23,21 +26,27 @@ public class CharacterModel
     public List<BuffModel> Buff { get; set; }
 
     public CharacterModel() { }
-    public CharacterModel(Role characterRole, int hpLimit, int hp, int attack, int defense)
+    public CharacterModel(string name, Role characterRole, int hpLimit, int hp, int attack, int defense, string describe, string imagePath)
     {
+        CharacterName = name;
         CharacterRole = characterRole;
         HpLimit = hpLimit;
         Hp = hp;
-        this.Attack = attack;
+        Attack = attack;
         Defense = defense;
+        Describe = describe;
+        ImagePath = imagePath;
     }
     public void Init(CharacterModel characterDto)
     {
+        
         CharacterRole = characterDto.CharacterRole;
         HpLimit = characterDto.HpLimit;
         Hp = characterDto.Hp;
         Attack = characterDto.Attack;
         Defense = characterDto.Defense;
+        Describe = characterDto.Describe;
+        ImagePath = characterDto.ImagePath;
     }
     public bool IsAssignRole()
     {

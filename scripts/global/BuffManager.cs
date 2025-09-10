@@ -32,7 +32,7 @@ public partial class BuffManager : Node
     private void CreateBuffChestplate()
     {
         string name = "Chestplate";
-        string id = $"card_{name.ToLower()}";
+        string id = $"buff_{name.ToLower()}";
         string describe =
         @"As hard as steel
 Defense +20";
@@ -51,7 +51,7 @@ Defense +20";
     private void CreateBuffSharpIV()
     {
         string name = "Sharpness IV";
-        string id = $"card_{name.ToLower().Replace(" ", "_")}";
+        string id = $"buff_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"Any Sharpness V?
 Attack +15";
@@ -70,7 +70,7 @@ Attack +15";
     private void CreateBuffSharpV()
     {
         string name = "Sharpness V";
-        string id = $"card_{name.ToLower().Replace(" ", "_")}";
+        string id = $"buff_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"Yap I am here!
 Attack +20";
@@ -89,7 +89,7 @@ Attack +20";
     private void CreateBuffRustBlade()
     {
         string name = "Rust Blade";
-        string id = $"card_{name.ToLower().Replace(" ", "_")}";
+        string id = $"buff_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"A rusted blade with a vicious edge.
 Attack -10
@@ -114,7 +114,7 @@ CRITDamage +150%";
     private void CreateBuffGoldenApple()
     {
         string name = "Golden Apple";
-        string id = $"card_{name.ToLower().Replace(" ", "_")}";
+        string id = $"buff_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"An exquisite apple made of pure gold. 
 HP limit +15
@@ -136,7 +136,7 @@ HP +15";
     private void CreateBuffHealingPotion()
     {
         string name = "Healing potion";
-        string id = $"card_{name.ToLower().Replace(" ", "_")}";
+        string id = $"buff_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"Instantly restores health upon consumption.
 HP +50";
@@ -162,7 +162,7 @@ HP +50";
     private void CreateBuffKnockoffUndyingTotem()
     {
         string name = "Knockoff Totem";
-        string id = $"card_{name.ToLower().Replace(" ", "_")}";
+        string id = $"buff_{name.ToLower().Replace(" ", "_")}";
         string describe =
         "A cheap imitation of the legendary Undying Totem. It can save you from a fatal blow once.";
         Action<CharacterModel> onApply = (CharacterModel character) =>
@@ -180,7 +180,7 @@ HP +50";
     private void CreateBuffUndyingTotem()
     {
         string name = "Undying Totem";
-        string id = $"card_{name.ToLower().Replace(" ", "_")}";
+        string id = $"buff_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"Averting death and reborn.
 *All buff will be remove.";
@@ -199,7 +199,7 @@ HP +50";
     private void CreateBuffShadeCloak()
     {
         string name = "Shade Cloak";
-        string id = $"card_{name.ToLower().Replace(" ", "_")}";
+        string id = $"buff_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"A cloak woven from pure darkness.
 new Dodge rate +20%";

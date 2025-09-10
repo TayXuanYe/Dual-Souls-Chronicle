@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1wqxte5fu03l"
-path="res://.godot/imported/cleric.png-381c61e2876840f87139cea0170d0cae.ctex"
+uid="uid://xsxbmm54f1ec"
+path="res://.godot/imported/shieldguard_normal.png-049cfa67f69f3b44391f3fcc2ad8ccae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assests/textures/character/cleric.png"
-dest_files=["res://.godot/imported/cleric.png-381c61e2876840f87139cea0170d0cae.ctex"]
+source_file="res://assests/textures/character/shieldguard/shieldguard_normal.png"
+dest_files=["res://.godot/imported/shieldguard_normal.png-049cfa67f69f3b44391f3fcc2ad8ccae.ctex"]
 
 [params]
 

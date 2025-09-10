@@ -3,7 +3,7 @@ using System;
 
 public partial class SetupPage : Control
 {
-	private string _parrentGroupName;
+	private string _parentGroupName;
 	private string _videoId;
 	[Export] private TextEdit _videoIdInput;
 	[Export] private Label _urlInputErrorLabel;
@@ -14,8 +14,8 @@ public partial class SetupPage : Control
 	public override void _Ready()
 	{
 		_submitButton.Pressed += OnSubmitButtonPressed;
-		_parrentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
-		if (string.IsNullOrEmpty(_parrentGroupName))
+		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
+		if (string.IsNullOrEmpty(_parentGroupName))
 		{
 			GD.Print("Parent group name is null or empty");
 			return;
@@ -57,18 +57,19 @@ public partial class SetupPage : Control
 	{
 		_isRequestSend = true;
 		var mainNode = GetNode<Main>("/root/Loader/Main");
-		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()}, Parent Group: {_parrentGroupName}");
+		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()}, Parent Group: {_parentGroupName}");
 		bool isSuccessInit = false;
-		isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager(videoId, _parrentGroupName);
+		isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager(videoId, _parentGroupName);
 
 		if (isSuccessInit)
 		{
-			GD.Print($"Live linked in sub viewport {_parrentGroupName}");
+			GD.Print($"Live linked in sub viewport {_parentGroupName}");
 			CharacterModel characterModel = new CharacterModel();
 			characterModel.CharacterName = _nameInput.Text.Trim();
-			CharacterDataManager.Instance.Characters.Add(_parrentGroupName, characterModel);
+			characterModel.Id = $"character_{_parentGroupName}";
+			CharacterDataManager.Instance.Characters.Add(_parentGroupName, characterModel);
 			//redirect to another scene
-			mainNode.RedirectTo(_parrentGroupName, "LoadingPage");
+			mainNode.RedirectTo(_parentGroupName, "LoadingPage");
 		}
 		else
 		{

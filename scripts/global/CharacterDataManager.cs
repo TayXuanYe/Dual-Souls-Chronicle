@@ -8,29 +8,38 @@ public partial class CharacterDataManager : Node
     public static CharacterDataManager Instance;
     public Dictionary<string, CharacterModel> Characters = new Dictionary<string, CharacterModel>();
 
-    private readonly static CharacterModel _warrior = new CharacterModel
+    public readonly static CharacterModel Warrior = new CharacterModel
     (
+        "Warrior",
         CharacterModel.Role.Warrior,
         100,
         100,
         100,
-        100
+        100,
+        "Average, attack, defense and health are balanced",
+        "res://assests/textures/character/warrior/warrior_normal.png"
     );
-    private readonly static CharacterModel _mage = new CharacterModel
+    public readonly static CharacterModel Mage = new CharacterModel
     (
+        "Mega",
         CharacterModel.Role.Mage,
         50,
         50,
         200,
-        50
+        50,
+        "High damage but super squishy",
+        "res://assests/textures/character/mega/mega_normal.png"
     );
-    private readonly static CharacterModel _shieldGuard = new CharacterModel
+    public readonly static CharacterModel ShieldGuard = new CharacterModel
     (
+        "ShieldGuard",
         CharacterModel.Role.ShieldGuard,
         200,
         200,
         30,
-        200
+        200,
+        "Low damage but super tanky",
+        "res://assests/textures/character/shieldguard/shieldguard_normal.png"
     );
 
     public override void _Ready()
@@ -40,10 +49,10 @@ public partial class CharacterDataManager : Node
         SignalManager.Instance.AddBuffCharacter += OnAddBuffCharacterSignalReceipt;
     }
 
-    private void OnSelectCharacterSignalReceipt(string roleData, string groupName)
+    private void OnSelectCharacterSignalReceipt(string name, string groupName)
     {
         if (!Characters.ContainsKey(groupName)) { return; }
-        string role = roleData.Split('_')[1];
+        string role = name.Replace(" ","");
         var characterDto = Characters[groupName];
         CharacterModel.Role roleEnum;
         if (Enum.TryParse(role, true, out roleEnum))
@@ -57,13 +66,13 @@ public partial class CharacterDataManager : Node
         switch (role)
         {
             case CharacterModel.Role.Warrior:
-                characterDto.Init(_warrior);
+                characterDto.Init(Warrior);
                 break;
             case CharacterModel.Role.Mage:
-                characterDto.Init(_mage);
+                characterDto.Init(Mage);
                 break;
             case CharacterModel.Role.ShieldGuard:
-                characterDto.Init(_shieldGuard);
+                characterDto.Init(ShieldGuard);
                 break;
             default:
                 break;

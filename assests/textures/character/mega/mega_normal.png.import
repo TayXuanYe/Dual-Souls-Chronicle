@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xsxbmm54f1ec"
-path="res://.godot/imported/shieldguard.png-cfb8a2ee97fc9cd85764c685fb983fba.ctex"
+uid="uid://cdse22p2y88xp"
+path="res://.godot/imported/mega_normal.png-6e5db8ba919bba479fc79407a846feb1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assests/textures/character/shieldguard.png"
-dest_files=["res://.godot/imported/shieldguard.png-cfb8a2ee97fc9cd85764c685fb983fba.ctex"]
+source_file="res://assests/textures/character/mega/mega_normal.png"
+dest_files=["res://.godot/imported/mega_normal.png-6e5db8ba919bba479fc79407a846feb1.ctex"]
 
 [params]
 
