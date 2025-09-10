@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 public partial class SelectScenes : VBoxContainer
 {
@@ -64,14 +65,14 @@ public partial class SelectScenes : VBoxContainer
 	}
 	private void InitVoteBar(string[] voteBarColors)
 	{
-		foreach (string voteBarColor in voteBarColors)
+		for (int i = 0; i < voteBarColors.Length; i++)
 		{
-			Node voteBar = _voteBarScene.Instantiate();
-			if (voteBar is VoteBar voteBarScript)
+			Node voteBarNode = _voteBarScene.Instantiate();
+			if (voteBarNode is VoteBar voteBarScript)
 			{
-				voteBarScript.Init(new Color(voteBarColor));
-				_voteBarList.Add((voteBar, voteBarScript));
-				_voteBarContainer.AddChild(voteBar);
+				voteBarScript.Init(new Color(voteBarColors[i]), i.ToString());
+				_voteBarList.Add((voteBarNode, voteBarScript));
+				_voteBarContainer.AddChild(voteBarNode);
 			}
 		}
 	}

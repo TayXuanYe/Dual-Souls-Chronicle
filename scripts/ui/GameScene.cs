@@ -140,6 +140,8 @@ public partial class GameScene : Control
 	}
 	public override void _Ready()
 	{
+		Size = new Vector2(960, 720);
+
 		SignalManager.Instance.DisplayDialog  += OnDisplayDialog;
 		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
 
@@ -147,7 +149,7 @@ public partial class GameScene : Control
 		if (selectScene is SelectScenes selectSceneScript)
 		{
 			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
-			selectSceneScript.Init(10, 3, colors, "character", 1);
+			selectSceneScript.Init(10, 3, colors, "buff", 1);
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 
