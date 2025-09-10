@@ -37,6 +37,7 @@ public partial class CharacterDataManager : Node
     {
         Instance = this;
         SignalManager.Instance.SelectCharacter += OnSelectCharacterSignalReceipt;
+        SignalManager.Instance.AddBuffCharacter += OnAddBuffCharacterSignalReceipt;
     }
 
     private void OnSelectCharacterSignalReceipt(string roleData, string groupName)
@@ -66,6 +67,25 @@ public partial class CharacterDataManager : Node
                 break;
             default:
                 break;
+        }
+    }
+
+    private void OnAddBuffCharacterSignalReceipt(string buffId, string parentGroupName)
+    {
+        if (Characters.TryGetValue(parentGroupName, out var character))
+        {
+            if (BuffManager.Instance.Buffs.TryGetValue(buffId, out var buff))
+            {
+            character.Buff.Add(buff);
+            }
+            else
+            {
+            GD.PrintErr($"Buff with ID '{buffId}' not found.");
+            }
+        }
+        else
+        {
+            GD.PrintErr($"Character group '{parentGroupName}' not found.");
         }
     }
 }

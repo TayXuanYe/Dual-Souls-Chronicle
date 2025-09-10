@@ -14,7 +14,7 @@ public partial class GameScene : Control
 	[Export] private VBoxContainer _player2DialogDisplayVBox;
 	[Export] private Panel _player1DataPanel;
 	[Export] private Panel _player2DataPanel;
-	
+
 	private string _parentGroupName;
 	private bool _isInit = false;
 	private long _pollingIntervalMillis = 0;
@@ -68,7 +68,7 @@ public partial class GameScene : Control
 				SignalManager.Instance.EmitChatSignal(messageText, _parentGroupName);
 			}
 		}
-		
+
 		// is select page found if found update vote
 		if (_selectSceneInstant.script != null)
 		{
@@ -142,7 +142,8 @@ public partial class GameScene : Control
 	{
 		Size = new Vector2(960, 720);
 
-		SignalManager.Instance.DisplayDialog  += OnDisplayDialog;
+		SignalManager.Instance.DisplayDialog += OnDisplayDialog;
+		SignalManager.Instance.UpdateAllPlayerData += OnUpdateAllPlayerDataSignalReceipt;
 		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
 
 		Node selectScene = _selectScene.Instantiate();
@@ -152,21 +153,47 @@ public partial class GameScene : Control
 			selectSceneScript.Init(10, 3, colors, "buff", 1);
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
-
 		AddChild(selectScene);
 
+		SignalManager.Instance.EmitUpdateAllPlayerDataSignal();		
+
+		_ = StartGetChartMessageAsync();
+
+		_isInit = true;
+	}
+
+	private void OnUpdateAllPlayerDataSignalReceipt()
+	{
 		if (_player1DataPanel is PlayerDataPanel player1DataPanelScript)
 		{
 			player1DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].CharacterName;
+			if (CharacterDataManager.Instance.Characters["IsInViewport1"].IsAssignRole())
+			{
+				string hpAmount = CharacterDataManager.Instance.Characters["IsInViewport1"].Hp.ToString();
+				string hpLimit = CharacterDataManager.Instance.Characters["IsInViewport1"].HpLimit.ToString();
+				player1DataPanelScript.HPLabel.Text = $"{hpAmount}/{hpLimit}";
+				player1DataPanelScript.AttackLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].Attack.ToString();
+				player1DataPanelScript.DefenseLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].Defense.ToString();
+
+				var buffs = CharacterDataManager.Instance.Characters["IsInViewport1"].Buff;
+				player1DataPanelScript.BuffLabel.Text = string.Join(", ", buffs.Select(b => b.Name));
+			}
 		}
 
 		if (_player2DataPanel is PlayerDataPanel player2DataPanelScript)
 		{
 			player2DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].CharacterName;
+			if (CharacterDataManager.Instance.Characters["IsInViewport2"].IsAssignRole())
+			{
+				string hpAmount = CharacterDataManager.Instance.Characters["IsInViewport2"].Hp.ToString();
+				string hpLimit = CharacterDataManager.Instance.Characters["IsInViewport2"].HpLimit.ToString();
+				player2DataPanelScript.HPLabel.Text = $"{hpAmount}/{hpLimit}";
+				player2DataPanelScript.AttackLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].Attack.ToString();
+				player2DataPanelScript.DefenseLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].Defense.ToString();
+
+				var buffs = CharacterDataManager.Instance.Characters["IsInViewport2"].Buff;
+				player2DataPanelScript.BuffLabel.Text = string.Join(", ", buffs.Select(b => b.Name));
+			}
 		}
-
-		_ = StartGetChartMessageAsync();
-
-		_isInit = true;
 	}
 }

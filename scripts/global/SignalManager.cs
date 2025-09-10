@@ -14,6 +14,8 @@ public partial class SignalManager : Node
 	public delegate void AddBuffCharacterEventHandler(string buffId, string parentGroupName);
 	[Signal]
 	public delegate void RemoveBuffCharacterEventHandler(string buffId, string parentGroupName);
+	[Signal]
+	public delegate void UpdateAllPlayerDataEventHandler();
 
 	public override void _Ready()
 	{
@@ -48,5 +50,10 @@ public partial class SignalManager : Node
 	public void EmitRemoveBuffCharacterSignal(string buffId, string parentGroupName)
 	{
 		EmitSignal(SignalName.RemoveBuffCharacter, buffId, parentGroupName);
+	}
+
+	public void EmitUpdateAllPlayerDataSignal()
+	{
+		EmitSignal(SignalName.UpdateAllPlayerData);
 	}
 }

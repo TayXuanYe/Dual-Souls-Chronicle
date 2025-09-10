@@ -78,5 +78,4 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_vertical = 3
-text = "BUFF display"
 autowrap_mode = 2

@@ -5,6 +5,7 @@ public class CharacterModel
     public string CharacterName { get; set; }
     public enum Role
     {
+        None,
         Warrior,
         Mage,
         ShieldGuard
@@ -14,7 +15,7 @@ public class CharacterModel
     public int Hp { get; set; }
     public int Attack { get; set; }
     public int Defense { get; set; }
-    public float CriticalRate { get; set; } = 0f; 
+    public float CriticalRate { get; set; } = 0f;
     public float CriticalDamage { get; set; } = 1f;
     public float DodgeRate { get; set; } = 0f;
     public bool HaveKnockoffUndyingTotem { get; set; } = false;
@@ -37,5 +38,9 @@ public class CharacterModel
         Hp = characterDto.Hp;
         Attack = characterDto.Attack;
         Defense = characterDto.Defense;
+    }
+    public bool IsAssignRole()
+    {
+        return CharacterRole != Role.None;
     }
 }
