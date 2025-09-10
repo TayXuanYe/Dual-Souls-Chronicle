@@ -14,37 +14,11 @@ public partial class Main : Control
 	public override void _Ready()
 	{
 		// get api key
-		string configPath = "res://config.json";
-		Config config = null;
-		try
+		if (!GetApiKey())
 		{
-			string jsonString = File.ReadAllText(ProjectSettings.GlobalizePath(configPath));
-			config = JsonSerializer.Deserialize<Config>(jsonString, new JsonSerializerOptions
-			{
-				PropertyNameCaseInsensitive = true
-			});
-		}
-		catch (FileNotFoundException)
-		{
-			GD.PrintErr($"Error: Config not found: {configPath}");
-			GetTree().Quit();
-			return;
-		}
-		catch (JsonException e)
-		{
-			GD.PrintErr($"Error: Failed to parse the configuration file. Please check if the format of {configPath} is correct. Details: {e.Message}");
-			GetTree().Quit();
 			return;
 		}
 
-		if (config == null || string.IsNullOrWhiteSpace(config.YoutubeApiKey))
-		{
-			GD.PrintErr("Error: The configuration file content is invalid, API Key is missing.");
-			GetTree().Quit();
-			return;
-		}
-		GD.Print("Configuration read successfully, API Key loaded.");
-		YoutubeManager.Instance.YoutubeApiKey = config.YoutubeApiKey;
 		// create setup page and add to sub viewpoint
 		ViewportData viewportData1 = new ViewportData();
 		viewportData1.Id = 1;
@@ -59,6 +33,43 @@ public partial class Main : Control
 		_subViewport2.AddChild(viewportData2);
 		Node setupScene2 = _setupScene.Instantiate();
 		_subViewport2.AddChild(setupScene2);
+	}
+
+	public bool GetApiKey()
+	{
+		string configPath = "res://config.json";
+		Config config = null;
+		try
+		{
+			string jsonString = File.ReadAllText(ProjectSettings.GlobalizePath(configPath));
+			config = JsonSerializer.Deserialize<Config>(jsonString, new JsonSerializerOptions
+			{
+				PropertyNameCaseInsensitive = true
+			});
+		}
+		catch (FileNotFoundException)
+		{
+			GD.PrintErr($"Error: Config not found: {configPath}");
+			GetTree().Quit();
+			return false;
+		}
+		catch (JsonException e)
+		{
+			GD.PrintErr($"Error: Failed to parse the configuration file. Please check if the format of {configPath} is correct. Details: {e.Message}");
+			GetTree().Quit();
+			return false;
+		}
+
+		if (config == null || string.IsNullOrWhiteSpace(config.YoutubeApiKey))
+		{
+			GD.PrintErr("Error: The configuration file content is invalid, API Key is missing.");
+			GetTree().Quit();
+			return false;
+		}
+		GD.Print("Configuration read successfully, API Key loaded.");
+		YoutubeManager.Instance.YoutubeApiKey = config.YoutubeApiKey;
+
+		return true;
 	}
 
 	public void RedirectTo(int viewportId, string pageName)
@@ -102,7 +113,7 @@ public partial class Main : Control
 				child.QueueFree();
 			}
 		}
-		
+
 		targetViewport.CallDeferred(Node.MethodName.AddChild, page);
 
 		GD.Print("REDIRECT COMPLETED");
