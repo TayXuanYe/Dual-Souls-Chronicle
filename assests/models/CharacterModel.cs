@@ -2,7 +2,10 @@ using System.Collections.Generic;
 
 public class CharacterModel
 {
+    public string Id { get; set; }
     public string CharacterName { get; set; }
+    public string Describe { get; set; }
+    public string ImagePath { get; set; }
     public enum Role
     {
         None,
