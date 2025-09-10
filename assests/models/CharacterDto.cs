@@ -15,4 +15,22 @@ public class CharacterDto
     public int Attack { get; set; }
     public int Defense { get; set; }
     public List<string> Buff { get; set; }
+
+    public CharacterDto() { }
+    public CharacterDto(Role characterRole, int hpLimit, int hp, int attack, int defense)
+    {
+        CharacterRole = characterRole;
+        HpLimit = hpLimit;
+        Hp = hp;
+        Attack = attack;
+        Defense = defense;
+    }
+    public void Init(CharacterDto characterDto)
+    {
+        CharacterRole = characterDto.CharacterRole;
+        HpLimit = characterDto.HpLimit;
+        Hp = characterDto.Hp;
+        Attack = characterDto.Attack;
+        Defense = characterDto.Defense;
+    }
 }

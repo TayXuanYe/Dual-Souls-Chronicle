@@ -1,22 +1,34 @@
 using Godot;
 using System;
+using System.Diagnostics;
 
 public partial class Card : VBoxContainer
 {
-	[Export] private Label _buffNameLabel;
+	[Export] private Label _nameLabel;
 	[Export] private TextureRect _imageTextureRect;
 	[Export] private Label _describeLabel;
-	[Export] Panel _cardPanel;
+	[Export] private Panel _cardPanel;
+	[Export] private Panel _imageContainerPanel;
+	[Export] VBoxContainer _container;
 	private bool _isInit = false;
 	public bool IsSelect = false;
 	private StyleBoxFlat _baseStyleBox;
-	public int Id { get; set; }
+	public string Id { get; set; }
 
-	public void Init(CardDto cardDto)
+	public void Init(CardDto cardDto, string type)
 	{
 		if (_isInit) { return; }
+		switch (type)
+		{
+			case "buff":
+				break;
+			case "character":
+				_container.MoveChild(_nameLabel, 1);
+				break;
+		}
+
 		Id = cardDto.Id;
-		_buffNameLabel.Text = cardDto.Name;
+		_nameLabel.Text = cardDto.Name;
 		_imageTextureRect.Texture = cardDto.ImageTexture;
 		_describeLabel.Text = cardDto.Describe;
 
@@ -28,15 +40,15 @@ public partial class Card : VBoxContainer
 
 		_isInit = true;
 	}
-	
+
 	public override void _Ready()
 	{
 		Visible = true;
 	}
-	
+
 	public override void _Process(double delta)
 	{
-		if(!_isInit) { return; }
+		if (!_isInit) { return; }
 		if (IsSelect)
 		{
 			if (_cardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)

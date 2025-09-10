@@ -18,6 +18,7 @@ public partial class SelectScenes : VBoxContainer
 	private bool _isInit = false;
 	private int _id;
 	private int _cardAmount = 0;
+	string _type;
 
 	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type, int randomSeed)
 	{
@@ -27,6 +28,7 @@ public partial class SelectScenes : VBoxContainer
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
 		_cardAmount = cardAmount;
+		_type = type;
 		foreach (string voteBarColor in voteBarColors)
 		{
 			Node voteBar = _voteBarScene.Instantiate();
@@ -37,13 +39,24 @@ public partial class SelectScenes : VBoxContainer
 				_voteBarContainer.AddChild(voteBar);
 			}
 		}
-
-		foreach (CardDto cardDto in CardsDataManager.Instance.GetBuffCards(cardAmount, randomSeed))
+		List<CardDto> cardsData = new List<CardDto>();
+		switch (type)
+		{
+			case "buff":
+				cardsData = CardsDataManager.Instance.GetBuffCards(cardAmount, randomSeed);
+				break;
+			case "character":
+				cardsData = CardsDataManager.Instance.GetCharacterCards();
+				break;
+			default:
+				break;
+		}
+		foreach (CardDto cardDto in cardsData)
 		{
 			Node card = _cardScene.Instantiate();
 			if (card is Card cardScript)
 			{
-				cardScript.Init(cardDto);
+				cardScript.Init(cardDto, type);
 				_cardList.Add((card, cardScript));
 
 				_cardContainer.AddChild(card);
@@ -69,9 +82,9 @@ public partial class SelectScenes : VBoxContainer
 	bool isOnVoteTimeCountdownTrigger = false;
 	public void OnVoteTimeCountdown()
 	{
-		if(isOnVoteTimeCountdownTrigger) { return; }
+		if (isOnVoteTimeCountdownTrigger) { return; }
 
-		int id = -1;
+		string id = "1";
 		int maxVoteCount = -1;
 		int count = 0;
 		foreach ((Node, VoteBar script) voteBar in _voteBarList)
@@ -86,7 +99,15 @@ public partial class SelectScenes : VBoxContainer
 		}
 
 		//signal id temp use print
-		// GD.Print(id);
+		isOnVoteTimeCountdownTrigger = true;
+		switch (_type)
+		{
+			case "buff":
+				break;
+			case "character":
+				SignalManager.Instance.EmitSelectCharacterSignal(id, _id);
+				break;
+		}
 	}
 
 	public void UpdateSelectCard()
