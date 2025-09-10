@@ -109,9 +109,15 @@ public partial class SelectScenes : VBoxContainer
 
 		//signal id temp use print
 		isOnVoteTimeCountdownTrigger = true;
-		switch (_type)
+		EmitSignalByType(_type, id);
+	}
+
+	private void EmitSignalByType(string type, string id)
+	{
+		switch (type)
 		{
 			case "buff":
+				SignalManager.Instance.EmitSelectBuffSignal(id, _parrentGroupName);
 				break;
 			case "character":
 				SignalManager.Instance.EmitSelectCharacterSignal(id, _parrentGroupName);
@@ -135,19 +141,18 @@ public partial class SelectScenes : VBoxContainer
 			_cardList[count].script.IsSelect = false;
 			count++;
 		}
-
 		_cardList[maxCountIndex].script.IsSelect = true;
 	}
 
 	public void UpdateVoteCount(int[] voteCounts)
 	{
 		if(!_isInit) { return; }
-		int count = 0;
-		foreach (int voteCount in voteCounts)
+		if(voteCounts.Length != _selectAmount) { return; }
+
+		for (int i = 0; i < voteCounts.Length; i++)
 		{
-			_voteBarList[count].script.VoteCount += voteCount;
-			_voteTotalCount += voteCount;
-			count++;
+			_voteBarList[i].script.VoteCount = voteCounts[i];
+			_voteTotalCount += voteCounts[i];
 		}
 	}
 
