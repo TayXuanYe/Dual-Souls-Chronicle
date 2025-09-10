@@ -79,15 +79,15 @@ public partial class CardsDataManager : Node
 	}
 	private string parentGroup1SelectBuffCardId;
 	private string parentGroup2SelectBuffCardId;
-	public void OnSelectBuffSignalReceipt(string cardId, string parentGroupName)
+	public void OnSelectBuffSignalReceipt(string buffId, string parentGroupName)
 	{
 		switch (parentGroupName)
 		{
 			case "IsInViewport1":
-				parentGroup1SelectBuffCardId = cardId;
+				parentGroup1SelectBuffCardId = $"card_{buffId}";
 				break;
 			case "IsInViewport2":
-				parentGroup2SelectBuffCardId = cardId;
+				parentGroup2SelectBuffCardId = $"card_{buffId}";
 				break;
 		}
 		
@@ -105,10 +105,10 @@ public partial class CardsDataManager : Node
 		
 		for (int i = 0; i < BuffCards.Count; i++)
 		{
-			if (BuffCards[i].card.Id == cardId)
+			if (BuffCards[i].card.Id == $"card_{buffId}")
 			{
 				// signal add buff
-				SignalManager.Instance.EmitAddBuffCharacterSignal(cardId, parentGroupName);
+				SignalManager.Instance.EmitAddBuffCharacterSignal(buffId, parentGroupName);
 				BuffCards[i] = (BuffCards[i].card, true);
 				break;
 			}
