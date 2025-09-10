@@ -20,11 +20,9 @@ public partial class SelectScenes : VBoxContainer
 	private int _cardAmount = 0;
 	string _type;
 
-	public void Init(int id, double voteTime, string[] voteBarColors, int cardAmount, string type, int randomSeed)
+	public void Init(double voteTime, string[] voteBarColors, int cardAmount, string type, int randomSeed)
 	{
 		if (_isInit) { return; }
-		_id = id;
-		GD.Print("select scene init id" + id);
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
 		_cardAmount = cardAmount;

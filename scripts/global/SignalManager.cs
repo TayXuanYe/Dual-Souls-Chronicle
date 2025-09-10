@@ -5,11 +5,11 @@ public partial class SignalManager : Node
 {
 	public static SignalManager Instance { get; private set; }
 	[Signal]
-	public delegate void DisplayDialogEventHandler(string message, int id);
+	public delegate void DisplayDialogEventHandler(string message, string parentGroupName);
 	[Signal]
 	public delegate void SelectCharacterEventHandler(string roleData, string parentGroupName);
 	[Signal]
-	public delegate void SelectBuffEventHandler(string buffId, int id);
+	public delegate void SelectBuffEventHandler(string buffId, string parentGroupName);
 
 	public override void _Ready()
 	{
@@ -21,9 +21,9 @@ public partial class SignalManager : Node
 		Instance = this;
 	}
 
-	public void EmitChatSignal(string message, int id)
+	public void EmitChatSignal(string message, string parentGroupName)
 	{
-		EmitSignal(SignalName.DisplayDialog, message, id);
+		EmitSignal(SignalName.DisplayDialog, message, parentGroupName);
 	}
 
 	public void EmitSelectCharacterSignal(string roleData, string parentGroupName)
@@ -31,8 +31,8 @@ public partial class SignalManager : Node
 		EmitSignal(SignalName.SelectCharacter, roleData, parentGroupName);
 	}
 
-	public void EmitSelectBuffSignal(string buffId, int id)
+	public void EmitSelectBuffSignal(string buffId, string parentGroupName)
 	{
-		EmitSignal(SignalName.SelectBuff, buffId, id);
+		EmitSignal(SignalName.SelectBuff, buffId, parentGroupName);
 	}
 }
