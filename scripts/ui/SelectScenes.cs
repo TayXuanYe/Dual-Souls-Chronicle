@@ -39,7 +39,7 @@ public partial class SelectScenes : VBoxContainer
 				_voteBarContainer.AddChild(voteBar);
 			}
 		}
-		List<CardDto> cardsData = new List<CardDto>();
+		List<CardModel> cardsData = new List<CardModel>();
 		switch (type)
 		{
 			case "buff":
@@ -51,7 +51,7 @@ public partial class SelectScenes : VBoxContainer
 			default:
 				break;
 		}
-		foreach (CardDto cardDto in cardsData)
+		foreach (CardModel cardDto in cardsData)
 		{
 			Node card = _cardScene.Instantiate();
 			if (card is Card cardScript)

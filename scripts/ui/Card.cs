@@ -15,7 +15,7 @@ public partial class Card : VBoxContainer
 	private StyleBoxFlat _baseStyleBox;
 	public string Id { get; set; }
 
-	public void Init(CardDto cardDto, string type)
+	public void Init(CardModel cardDto, string type)
 	{
 		if (_isInit) { return; }
 		switch (type)

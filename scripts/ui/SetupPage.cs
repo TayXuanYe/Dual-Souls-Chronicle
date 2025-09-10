@@ -93,7 +93,7 @@ public partial class SetupPage : Control
 		if (isSuccessInit)
 		{
 			GD.Print($"Live linked in sub viewport {_id}");
-			CharacterDto characterDto = new CharacterDto();
+			CharacterModel characterDto = new CharacterModel();
 			characterDto.CharacterName = _nameInput.Text.Trim();
 			CharacterDataManager.Instance.Characters.Add(_id, characterDto);
 			//redirect to another scene

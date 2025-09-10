@@ -8,7 +8,7 @@ public partial class CardsDataManager : Node
     private static CardsDataManager _instance;
     public static CardsDataManager Instance => _instance;
 
-    public List<(CardDto card, bool IsSelect)> BuffCards { get; private set; } = new List<(CardDto, bool)>();
+    public List<(CardModel card, bool IsSelect)> BuffCards { get; private set; } = new List<(CardModel, bool)>();
 
     public override void _Ready()
     {
@@ -23,32 +23,32 @@ public partial class CardsDataManager : Node
         string name = "card1";
         string describe = "card1";
         string imagePath = "res://assests/textures/buff/buff_1.png";
-        var card1 = new CardDto("buff_card1", name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+        var card1 = new CardModel("buff_card1", name, ResourceLoader.Load<Texture2D>(imagePath), describe);
         BuffCards.Add((card1, false));
 
         //2
         name = "card2";
         describe = "card2";
         imagePath = "res://assests/textures/buff/buff_2.png";
-        var card2 = new CardDto("buff_card2", name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+        var card2 = new CardModel("buff_card2", name, ResourceLoader.Load<Texture2D>(imagePath), describe);
         BuffCards.Add((card2, false));
 
         //3
         name = "card3";
         describe = "card3";
         imagePath = "res://assests/textures/buff/buff_3.png";
-        var card3 = new CardDto("buff_card3", name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+        var card3 = new CardModel("buff_card3", name, ResourceLoader.Load<Texture2D>(imagePath), describe);
         BuffCards.Add((card3, false));
 
         //4
         name = "card4";
         describe = "card4";
         imagePath = "res://assests/textures/buff/buff_4.png";
-        var card4 = new CardDto("buff_card4", name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+        var card4 = new CardModel("buff_card4", name, ResourceLoader.Load<Texture2D>(imagePath), describe);
         BuffCards.Add((card4, false));
     }
 
-    public List<CardDto> GetBuffCards(int amount, int seed)
+    public List<CardModel> GetBuffCards(int amount, int seed)
     {
         Random random = new Random(seed);
         var unselectedCards = BuffCards
@@ -68,7 +68,7 @@ public partial class CardsDataManager : Node
             uniqueNumbers.Add(randomNumber);
         }
 
-        List<CardDto> returnValue = new List<CardDto>();
+        List<CardModel> returnValue = new List<CardModel>();
         foreach (int num in uniqueNumbers)
         {
             returnValue.Add(unselectedCards[num].card);
@@ -76,7 +76,7 @@ public partial class CardsDataManager : Node
 
         return returnValue;
     }
-    public List<CardDto> GetCharacterCards()
+    public List<CardModel> GetCharacterCards()
     {
 
         return null;
