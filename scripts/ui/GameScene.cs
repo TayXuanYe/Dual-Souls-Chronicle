@@ -38,43 +38,7 @@ public partial class GameScene : Control
 				if (response?.Items != null)
 				{
 					_pollingIntervalMillis = response.PollingIntervalMillis ?? 5000;
-					Dictionary<int, int> votingData = new Dictionary<int, int>();
-					foreach (var message in response.Items)
-					{
-						var messageText = message.Snippet?.DisplayMessage;
-						if (messageText.All(c => char.IsDigit(c) || char.IsWhiteSpace(c)))
-						{
-							messageText.Replace(" ", "");
-							char firstChar = messageText[0];
-							if (firstChar - '0' != 0 || firstChar - '0' < _selectionAmount)
-							{
-								bool foundNotSame = false;
-								for (int i = 1; i < messageText.Count(); i++)
-								{
-									if (messageText[i] != firstChar)
-									{
-										foundNotSame = true;
-										break;
-									}
-								}
-
-								if (!foundNotSame)
-								{
-									votingData.Add(firstChar - '0', 1);
-								}
-							}
-						}
-						else
-						{
-							SignalManager.Instance.EmitChatSignal(messageText, _parentGroupName);
-						}
-					}
-
-					if (_selectSceneInstant.script != null)
-					{
-						var votesData = votingData.OrderBy(pair => pair.Key).Select(pair => pair.Value).ToArray();
-						_selectSceneInstant.script.UpdateVoteCount(votesData);
-					}
+					ProcessChartResponse(response);
 				}
 			}
 			catch (Exception ex)
@@ -83,6 +47,57 @@ public partial class GameScene : Control
 				break;
 			}
 		}
+	}
+
+	private void ProcessChartResponse(LiveChatMessageListResponse response)
+	{
+		Dictionary<int, int> votingData = new Dictionary<int, int>();
+		foreach (var message in response.Items)
+		{
+			var messageText = message.Snippet?.DisplayMessage;
+			if (messageText.All(c => char.IsDigit(c) || char.IsWhiteSpace(c)))
+			{
+				var result = JustifyAndConvertVoteMessageValid(messageText);
+				if (result.isValid)
+				{
+					votingData.Add(result.data, 1);
+				}
+			}
+			else
+			{
+				SignalManager.Instance.EmitChatSignal(messageText, _parentGroupName);
+			}
+		}
+		
+		// is select page found if found update vote
+		if (_selectSceneInstant.script != null)
+		{
+			var votesData = votingData.OrderBy(pair => pair.Key).Select(pair => pair.Value).ToArray();
+			_selectSceneInstant.script.UpdateVoteCount(votesData);
+		}
+	}
+
+	private (bool isValid, int data) JustifyAndConvertVoteMessageValid(string message)
+	{
+		message.Replace(" ", "");
+		char firstChar = message[0];
+		if (firstChar - '0' != 0 || firstChar - '0' < _selectionAmount)
+		{
+			bool foundNotSame = false;
+			for (int i = 1; i < message.Count(); i++)
+			{
+				if (message[i] != firstChar)
+				{
+					foundNotSame = true;
+					break;
+				}
+			}
+			if (!foundNotSame)
+			{
+				return (true, firstChar - '0');
+			}
+		}
+		return (false, -1);
 	}
 
 	private int maxDialogAmount = 5;
@@ -132,7 +147,7 @@ public partial class GameScene : Control
 		if (selectScene is SelectScenes selectSceneScript)
 		{
 			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
-			selectSceneScript.Init(10, colors, 3, "character", 1);
+			selectSceneScript.Init(10, 3, colors, "character", 1);
 			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
 		}
 
