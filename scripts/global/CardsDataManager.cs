@@ -21,10 +21,11 @@ public partial class CardsDataManager : Node
 	{
 		foreach (var buffData in BuffManager.Instance.Buffs)
 		{
+			string id = $"card_{buffData.Value.Id}";
 			string name = buffData.Value.Name;
 			string describe = buffData.Value.Describe;
 			string imagePath = buffData.Value.ImagePath;
-			var card1 = new CardModel("buff_card1", name, ResourceLoader.Load<Texture2D>(imagePath), describe);
+			var card1 = new CardModel(id, name, ResourceLoader.Load<Texture2D>(imagePath), describe);
 			BuffCards.Add((card1, false));
 		}
 	}
@@ -57,12 +58,25 @@ public partial class CardsDataManager : Node
 
 		return returnValue;
 	}
-	public List<CardModel> GetCharacterCards(int amount, int seed)
+	public List<CardModel> GetCharacterCards(int amount)
 	{
-
+		List<CardModel> returnValue = new List<CardModel>();
+		returnValue.Add(ConvertCharacterModelToCardModel(CharacterDataManager.Warrior));
+		returnValue.Add(ConvertCharacterModelToCardModel(CharacterDataManager.Mage));
+		returnValue.Add(ConvertCharacterModelToCardModel(CharacterDataManager.ShieldGuard));
 		return null;
 	}
+	private CardModel ConvertCharacterModelToCardModel(CharacterModel characterModel)
+	{
+		string cardId = $"card_{characterModel.Id}";
+		string name = characterModel.CharacterName;
+		string describe = characterModel.Describe;
+		string imagePath = characterModel.ImagePath;
+		Texture2D imageTexture = ResourceLoader.Load<Texture2D>(imagePath);
 
+		CardModel cardModel = new CardModel(cardId, name, imageTexture, describe);
+		return cardModel;
+	}
 	private string parentGroup1SelectBuffCardId;
 	private string parentGroup2SelectBuffCardId;
 	public void OnSelectBuffSignalReceipt(string cardId, string parentGroupName)
