@@ -20,17 +20,9 @@ public partial class Main : Control
 		}
 
 		// create setup page and add to sub viewpoint
-		ViewportData viewportData1 = new ViewportData();
-		viewportData1.Id = 1;
-		viewportData1.Name = "Data";
-		_subViewport1.AddChild(viewportData1);
 		Node setupScene1 = _setupScene.Instantiate();
 		_subViewport1.AddChild(setupScene1);
 
-		ViewportData viewportData2 = new ViewportData();
-		viewportData2.Id = 2;
-		viewportData2.Name = "Data";
-		_subViewport2.AddChild(viewportData2);
 		Node setupScene2 = _setupScene.Instantiate();
 		_subViewport2.AddChild(setupScene2);
 	}

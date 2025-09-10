@@ -156,7 +156,7 @@ public partial class GameScene : Control
 
 		if (parentViewport != null)
 		{
-			ViewportData dataNode = parentViewport.GetNode<ViewportData>("Data");
+			ViewportId dataNode = parentViewport.GetNode<ViewportId>("Data");
 			if (dataNode != null)
 			{
 				_id = dataNode.Id;

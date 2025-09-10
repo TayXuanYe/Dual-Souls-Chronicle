@@ -30,3 +30,8 @@ window/size/viewport_height=720
 [dotnet]
 
 project/assembly_name="2-live interactive RPG game"
+
+[global_group]
+
+IsInViewport1="It is under viewport1"
+IsInViewport2=""

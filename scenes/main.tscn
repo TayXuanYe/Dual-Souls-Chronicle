@@ -11,11 +11,11 @@ anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 720.0
 script = ExtResource("1_sugp2")
-_subViewport1 = NodePath("SubViewportContainer/SubViewport1")
-_subViewport2 = NodePath("SubViewportContainer2/SubViewport2")
 _setupScene = ExtResource("2_jyhfs")
 _loadingScene = ExtResource("3_tbgi4")
 _gameScene = ExtResource("4_jyhfs")
+_subViewport1 = NodePath("SubViewportContainer/SubViewport1")
+_subViewport2 = NodePath("SubViewportContainer2/SubViewport2")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 custom_minimum_size = Vector2(960, 720)
@@ -23,7 +23,7 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="SubViewport1" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport1" type="SubViewport" parent="SubViewportContainer" groups=["IsInViewport1"]]
 handle_input_locally = false
 size = Vector2i(960, 720)
 render_target_update_mode = 4
@@ -35,7 +35,7 @@ offset_left = 960.0
 offset_right = 1920.0
 offset_bottom = 540.0
 
-[node name="SubViewport2" type="SubViewport" parent="SubViewportContainer2"]
+[node name="SubViewport2" type="SubViewport" parent="SubViewportContainer2" groups=["IsInViewport2"]]
 handle_input_locally = false
 size = Vector2i(960, 720)
 render_target_update_mode = 4
