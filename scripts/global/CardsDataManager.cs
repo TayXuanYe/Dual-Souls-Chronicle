@@ -31,30 +31,36 @@ public partial class CardsDataManager : Node
 
 	public List<CardModel> GetBuffCards(int amount, int seed)
 	{
-		Random random = new Random(seed);
-		var unselectedCards = BuffCards
-			.Select((item, index) => new { item.card, item.IsSelect, index })
-			.Where(x => !x.IsSelect)
-			.ToList();
+		// Random random = new Random(seed);
+		// var unselectedCards = BuffCards
+		// 	.Select((item, index) => new { item.card, item.IsSelect, index })
+		// 	.Where(x => !x.IsSelect)
+		// 	.ToList();
 
-		if (unselectedCards.Count < amount)
-		{
-			amount = unselectedCards.Count;
-		}
+		// if (unselectedCards.Count < amount)
+		// {
+		// 	amount = unselectedCards.Count;
+		// }
 
-		HashSet<int> uniqueNumbers = new HashSet<int>();
-		while (uniqueNumbers.Count < amount)
-		{
-			int randomNumber = random.Next(0, unselectedCards.Count);
-			uniqueNumbers.Add(randomNumber);
-		}
+		// HashSet<int> uniqueNumbers = new HashSet<int>();
+		// while (uniqueNumbers.Count < amount)
+		// {
+		// 	int randomNumber = random.Next(0, unselectedCards.Count);
+		// 	uniqueNumbers.Add(randomNumber);
+		// }
+
+		// List<CardModel> returnValue = new List<CardModel>();
+		// foreach (int num in uniqueNumbers)
+		// {
+		// 	returnValue.Add(unselectedCards[num].card);
+		// }
+
+		// return returnValue;
 
 		List<CardModel> returnValue = new List<CardModel>();
-		foreach (int num in uniqueNumbers)
-		{
-			returnValue.Add(unselectedCards[num].card);
-		}
-
+		returnValue.Add(BuffCards[6].card);
+		returnValue.Add(BuffCards[7].card);
+		returnValue.Add(BuffCards[8].card);
 		return returnValue;
 	}
 	public List<CardModel> GetCharacterCards(int amount, int seed)

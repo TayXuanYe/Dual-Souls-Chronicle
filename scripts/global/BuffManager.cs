@@ -23,7 +23,7 @@ public partial class BuffManager : Node
         CreateBuffSharpV();
         CreateBuffRustBlade();
         CreateBuffGoldenApple();
-        CreateBuffGoldenApple();
+        CreateBuffHealingPotion();
         CreateBuffKnockoffUndyingTotem();
         CreateBuffShadeCloak();
         CreateBuffUndyingTotem();
@@ -35,8 +35,7 @@ public partial class BuffManager : Node
         string id = $"card_{name.ToLower()}";
         string describe =
         @"As hard as steel
-        Defense +20
-        ";
+Defense +20";
         Action<CharacterModel> onApply = (CharacterModel character) =>
         {
             character.Defense += 20;
@@ -55,8 +54,7 @@ public partial class BuffManager : Node
         string id = $"card_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"Any Sharpness V?
-        Attack +15
-        ";
+Attack +15";
         Action<CharacterModel> onApply = (CharacterModel character) =>
         {
             character.Attack += 15;
@@ -75,8 +73,7 @@ public partial class BuffManager : Node
         string id = $"card_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"Yap I am here!
-        Attack +20
-        ";
+Attack +20";
         Action<CharacterModel> onApply = (CharacterModel character) =>
         {
             character.Attack += 20;
@@ -95,10 +92,9 @@ public partial class BuffManager : Node
         string id = $"card_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"A rusted blade with a vicious edge.
-        Attack -10
-        *New critical rate + 20%
-        *New critical damage + 150% 
-        ";
+Attack -10
+CRITRate +20%
+CRITDamage +150%";
         Action<CharacterModel> onApply = (CharacterModel character) =>
         {
             character.Attack -= 10;
@@ -121,9 +117,8 @@ public partial class BuffManager : Node
         string id = $"card_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"An exquisite apple made of pure gold. 
-        HP limit +15
-        HP +15
-        ";
+HP limit +15
+HP +15";
         Action<CharacterModel> onApply = (CharacterModel character) =>
         {
             character.HpLimit += 15;
@@ -144,8 +139,7 @@ public partial class BuffManager : Node
         string id = $"card_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"Instantly restores health upon consumption.
-        HP +50
-        ";
+HP +50";
         Action<CharacterModel> onApply = (CharacterModel character) =>
         {
             if (character.Hp + 50 > character.HpLimit)
@@ -167,10 +161,10 @@ public partial class BuffManager : Node
     }
     private void CreateBuffKnockoffUndyingTotem()
     {
-        string name = "Knockoff Undying Totem";
+        string name = "Knockoff Totem";
         string id = $"card_{name.ToLower().Replace(" ", "_")}";
         string describe =
-        "A cheap imitation of the legendary Undying Totem. It can't truly cheat death, but it will save you from a fatal blow once.";
+        "A cheap imitation of the legendary Undying Totem. It can save you from a fatal blow once.";
         Action<CharacterModel> onApply = (CharacterModel character) =>
         {
             character.HaveKnockoffUndyingTotem = true;
@@ -189,8 +183,7 @@ public partial class BuffManager : Node
         string id = $"card_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"Averting death and reborn.
-        *All buff will be remove.
-        ";
+*All buff will be remove.";
         Action<CharacterModel> onApply = (CharacterModel character) =>
         {
             character.HaveUndyingTotem = true;
@@ -209,8 +202,7 @@ public partial class BuffManager : Node
         string id = $"card_{name.ToLower().Replace(" ", "_")}";
         string describe =
         @"A cloak woven from pure darkness.
-        new Dodge rate +20%;
-        ";
+new Dodge rate +20%";
         Action<CharacterModel> onApply = (CharacterModel character) =>
         {
             character.DodgeRate += 0.2f;
