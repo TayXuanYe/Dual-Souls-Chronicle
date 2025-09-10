@@ -64,7 +64,7 @@ public partial class Main : Control
 		return true;
 	}
 
-	public void RedirectTo(int viewportId, string pageName)
+	public void RedirectTo(string groupName, string pageName)
 	{
 		GD.Print("REDIRECT PROGRESS");
 		Node page = null;
@@ -81,11 +81,11 @@ public partial class Main : Control
 		GD.Print($"REDIRECT TO {page.Name}");
 
 		Node targetViewport;
-		if (viewportId == 1)
+		if (groupName == "IsInViewwport1")
 		{
 			targetViewport = _subViewport1;
 		}
-		else if (viewportId == 2)
+		else if (groupName == "IsInViewport2")
 		{
 			targetViewport = _subViewport2;
 		}
