@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwpyppy8bv58j"
-path="res://.godot/imported/buff_3.png-5fcd3f0f1531c722dc460d4efb4a4fa3.ctex"
+uid="uid://d36360m1q6xlq"
+path="res://.godot/imported/buff_chestplate.png-026b42da0092cfc3fc93b0fcba4eab47.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assests/textures/buff/buff_3.png"
-dest_files=["res://.godot/imported/buff_3.png-5fcd3f0f1531c722dc460d4efb4a4fa3.ctex"]
+source_file="res://assests/textures/buff/buff_chestplate.png"
+dest_files=["res://.godot/imported/buff_chestplate.png-026b42da0092cfc3fc93b0fcba4eab47.ctex"]
 
 [params]
 

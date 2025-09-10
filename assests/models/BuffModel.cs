@@ -5,10 +5,10 @@ public class BuffModel
     public string Id { get; set; }
     public string Name { get; set; }
     public string Describe { get; set; }
-    public int Duration { get; set; }
     public Status CurrentStatus { get; set; }
     public Action<CharacterModel> OnApply { get; set; }
     public Action<CharacterModel> OnRemove { get; set; }
+    public string ImagePath { get; set; }
 
     public enum Status
     {
@@ -16,14 +16,14 @@ public class BuffModel
         NotTriggered
     }
 
-    public BuffModel(string id, string name, string describe, int duration, Status currentStatus, Action<CharacterModel> onApply, Action<CharacterModel> onRemove)
+    public BuffModel(string id, string name, string describe, Action<CharacterModel> onApply, Action<CharacterModel> onRemove, string imagePath)
     {
         Id = id;
         Name = name;
         Describe = describe;
-        Duration = duration;
-        CurrentStatus = currentStatus;
+        CurrentStatus = Status.NotTriggered;
         OnApply = onApply;
         OnRemove = onRemove;
+        ImagePath = imagePath;
     }
 }

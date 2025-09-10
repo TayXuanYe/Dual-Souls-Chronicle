@@ -17,7 +17,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_fxlv7")
 script = ExtResource("1_17rv8")
 NameLabel = NodePath("MarginContainer/VBoxContainer/NameLabel")
 ImageTextureRect = NodePath("MarginContainer/VBoxContainer/Panel/TextureRect")
-DescribeLabel = NodePath("MarginContainer/VBoxContainer/DescribeLabel")
+DescribeLabel = NodePath("MarginContainer/VBoxContainer/MarginContainer/DescribeLabel")
 CardPanel = NodePath(".")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -38,14 +38,14 @@ layout_mode = 2
 [node name="NameLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 90)
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_2rkeb")
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/Panel"]
@@ -61,11 +61,18 @@ size_flags_vertical = 4
 expand_mode = 1
 stretch_mode = 5
 
-[node name="DescribeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="DescribeLabel" type="Label" parent="MarginContainer/VBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 16
 text = "Value"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
