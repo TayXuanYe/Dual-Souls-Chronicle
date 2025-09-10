@@ -18,9 +18,10 @@ config/icon="res://icon.svg"
 [autoload]
 
 SignalManager="*res://scripts/global/SignalManager.cs"
-YoutubeManager="*res://scripts/global/YoutubeManager.cs"
+BuffManager="*res://scripts/global/BuffManager.cs"
 CardsDataManager="*res://scripts/global/CardsDataManager.cs"
 CharacterDataManager="*res://scripts/global/CharacterDataManager.cs"
+YoutubeManager="*res://scripts/global/YoutubeManager.cs"
 
 [display]
 
