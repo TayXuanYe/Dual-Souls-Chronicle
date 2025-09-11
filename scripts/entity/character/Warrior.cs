@@ -23,8 +23,6 @@ public partial class Warrior : Entity
 		PlayAnimation("attack", entity.GlobalPosition);
 	}
 
-	private string _idleAnimationName = "idle";
-	private string _attackedAnimationName = "attacked";
 	protected override void PlayAnimation(string animName)
 	{
 		_animatedSprite.Play(animName);

@@ -23,8 +23,6 @@ public partial class ShieldGuard : Entity
 		PlayAnimation("attack", entity.GlobalPosition);
 	}
 
-	private string _idleAnimationName = "idle";
-	private string _attackedAnimationName = "attacked";
 	protected override void PlayAnimation(string animName)
 	{
 		_animatedSprite.Play(animName);
@@ -37,17 +35,17 @@ public partial class ShieldGuard : Entity
 	}
 	
 	public void MoveInStraightLine(Vector2 targetPosition, double travelTime)
-    {
-        if (travelTime <= 0)
-        {
-            GlobalPosition = targetPosition;
-            return;
-        }
+	{
+		if (travelTime <= 0)
+		{
+			GlobalPosition = targetPosition;
+			return;
+		}
 
-        var tween = CreateTween();
-        
-        tween.TweenProperty(this, "global_position", targetPosition, travelTime);
-    }
+		var tween = CreateTween();
+		
+		tween.TweenProperty(this, "global_position", targetPosition, travelTime);
+	}
 
 	public override void Attacked(int damage)
 	{
