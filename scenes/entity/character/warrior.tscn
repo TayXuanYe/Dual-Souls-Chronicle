@@ -1,5 +1,9 @@
-[gd_scene format=3 uid="uid://bt71ehobmq08s"]
+[gd_scene load_steps=2 format=3 uid="uid://bt71ehobmq08s"]
 
-[node name="Warrior" type="CharacterBody2D"]
+[ext_resource type="Script" uid="uid://b0jb3pu5vuinp" path="res://scripts/entity/character/Warrior.cs" id="1_ecmwr"]
+
+[node name="Warrior" type="CharacterBody2D" node_paths=PackedStringArray("_animatedSprite")]
+script = ExtResource("1_ecmwr")
+_animatedSprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
