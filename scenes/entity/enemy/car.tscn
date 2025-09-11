@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://byujrg6gsy8ii" path="res://scripts/entity/enemy/Car.cs" id="1_ob2hr"]
 
-[node name="slime" type="CharacterBody2D" node_paths=PackedStringArray("_animatedSprite")]
+[node name="car" type="CharacterBody2D" node_paths=PackedStringArray("_animatedSprite")]
 script = ExtResource("1_ob2hr")
 _animatedSprite = NodePath("AnimatedSprite2D")
 

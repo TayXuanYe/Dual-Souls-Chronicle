@@ -1,16 +1,16 @@
 using Godot;
 using System;
 
-public partial class Car : Entity
+public partial class Lorry : Entity
 {
 	public override void _Ready()
 	{
 		_animatedSprite.AnimationFinished += OnAnimationFinished;
 
-		HpLimit = 120;
-		Hp = 120;
-		Attack = 70;
-		Defense = 15;
+		HpLimit = 240;
+		Hp = 240;
+		Attack = 300;
+		Defense = 30;
 	}
 
 	public void Init(string id, Vector2 globalPosition)
@@ -21,21 +21,11 @@ public partial class Car : Entity
 	}
 
 	private Entity attackEntity;
-	private bool _isAccumulate = false; 
 	public override void AttackEntity(Entity entity)
 	{
-		if (!_isAccumulate)
-		{
-			PlayAnimation("accumulate");
-			_isAccumulate = true;
-		}
-		else
-		{
-			_isAccumulate = false;
-			attackEntity = entity;
-			// show animation
-			PlayAnimation("attack", entity.GlobalPosition);
-		}
+		attackEntity = entity;
+		// show animation
+		PlayAnimation("attack", entity.GlobalPosition);
 	}
 
 	protected override void PlayAnimation(string animName)
@@ -96,9 +86,6 @@ public partial class Car : Entity
 				PlayAnimation("idle");
 				break;
 			case "attacked":
-				PlayAnimation("idle");
-				break;
-			case "accumulate":
 				PlayAnimation("idle");
 				break;
 			default:
