@@ -16,7 +16,6 @@ public partial class GameScene : Control
 	[Export] private Panel _player2DataPanel;
 
 	private string _parentGroupName;
-	private bool _isInit = false;
 	private long _pollingIntervalMillis = 0;
 	private (Node node, SelectScenes script) _selectSceneInstant;
 	private (Node node, SelectScenes script) _battleSceneInstant;
@@ -133,6 +132,8 @@ public partial class GameScene : Control
 			}
 		}
 	}
+
+	private int sceneIndex = 0;
 	public override void _Ready()
 	{
 		Size = new Vector2(960, 720);
@@ -141,20 +142,13 @@ public partial class GameScene : Control
 		SignalManager.Instance.UpdateAllPlayerData += OnUpdateAllPlayerDataSignalReceipt;
 		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
 
-		Node selectScene = _selectScene.Instantiate();
-		if (selectScene is SelectScenes selectSceneScript)
-		{
-			string[] colors = ["#66CCFF", "#FFEED0", "#eeff00ff"];
-			selectSceneScript.Init(10, 3, colors, "character", 1);
-			selectSceneScript.SetPosition(new Vector2(0, selectSceneScript.Position.Y));
-		}
-		AddChild(selectScene);
+		var nodeData = GamaProgressManager.Instance.GetProgress(sceneIndex++);
+		Node node = nodeData.node;
+		AddChild(node);
 
-		SignalManager.Instance.EmitUpdateAllPlayerDataSignal();		
+		SignalManager.Instance.EmitUpdateAllPlayerDataSignal();
 
 		_ = StartGetChartMessageAsync();
-
-		_isInit = true;
 	}
 
 	private void OnUpdateAllPlayerDataSignalReceipt()
