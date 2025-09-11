@@ -1,8 +1,10 @@
 using Godot;
 using System;
 
-public partial class Warrior : Entity
+public partial class Mage : Entity
 {
+	[Export] protected AnimatedSprite2D _boom;
+
 	public override void _Ready()
 	{
 		_animatedSprite.AnimationFinished += OnAnimationFinished;
@@ -31,16 +33,17 @@ public partial class Warrior : Entity
 	}
 	protected override void PlayAnimation(string animName, Vector2 position)
 	{
-		_animatedSprite.Play(animName);
+		_boom.Position = OriginGlobalPosition;
+		_boom.Play(animName);
 		// move position
-		MoveInParabola(position, 1, 300);
+		MoveInParabola(position, 1, 200);
 	}
 	
 	private void MoveInParabola(Vector2 targetPosition, double travelTime, float peakHeight)
 	{
 		if (travelTime <= 0)
 		{
-			GlobalPosition = targetPosition;
+			_boom.GlobalPosition = targetPosition;
 			return;
 		}
 
@@ -48,14 +51,14 @@ public partial class Warrior : Entity
 
 		tween.TweenProperty(this, "parabola_progress", 1.0, travelTime);
 		
-		var startPosition = GlobalPosition;
+		var startPosition = _boom.GlobalPosition;
 		
 		tween.Connect("parabola_progress", Callable.From((float progress) =>
 		{
 			var newPosition = startPosition.Lerp(targetPosition, progress);
 			var t = progress * 2 - 1; 
 			var heightOffset = -peakHeight * (t * t - 1);
-			GlobalPosition = newPosition + Vector2.Up * heightOffset;
+			_boom.GlobalPosition = newPosition + Vector2.Up * heightOffset;
 		}));
 	}
 
@@ -89,7 +92,7 @@ public partial class Warrior : Entity
 				CharacterModel characterModel = CharacterDataManager.Instance.Characters[_id];
 				int damage = CalculateDamage(characterModel.Attack, attackEntity.Defense, characterModel.CriticalDamage, characterModel.CriticalRate);
 				attackEntity.Attacked(damage);
-				GlobalPosition = OriginGlobalPosition;
+				_boom.GlobalPosition = new Vector2(-1000,-1000);
 				break;
 			case "idle":
 				PlayAnimation("idle");
