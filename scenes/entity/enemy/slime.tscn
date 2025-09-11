@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxjh3xjkup2qh"]
+
+[ext_resource type="Script" uid="uid://bn7voc7fo0e7e" path="res://scripts/entity/enemy/Slime.cs" id="1_66acn"]
+
+[node name="slime" type="CharacterBody2D" node_paths=PackedStringArray("_animatedSprite")]
+script = ExtResource("1_66acn")
+_animatedSprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
