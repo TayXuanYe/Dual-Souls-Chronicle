@@ -10,6 +10,7 @@ public partial class BuffManager : Node
     {
         if (Instance != null)
         {
+            QueueFree();
             return;
         }
         Instance = this;
