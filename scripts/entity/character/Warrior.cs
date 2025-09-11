@@ -10,7 +10,7 @@ public partial class Warrior : Entity
 
 	public void Init(string id, Vector2 globalPosition)
 	{
-		_id = id;
+		Id = id;
 		OriginGlobalPosition = globalPosition;
 		GlobalPosition = GlobalPosition;
 	}
@@ -59,7 +59,7 @@ public partial class Warrior : Entity
 
 	public override void Attacked(int damage)
 	{
-		CharacterModel characterModel = CharacterDataManager.Instance.Characters[_id];
+		CharacterModel characterModel = CharacterDataManager.Instance.Characters[Id];
 		if (characterModel.Hp < damage)
 		{
 			characterModel.Hp = 0;
@@ -84,7 +84,7 @@ public partial class Warrior : Entity
 		{
 			case "attack":
 				PlayAnimation("idle");
-				CharacterModel characterModel = CharacterDataManager.Instance.Characters[_id];
+				CharacterModel characterModel = CharacterDataManager.Instance.Characters[Id];
 				int damage = CalculateDamage(characterModel.Attack, attackEntity.Defense, characterModel.CriticalDamage, characterModel.CriticalRate);
 				attackEntity.Attacked(damage);
 				GlobalPosition = OriginGlobalPosition;

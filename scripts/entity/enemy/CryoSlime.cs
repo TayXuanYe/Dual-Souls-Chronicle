@@ -1,10 +1,11 @@
 using Godot;
 using System;
 
-public partial class GeoSlime : Entity
+public partial class CryoSlime : Entity
 {
-	public int Shield { get; set; } = 3;
+	public int Shield { get; set; } = 2;
 	public int RestorationShieldCounter { get; set; } = 2;
+	public bool HaveSluggishness { get; set; } = false;
 	[Export] protected AnimatedSprite2D _thorn;
 	public override void _Ready()
 	{
@@ -26,9 +27,17 @@ public partial class GeoSlime : Entity
 	private Entity attackEntity;
 	public override void AttackEntity(Entity entity)
 	{
+		if (HaveSluggishness)
+		{
+			HaveSluggishness = false;
+			PlayAnimation("sluggishness");
+		}
+		else
+		{
+			HaveSluggishness = true;
+			PlayAnimation("attack", entity.GlobalPosition);
+		}
 		attackEntity = entity;
-		// show animation
-		PlayAnimation("attack", entity.GlobalPosition);
 	}
 
 	protected override void PlayAnimation(string animName)
@@ -78,16 +87,22 @@ public partial class GeoSlime : Entity
 		if (RestorationShieldCounter == 0)
 		{
 			RestorationShieldCounter = 2;
-			Shield = 3;
+			Shield = 2;
 			PlayAnimation("restoreShield");
 		}
 	}
+	
 
 	protected override void OnAnimationFinished()
 	{
 		string finishedAnimationName = _animatedSprite.Animation;
 		switch (finishedAnimationName)
 		{
+			case "sluggishness":
+				SignalManager.Instance.EmitSluggishnessCharacterSignal(attackEntity.Id);
+				int sluggishnessDamage = CalculateDamage(Attack, attackEntity.Defense, CriticalDamage, CriticalRate);
+				attackEntity.Attacked(sluggishnessDamage);
+				break;
 			case "attack":
 				PlayAnimation("idle");
 				int damage = CalculateDamage(Attack, attackEntity.Defense, CriticalDamage, CriticalRate);
@@ -105,7 +120,7 @@ public partial class GeoSlime : Entity
 				PlayAnimation("idle");
 				break;
 			case "attacked":
-				if (Shield == 3)
+				if (Shield == 2)
 				{
 					PlayAnimation("idle");
 				}

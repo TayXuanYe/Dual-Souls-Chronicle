@@ -15,7 +15,7 @@ public partial class Slime : Entity
 
 	public void Init(string id, Vector2 globalPosition)
 	{
-		_id = id;
+		Id = id;
 		OriginGlobalPosition = globalPosition;
 		GlobalPosition = GlobalPosition;
 	}
