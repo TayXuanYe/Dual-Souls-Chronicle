@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://begy2iaviyxvp"]
+
+[ext_resource type="Script" uid="uid://cb3rjfkng4tg0" path="res://scripts/entity/DamageLabel.cs" id="1_fiiyc"]
+
+[node name="DamageLabel" type="Node2D" node_paths=PackedStringArray("_damageLabel")]
+script = ExtResource("1_fiiyc")
+_damageLabel = NodePath("DamageLabel")
+
+[node name="DamageLabel" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
