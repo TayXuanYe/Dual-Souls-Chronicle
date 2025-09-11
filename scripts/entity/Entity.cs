@@ -30,5 +30,5 @@ public abstract partial class Entity : Node2D
     [Export] protected AnimatedSprite2D _animatedSprite;
     [Export] protected PackedScene _damageLabelScene = GD.Load<PackedScene>("res://scenes/entity/DamageLabel.tscn");
     protected string _id;
-    public Vector2 originGlobalPosition;
+    public Vector2 OriginGlobalPosition { get; set; }
 }
