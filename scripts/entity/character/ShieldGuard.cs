@@ -47,8 +47,6 @@ public partial class ShieldGuard : Entity
         var tween = CreateTween();
         
         tween.TweenProperty(this, "global_position", targetPosition, travelTime);
-        
-        tween.Finished += () => GD.Print("直线移动完成！");
     }
 
 	public override void Attacked(int damage)
