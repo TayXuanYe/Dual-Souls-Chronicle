@@ -8,7 +8,6 @@ using System.Collections;
 
 public partial class GameScene : Control
 {
-	[Export] private PackedScene _selectScene;
 	[Export] private PackedScene _dialogue;
 	[Export] private VBoxContainer _player1DialogDisplayVBox;
 	[Export] private VBoxContainer _player2DialogDisplayVBox;
@@ -17,8 +16,7 @@ public partial class GameScene : Control
 
 	private string _parentGroupName;
 	private long _pollingIntervalMillis = 0;
-	private (Node node, SelectScenes script) _selectSceneInstant;
-	private (Node node, SelectScenes script) _battleSceneInstant;
+	private Node _currentScene = null;
 	private Queue<(Node node, Dialogue script)> _dialogueInstants1 = new Queue<(Node node, Dialogue script)>();
 	private Queue<(Node node, Dialogue script)> _dialogueInstants2 = new Queue<(Node node, Dialogue script)>();
 	private int _selectionAmount = 3;
@@ -69,10 +67,10 @@ public partial class GameScene : Control
 		}
 
 		// is select page found if found update vote
-		if (_selectSceneInstant.script != null)
+		if (_currentScene is SelectScenes script)
 		{
 			var votesData = votingData.OrderBy(pair => pair.Key).Select(pair => pair.Value).ToArray();
-			_selectSceneInstant.script.UpdateVoteCount(votesData);
+			script.UpdateVoteCount(votesData);
 		}
 	}
 
@@ -144,7 +142,9 @@ public partial class GameScene : Control
 
 		var nodeData = GamaProgressManager.Instance.GetProgress(sceneIndex++);
 		Node node = nodeData.node;
+		_currentScene = node;
 		AddChild(node);
+		MoveChild(node, 1);
 
 		SignalManager.Instance.EmitUpdateAllPlayerDataSignal();
 
