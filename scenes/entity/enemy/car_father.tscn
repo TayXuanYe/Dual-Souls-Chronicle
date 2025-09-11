@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://wcsw8bk1w741"]
+
+[ext_resource type="Script" uid="uid://dwub32itfra6r" path="res://scripts/entity/enemy/CarFather.cs" id="1_8mljx"]
+
+[node name="CarFather" type="CharacterBody2D"]
+script = ExtResource("1_8mljx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
