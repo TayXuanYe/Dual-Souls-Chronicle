@@ -1,9 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://cp34vna5h27vb"]
 
-[ext_resource type="Script" uid="uid://byujrg6gsy8ii" path="res://scripts/entity/enemy/Car.cs" id="1_ob2hr"]
+[ext_resource type="Script" uid="uid://b156awukg1hxt" path="res://scripts/entity/enemy/Car.cs" id="1_ob2hr"]
 
-[node name="car" type="CharacterBody2D" node_paths=PackedStringArray("_animatedSprite")]
+[node name="car" type="CharacterBody2D"]
 script = ExtResource("1_ob2hr")
-_animatedSprite = NodePath("AnimatedSprite2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

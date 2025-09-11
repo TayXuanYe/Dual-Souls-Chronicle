@@ -6,7 +6,7 @@ public partial class Lorry : Entity
 	public override void _Ready()
 	{
 		_animatedSprite.AnimationFinished += OnAnimationFinished;
-
+		
 		HpLimit = 240;
 		Hp = 240;
 		Attack = 300;
@@ -21,11 +21,21 @@ public partial class Lorry : Entity
 	}
 
 	private Entity attackEntity;
+	private bool _isAccumulate = false; 
 	public override void AttackEntity(Entity entity)
 	{
-		attackEntity = entity;
-		// show animation
-		PlayAnimation("attack", entity.GlobalPosition);
+		if (!_isAccumulate)
+		{
+			PlayAnimation("accumulate");
+			_isAccumulate = true;
+		}
+		else
+		{
+			_isAccumulate = false;
+			attackEntity = entity;
+			// show animation
+			PlayAnimation("attack", entity.GlobalPosition);
+		}
 	}
 
 	protected override void PlayAnimation(string animName)
@@ -86,6 +96,9 @@ public partial class Lorry : Entity
 				PlayAnimation("idle");
 				break;
 			case "attacked":
+				PlayAnimation("idle");
+				break;
+			case "accumulate":
 				PlayAnimation("idle");
 				break;
 			default:

@@ -21,21 +21,11 @@ public partial class Car : Entity
 	}
 
 	private Entity attackEntity;
-	private bool _isAccumulate = false; 
 	public override void AttackEntity(Entity entity)
 	{
-		if (!_isAccumulate)
-		{
-			PlayAnimation("accumulate");
-			_isAccumulate = true;
-		}
-		else
-		{
-			_isAccumulate = false;
-			attackEntity = entity;
-			// show animation
-			PlayAnimation("attack", entity.GlobalPosition);
-		}
+		attackEntity = entity;
+		// show animation
+		PlayAnimation("attack", entity.GlobalPosition);
 	}
 
 	protected override void PlayAnimation(string animName)
@@ -96,9 +86,6 @@ public partial class Car : Entity
 				PlayAnimation("idle");
 				break;
 			case "attacked":
-				PlayAnimation("idle");
-				break;
-			case "accumulate":
 				PlayAnimation("idle");
 				break;
 			default:
