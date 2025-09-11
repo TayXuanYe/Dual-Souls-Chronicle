@@ -16,6 +16,8 @@ public partial class SignalManager : Node
 	public delegate void RemoveBuffCharacterEventHandler(string buffId, string parentGroupName);
 	[Signal]
 	public delegate void UpdateAllPlayerDataEventHandler();
+	[Signal]
+	public delegate void SluggishnessCharacterEventHandler(string characterId);
 
 	public override void _Ready()
 	{
@@ -55,5 +57,10 @@ public partial class SignalManager : Node
 	public void EmitUpdateAllPlayerDataSignal()
 	{
 		EmitSignal(SignalName.UpdateAllPlayerData);
+	}
+
+	public void EmitSluggishnessCharacterSignal(string characterId)
+	{
+		EmitSignal(SignalName.SluggishnessCharacter, characterId);
 	}
 }

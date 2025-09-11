@@ -1,13 +1,16 @@
 using Godot;
 using System;
 
-public partial class Mage : Entity
+public partial class Lorry : Entity
 {
-	[Export] protected AnimatedSprite2D _boom;
-
 	public override void _Ready()
 	{
 		_animatedSprite.AnimationFinished += OnAnimationFinished;
+		
+		HpLimit = 240;
+		Hp = 240;
+		Attack = 300;
+		Defense = 30;
 	}
 
 	public void Init(string id, Vector2 globalPosition)
@@ -18,11 +21,21 @@ public partial class Mage : Entity
 	}
 
 	private Entity attackEntity;
+	private bool _isAccumulate = false; 
 	public override void AttackEntity(Entity entity)
 	{
-		attackEntity = entity;
-		// show animation
-		PlayAnimation("attack", entity.GlobalPosition);
+		if (!_isAccumulate)
+		{
+			PlayAnimation("accumulate");
+			_isAccumulate = true;
+		}
+		else
+		{
+			_isAccumulate = false;
+			attackEntity = entity;
+			// show animation
+			PlayAnimation("attack", entity.GlobalPosition);
+		}
 	}
 
 	protected override void PlayAnimation(string animName)
@@ -31,45 +44,33 @@ public partial class Mage : Entity
 	}
 	protected override void PlayAnimation(string animName, Vector2 position)
 	{
-		_boom.Position = OriginGlobalPosition;
-		_boom.Play(animName);
+		_animatedSprite.Play(animName);
 		// move position
-		MoveInParabola(position, 1, 200);
+		MoveInStraightLine(position, 1);
 	}
 	
-	private void MoveInParabola(Vector2 targetPosition, double travelTime, float peakHeight)
+	public void MoveInStraightLine(Vector2 targetPosition, double travelTime)
 	{
 		if (travelTime <= 0)
 		{
-			_boom.GlobalPosition = targetPosition;
+			GlobalPosition = targetPosition;
 			return;
 		}
 
 		var tween = CreateTween();
-
-		tween.TweenProperty(this, "parabola_progress", 1.0, travelTime);
 		
-		var startPosition = _boom.GlobalPosition;
-		
-		tween.Connect("parabola_progress", Callable.From((float progress) =>
-		{
-			var newPosition = startPosition.Lerp(targetPosition, progress);
-			var t = progress * 2 - 1; 
-			var heightOffset = -peakHeight * (t * t - 1);
-			_boom.GlobalPosition = newPosition + Vector2.Up * heightOffset;
-		}));
+		tween.TweenProperty(this, "global_position", targetPosition, travelTime);
 	}
 
 	public override void Attacked(int damage)
 	{
-		CharacterModel characterModel = CharacterDataManager.Instance.Characters[Id];
-		if (characterModel.Hp < damage)
+		if (Hp < damage)
 		{
-			characterModel.Hp = 0;
+			Hp = 0;
 		}
 		else
 		{
-			characterModel.Hp -= damage;
+			Hp -= damage;
 		}
 		PlayAnimation("attacked");
 		// display damage value
@@ -87,15 +88,17 @@ public partial class Mage : Entity
 		{
 			case "attack":
 				PlayAnimation("idle");
-				CharacterModel characterModel = CharacterDataManager.Instance.Characters[Id];
-				int damage = CalculateDamage(characterModel.Attack, attackEntity.Defense, characterModel.CriticalDamage, characterModel.CriticalRate);
+				int damage = CalculateDamage(Attack, attackEntity.Defense, CriticalDamage, CriticalRate);
 				attackEntity.Attacked(damage);
-				_boom.GlobalPosition = new Vector2(-1000,-1000);
+				GlobalPosition = OriginGlobalPosition;
 				break;
 			case "idle":
 				PlayAnimation("idle");
 				break;
 			case "attacked":
+				PlayAnimation("idle");
+				break;
+			case "accumulate":
 				PlayAnimation("idle");
 				break;
 			default:
