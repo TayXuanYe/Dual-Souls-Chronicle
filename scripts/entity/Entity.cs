@@ -28,6 +28,7 @@ public abstract partial class Entity : Node2D
     public float CriticalRate { get; set; } = 0f;
     public float CriticalDamage { get; set; } = 1f;
     [Export] protected AnimatedSprite2D _animatedSprite;
+    [Export] protected PackedScene _damageLabelScene = GD.Load<PackedScene>("res://scenes/entity/DamageLabel.tscn");
     protected string _id;
     public Vector2 originGlobalPosition;
 }
