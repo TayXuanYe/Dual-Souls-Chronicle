@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cg0b5up8dpfin"]
+
+[ext_resource type="Script" uid="uid://cfvm010eu2wga" path="res://scripts/entity/character/ShieldGuard.cs" id="1_km4iu"]
+
+[node name="ShieldGuard" type="CharacterBody2D" node_paths=PackedStringArray("_animatedSprite")]
+script = ExtResource("1_km4iu")
+_animatedSprite = NodePath("AnimatedSprite2D")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
