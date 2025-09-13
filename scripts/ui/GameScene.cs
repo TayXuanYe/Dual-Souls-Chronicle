@@ -20,7 +20,22 @@ public partial class GameScene : Control
 	private Queue<(Node node, Dialogue script)> _dialogueInstants1 = new Queue<(Node node, Dialogue script)>();
 	private Queue<(Node node, Dialogue script)> _dialogueInstants2 = new Queue<(Node node, Dialogue script)>();
 	private int _selectionAmount = 3;
+	public override void _Ready()
+	{
+		Size = new Vector2(960, 720);
 
+		SignalManager.Instance.DisplayDialog += OnDisplayDialog;
+		SignalManager.Instance.UpdateAllPlayerData += OnUpdateAllPlayerDataSignalReceipt;
+		SignalManager.Instance.NextProgress += OnNextProgressSignalReceipt;
+		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
+
+		// spawn first scene
+		SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, 0);
+
+		_ = StartGetChartMessageAsync();
+	}
+
+	// Simulate user input for testing
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventKey keyEvent && keyEvent.Pressed)
@@ -70,6 +85,7 @@ public partial class GameScene : Control
 		}
 	}
 
+	// Get chart from live room and process data...
 	private async Task StartGetChartMessageAsync()
 	{
 		while (true)
@@ -94,7 +110,6 @@ public partial class GameScene : Control
 			}
 		}
 	}
-
 	private void ProcessChartResponse(LiveChatMessageListResponse response)
 	{
 		Dictionary<int, int> votingData = new Dictionary<int, int>();
@@ -121,7 +136,6 @@ public partial class GameScene : Control
 			script.UpdateVoteCount(votingData);
 		}
 	}
-
 	private (bool isValid, int data) JustifyAndConvertVoteMessageValid(string message)
 	{
 		message = message.Replace(" ", "");
@@ -140,6 +154,7 @@ public partial class GameScene : Control
 		return (false, -1);
 	}
 
+	// This for display dialog using signal
 	private int maxDialogAmount = 5;
 	public void OnDisplayDialog(string message, string parentGroupName)
 	{
@@ -179,21 +194,7 @@ public partial class GameScene : Control
 		}
 	}
 
-	public override void _Ready()
-	{
-		Size = new Vector2(960, 720);
-
-		SignalManager.Instance.DisplayDialog += OnDisplayDialog;
-		SignalManager.Instance.UpdateAllPlayerData += OnUpdateAllPlayerDataSignalReceipt;
-		SignalManager.Instance.NextProgress += OnNextProgressSignalReceipt;
-		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
-
-		// spawn first scene
-		SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, 0);
-
-		_ = StartGetChartMessageAsync();
-	}
-
+	// This update user panel data by using signal
 	private void OnUpdateAllPlayerDataSignalReceipt()
 	{
 		if (_player1DataPanel is PlayerDataPanel player1DataPanelScript)
@@ -229,6 +230,7 @@ public partial class GameScene : Control
 		}
 	}
 
+	// function change to next scene (select, level) while receive signal
 	private void OnNextProgressSignalReceipt(string id, int index)
 	{
 		if (id == _parentGroupName)
