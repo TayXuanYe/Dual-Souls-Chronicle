@@ -49,33 +49,35 @@ public partial class Card : VBoxContainer
 		_cardFillerInstance.script.DescribeLabel.Text = cardDto.Describe;
 		_cardFillerInstance.script.ImageTextureRect.Texture = cardDto.ImageTexture;
 	}
+	public override void _Ready()
+	{
+		if (_cardFillerInstance.script.CardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)
+		{
+			_baseStyleBox = (StyleBoxFlat)styleBox.Duplicate();
+			_cardFillerInstance.script.CardPanel.AddThemeStyleboxOverride("panel", _baseStyleBox);
+		}
+	}
 
 	public override void _Process(double delta)
 	{
 		if (!_isInit) { return; }
 		if (IsSelect)
 		{
-			if (_cardFillerInstance.script.CardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)
-			{
-				styleBox.BorderColor = new Color(1, 0, 0);
+			_baseStyleBox.BorderColor = new Color(1, 0, 0);
 
-				styleBox.BorderWidthLeft = 4;
-				styleBox.BorderWidthRight = 4;
-				styleBox.BorderWidthTop = 4;
-				styleBox.BorderWidthBottom = 4;
-			}
+			_baseStyleBox.BorderWidthLeft = 4;
+			_baseStyleBox.BorderWidthRight = 4;
+			_baseStyleBox.BorderWidthTop = 4;
+			_baseStyleBox.BorderWidthBottom = 4;
 		}
 		else
 		{
-			if (_cardFillerInstance.script.CardPanel.GetThemeStylebox("panel") is StyleBoxFlat styleBox)
-			{
-				styleBox.BorderColor = new Color("#FFFFFFFF");
+			_baseStyleBox.BorderColor = new Color("#FFFFFFFF");
 
-				styleBox.BorderWidthLeft = 4;
-				styleBox.BorderWidthRight = 4;
-				styleBox.BorderWidthTop = 4;
-				styleBox.BorderWidthBottom = 4;
-			}
+			_baseStyleBox.BorderWidthLeft = 4;
+			_baseStyleBox.BorderWidthRight = 4;
+			_baseStyleBox.BorderWidthTop = 4;
+			_baseStyleBox.BorderWidthBottom = 4;
 		}
 	}
 }
