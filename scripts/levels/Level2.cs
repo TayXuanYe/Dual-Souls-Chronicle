@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Intrinsics;
 
-public partial class Level1 : Node
+public partial class Level2 : Node
 {
 	private int _pointer = 0;
 	private List<Entity> _character = new List<Entity>();
@@ -11,7 +11,7 @@ public partial class Level1 : Node
 	[Export] private PackedScene _warriorScene = GD.Load<PackedScene>("res://scenes/entity/character/warrior.tscn");
 	[Export] private PackedScene _shieldGuardScene= GD.Load<PackedScene>("res://scenes/entity/character/shield_guard.tscn");
 	[Export] private PackedScene _mageScene = GD.Load<PackedScene>("res://scenes/entity/character/mage.tscn");
-	[Export] private PackedScene _slimeScene = GD.Load<PackedScene>("res://scenes/entity/character/mage.tscn");
+	[Export] private PackedScene _slimeScene = GD.Load<PackedScene>("res://scenes/entity/enemy/geo_slime.tscn");
 	private async void Process()
 	{
 		while (true)

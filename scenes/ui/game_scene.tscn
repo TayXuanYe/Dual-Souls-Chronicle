@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://diry06uq7l28b"]
+[gd_scene load_steps=8 format=3 uid="uid://diry06uq7l28b"]
 
 [ext_resource type="Script" uid="uid://bu22shg14awid" path="res://scripts/ui/GameScene.cs" id="1_ko4ld"]
-[ext_resource type="PackedScene" uid="uid://4cu1nmm5exgc" path="res://scenes/ui/select_scenes.tscn" id="2_nwe1t"]
 [ext_resource type="PackedScene" uid="uid://b4vdglmsxapvs" path="res://scenes/ui/dialogue.tscn" id="3_nwe1t"]
 [ext_resource type="PackedScene" uid="uid://c83dcfq0gssyu" path="res://scenes/ui/player_data_panel.tscn" id="4_ucfjb"]
 
@@ -25,7 +24,6 @@ offset_right = -960.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ko4ld")
-_selectScene = ExtResource("2_nwe1t")
 _dialogue = ExtResource("3_nwe1t")
 _player1DialogDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer/Player1ChartDisplayPanel/Player1ChartDisplayVBox")
 _player2DialogDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel/Player2ChartDisplayVBox")

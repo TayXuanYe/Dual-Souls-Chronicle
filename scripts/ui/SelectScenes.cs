@@ -149,15 +149,17 @@ public partial class SelectScenes : VBoxContainer
 		_cardList[maxCountIndex].script.IsSelect = true;
 	}
 
-	public void UpdateVoteCount(int[] voteCounts)
+	public void UpdateVoteCount(Dictionary<int, int> voteCounts)
 	{
 		if(!_isInit) { return; }
-		if(voteCounts.Length != _selectAmount) { return; }
 
-		for (int i = 0; i < voteCounts.Length; i++)
+		for (int i = 0; i < _selectAmount; i++)
 		{
-			_voteBarList[i].script.VoteCount = voteCounts[i];
-			_voteTotalCount += voteCounts[i];
+			if (voteCounts.TryGetValue(i + 1, out int value))
+			{
+				_voteBarList[i].script.VoteCount += value;
+				_voteTotalCount += value;
+			}
 		}
 	}
 

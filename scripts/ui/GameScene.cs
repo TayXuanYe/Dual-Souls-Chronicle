@@ -21,6 +21,55 @@ public partial class GameScene : Control
 	private Queue<(Node node, Dialogue script)> _dialogueInstants2 = new Queue<(Node node, Dialogue script)>();
 	private int _selectionAmount = 3;
 
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+		{
+			Dictionary<int, int> votingData = new Dictionary<int, int>();
+			if (NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2") == "IsInViewport1")
+			{
+				if (keyEvent.Keycode == Key.Z)
+				{
+					votingData.Add(1, 1);
+					GD.Print("KEY PRESS Z");
+				}
+				if (keyEvent.Keycode == Key.X)
+				{
+					votingData.Add(2, 1);
+					GD.Print("KEY PRESS X");
+				}
+				if (keyEvent.Keycode == Key.C)
+				{
+					votingData.Add(3, 1);
+					GD.Print("KEY PRESS C");
+				}
+			}
+			if (NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2") == "IsInViewport2")
+			{
+				if (keyEvent.Keycode == Key.J)
+				{
+					votingData.Add(1, 1);
+					GD.Print("KEY PRESS J");
+				}
+				if (keyEvent.Keycode == Key.K)
+				{
+					votingData.Add(2, 1);
+					GD.Print("KEY PRESS K");
+				}
+				if (keyEvent.Keycode == Key.L)
+				{
+					votingData.Add(3, 1);
+					GD.Print("KEY PRESS L");
+				}
+			}
+
+			if (_currentScene is SelectScenes script)
+			{
+				script.UpdateVoteCount(votingData);
+			}
+		}
+	}
+
 	private async Task StartGetChartMessageAsync()
 	{
 		while (true)
@@ -69,8 +118,7 @@ public partial class GameScene : Control
 		// is select page found if found update vote
 		if (_currentScene is SelectScenes script)
 		{
-			var votesData = votingData.OrderBy(pair => pair.Key).Select(pair => pair.Value).ToArray();
-			script.UpdateVoteCount(votesData);
+			script.UpdateVoteCount(votingData);
 		}
 	}
 

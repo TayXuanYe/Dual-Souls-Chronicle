@@ -28,9 +28,9 @@ public partial class GamaProgressManager : Node
 		progressList.Add(2, ("SelectBuff", "res://scenes/ui/select_scenes.tscn"));
 
 		// level 2
-
+		progressList.Add(3, ("Level", "res://scenes/levels/level2.tscn"));
 		// select buff
-		progressList.Add(2, ("SelectBuff", "res://scenes/ui/select_scenes.tscn"));
+		progressList.Add(4, ("SelectBuff", "res://scenes/ui/select_scenes.tscn"));
 
 		// level 3 (boss)
 
