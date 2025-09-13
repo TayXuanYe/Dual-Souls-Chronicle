@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Threading.Tasks;
 
 public partial class SelectScenes : VBoxContainer
 {
@@ -20,16 +20,18 @@ public partial class SelectScenes : VBoxContainer
 	private int _selectAmount;
 	string _type;
 	private bool _isInit = false;
+	private int _nextProgressIndex;
 
-	public void Init(double voteTime,int selectAmount, string[] voteBarColors, string type, int randomSeed)
+	public void Init(double voteTime, int selectAmount, string[] voteBarColors, string type, int randomSeed, int nextProgressIndex)
 	{
 		if (_isInit) { return; }
-		if(voteBarColors.Length != selectAmount) { return; }
+		if (voteBarColors.Length != selectAmount) { return; }
 
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
 		_selectAmount = selectAmount;
 		_type = type;
+		_nextProgressIndex = nextProgressIndex;
 
 		InitVoteBar(voteBarColors);
 		InitCards(_selectAmount, type, randomSeed);
@@ -110,12 +112,11 @@ public partial class SelectScenes : VBoxContainer
 			count++;
 		}
 
-		//signal id temp use print
 		isOnVoteTimeCountdownTrigger = true;
 		EmitSignalByType(_type, carryData);
 	}
 
-	private void EmitSignalByType(string type, string carryData)
+	private async void EmitSignalByType(string type, string carryData)
 	{
 		if(string.IsNullOrEmpty(carryData)) { return; }
 		
@@ -123,11 +124,16 @@ public partial class SelectScenes : VBoxContainer
 		{
 			case "buff":
 				SignalManager.Instance.EmitSelectBuffSignal(carryData, _parentGroupName);
+				await Task.Delay(1000);
+				// show select buff
+				//based on the selection justify which animation show
 				break;
 			case "character":
 				SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
 				break;
 		}
+		if(_nextProgressIndex != -1)
+			SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, _nextProgressIndex);
 	}
 
 	public void UpdateSelectCard()
