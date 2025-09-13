@@ -6,8 +6,6 @@ using System.Collections.Generic;
 public partial class CharacterDataManager : Node
 {
     public static CharacterDataManager Instance;
-    public static string CharacterId1 { get; set; }
-    public static string CharacterId2 { get; set; }
     public Dictionary<string, CharacterModel> Characters = new Dictionary<string, CharacterModel>();
 
     public readonly static CharacterModel Warrior = new CharacterModel

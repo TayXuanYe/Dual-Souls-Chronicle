@@ -84,11 +84,9 @@ public partial class Main : Control
 		switch (groupName)
 		{
 			case "IsInViewport1":
-				CharacterDataManager.CharacterId1 = "IsInViewport1";
 				targetViewport = _subViewport1;
 				break;
 			case "IsInViewport2":
-				CharacterDataManager.CharacterId1 = "IsInViewport2";
 				targetViewport = _subViewport2;
 				break;
 			default:
