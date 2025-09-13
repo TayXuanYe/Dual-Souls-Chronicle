@@ -131,22 +131,17 @@ public partial class GameScene : Control
 		}
 	}
 
-	private int sceneIndex = 0;
 	public override void _Ready()
 	{
 		Size = new Vector2(960, 720);
 
 		SignalManager.Instance.DisplayDialog += OnDisplayDialog;
 		SignalManager.Instance.UpdateAllPlayerData += OnUpdateAllPlayerDataSignalReceipt;
+		SignalManager.Instance.NextProgress += OnNextProgressSignalReceipt;
 		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
 
-		var nodeData = GamaProgressManager.Instance.GetProgress(sceneIndex++);
-		Node node = nodeData.node;
-		_currentScene = node;
-		AddChild(node);
-		MoveChild(node, 1);
-
-		SignalManager.Instance.EmitUpdateAllPlayerDataSignal();
+		// spawn first scene
+		SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, 0);
 
 		_ = StartGetChartMessageAsync();
 	}
@@ -185,4 +180,26 @@ public partial class GameScene : Control
 			}
 		}
 	}
+
+	private void OnNextProgressSignalReceipt(string id, int index)
+	{
+		if (id == _parentGroupName)
+		{
+			// try remove node name game_scene
+			Node nodeToRemove = GetNodeOrNull("game_scene");
+			if (nodeToRemove != null)
+			{
+				nodeToRemove.QueueFree();
+			}
+
+			var nodeData = GamaProgressManager.Instance.GetProgress(index);
+			Node node = nodeData.node;
+			node.Name = "game_scene";
+			_currentScene = node;
+			AddChild(node);
+			MoveChild(node, 1);
+		}
+		SignalManager.Instance.EmitUpdateAllPlayerDataSignal();
+	}
+	
 }

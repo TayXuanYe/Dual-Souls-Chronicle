@@ -8,10 +8,10 @@ public partial class Level : Node
 	private int _pointer = 0;
 	private List<Entity> _character = new List<Entity>();
 	private List<Entity> _enemy = new List<Entity>();
-    [Export] private PackedScene _warriorScene = GD.Load<PackedScene>("res://scenes/entity/character/warrior.tscn");
-    [Export] private PackedScene _shieldGuardScene= GD.Load<PackedScene>("res://scenes/entity/character/shield_guard.tscn");
-    [Export] private PackedScene _mageScene = GD.Load<PackedScene>("res://scenes/entity/character/mage.tscn");
-    [Export] private PackedScene _slimeScene = GD.Load<PackedScene>("res://scenes/entity/character/mage.tscn");
+	[Export] private PackedScene _warriorScene = GD.Load<PackedScene>("res://scenes/entity/character/warrior.tscn");
+	[Export] private PackedScene _shieldGuardScene= GD.Load<PackedScene>("res://scenes/entity/character/shield_guard.tscn");
+	[Export] private PackedScene _mageScene = GD.Load<PackedScene>("res://scenes/entity/character/mage.tscn");
+	[Export] private PackedScene _slimeScene = GD.Load<PackedScene>("res://scenes/entity/character/mage.tscn");
 	private async void Process()
 	{
 		while (true)
@@ -33,6 +33,7 @@ public partial class Level : Node
 					Entity character = GetAttackCharacter();
 					enemy.AttackEntity(character);
 					await ToSignal(GetTree().CreateTimer(2.0), Timer.SignalName.Timeout);
+					SignalManager.Instance.EmitUpdateAllPlayerDataSignal();
 				}
 			}
 		}
@@ -42,7 +43,7 @@ public partial class Level : Node
 	{
 		if (CharacterDataManager.Instance.Characters["IsInViewport1"].Hp == 0 && CharacterDataManager.Instance.Characters["IsInViewport2"].Hp == 0)
 		{
-			//signal lost
+			SignalManager.Instance.EmitNextProgressSignal(NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2"),1);
 		}
 
 		bool allEnemyKill = true;
@@ -55,7 +56,8 @@ public partial class Level : Node
 		}
 		if (allEnemyKill)
 		{
-			//signal win next progress
+			SignalManager.Instance.EmitNextProgressSignal(NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2"),-1);
+
 
 		}
 
@@ -91,16 +93,16 @@ public partial class Level : Node
 		SpawnCharacterByName(
 			CharacterDataManager.Instance.Characters["IsInViewport1"].CharacterRole.ToString(),
 			CharacterDataManager.Instance.Characters["IsInViewport1"].Id,
-			new Vector2(100, 100));
+			new Vector2(135, 160));
 		SpawnCharacterByName(
 			CharacterDataManager.Instance.Characters["IsInViewport2"].CharacterRole.ToString(),
 			CharacterDataManager.Instance.Characters["IsInViewport2"].Id,
-			new Vector2(100, 100));
+			new Vector2(405, 160));
 		Node slime = _slimeScene.Instantiate();
 		if (slime is Slime slimeScript)
 		{
 			_enemy.Add(slimeScript);
-			slimeScript.Init("slime1", new Vector2(1000, 1000));
+			slimeScript.Init("slime1", new Vector2(1000, 270));
 		}
 		Process();
 	}

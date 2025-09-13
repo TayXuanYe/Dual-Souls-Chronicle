@@ -78,6 +78,8 @@ public partial class SelectScenes : VBoxContainer
 	}
 	public override void _Process(double delta)
 	{
+		Size = new Vector2(960, 720);
+		Position = new Vector2(0, 0);
 		if (!_isInit) { return; }
 		if (_voteTimeCountdown <= 0)
 		{

@@ -23,29 +23,25 @@ public partial class GamaProgressManager : Node
 		progressList.Add(0, ("SelectCharacter", "res://scenes/ui/select_scenes.tscn"));
 
 		// level 1
-
+		progressList.Add(1, ("Level", "res://scenes/levels/level1.tscn"));
 		// select buff
 		progressList.Add(2, ("SelectBuff", "res://scenes/ui/select_scenes.tscn"));
-		// select rest
 
 		// level 2
 
 		// select buff
-		// select rest
+		progressList.Add(2, ("SelectBuff", "res://scenes/ui/select_scenes.tscn"));
 
 		// level 3 (boss)
 
 		// select boss buff
-		// select rest
 
 		// level 4 
 
 		// select buff
-		// select rest
 
 		// level 5
 		// select buff
-		// select rest
 
 		// level 6 (final boss)
 
@@ -71,7 +67,9 @@ public partial class GamaProgressManager : Node
 			case "SelectBuff":
 				node = InitSelectBuffScene(data.resourcesPath, index);
 				break;
-			// Add other cases as needed
+			case "Level":
+				node = InitLevelScene(data.resourcesPath);
+				break;
 		}
 
 		bool isValid = node != null;
@@ -99,6 +97,12 @@ public partial class GamaProgressManager : Node
 			script.Init(20, 3, colors, "buff", seed);
 		}
 
+		return node;
+	}
+	
+	private Node InitLevelScene(string resourcesPath)
+	{
+		Node node = GD.Load<PackedScene>(resourcesPath).Instantiate();
 		return node;
 	}
 }
