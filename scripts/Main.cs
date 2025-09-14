@@ -66,7 +66,6 @@ public partial class Main : Control
 
 	public void RedirectTo(string groupName, string pageName)
 	{
-		GD.Print("REDIRECT PROGRESS");
 		Node page = null;
 		switch (pageName)
 		{
@@ -78,7 +77,6 @@ public partial class Main : Control
 				break;
 		}
 		if (page == null) { return; }
-		GD.Print($"REDIRECT TO {page.Name}");
 
 		Node targetViewport = new Node();
 		switch (groupName)
@@ -93,21 +91,17 @@ public partial class Main : Control
 				break;
 				
 		}
-		GD.Print($"REMOVING NODE {groupName}");
 		var childrenToFree = new Godot.Collections.Array<Node>(targetViewport.GetChildren());
 
 		foreach (Node child in childrenToFree)
 		{
 			if (child.Name != "Data")
 			{
-				GD.Print($"Removing child: {child.Name}");
 				targetViewport.RemoveChild(child);
 				child.QueueFree();
 			}
 		}
 
 		targetViewport.CallDeferred(Node.MethodName.AddChild, page);
-
-		GD.Print("REDIRECT COMPLETED");
 	}
 }

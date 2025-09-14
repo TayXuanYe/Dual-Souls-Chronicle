@@ -57,13 +57,11 @@ public partial class SetupPage : Control
 	{
 		_isRequestSend = true;
 		var mainNode = GetNode<Main>("/root/Loader/Main");
-		GD.Print($"Start linking to live room {videoId}, Instance ID: {GetInstanceId()}, Parent Group: {_parentGroupName}");
 		bool isSuccessInit = false;
 		isSuccessInit = await YoutubeManager.Instance.RegisterYoutubeManager(videoId, _parentGroupName);
 
 		if (isSuccessInit)
 		{
-			GD.Print($"Live linked in sub viewport {_parentGroupName}");
 			CharacterModel characterModel = new CharacterModel();
 			characterModel.CharacterName = _nameInput.Text.Trim();
 			characterModel.Id = $"character_{_parentGroupName}";

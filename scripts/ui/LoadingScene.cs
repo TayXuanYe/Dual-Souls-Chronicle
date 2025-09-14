@@ -39,7 +39,6 @@ public partial class LoadingScene : Control
 		if (@event is InputEventKey keyEvent && keyEvent.Pressed)
 		{
 			if (keyEvent.Keycode != Key.P) { return; }
-			GD.Print("KEY P PRESS");
 			var mainNode = GetNode<Main>("/root/Loader/Main");
 			if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport1") && YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport2"))
 			{

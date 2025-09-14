@@ -106,7 +106,7 @@ public partial class CardsDataManager : Node
 			parentGroup1SelectBuffCardId = null;
 			parentGroup2SelectBuffCardId = null;
 			// signal select buff fail
-			SignalManager.Instance.EmitShowSelectAnimationSignal("scramble");
+			// SignalManager.Instance.EmitShowSelectAnimationSignal("scramble");
 			return;
 		}
 		
@@ -117,7 +117,7 @@ public partial class CardsDataManager : Node
 				// signal add buff
 				SignalManager.Instance.EmitAddBuffCharacterSignal(buffId, parentGroupName);
 				BuffCards[i] = (BuffCards[i].card, true);
-				SignalManager.Instance.EmitShowSelectAnimationSignal("getBuff");
+				// SignalManager.Instance.EmitShowSelectAnimationSignal("getBuff");
 				break;
 			}
 		}

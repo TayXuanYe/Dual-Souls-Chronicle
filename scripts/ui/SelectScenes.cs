@@ -28,7 +28,6 @@ public partial class SelectScenes : VBoxContainer
 		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
 	}
 
-
 	public void Init(double voteTime, int selectAmount, string[] voteBarColors, string type, int randomSeed, int nextProgressIndex)
 	{
 		if (_isInit) { return; }
@@ -43,9 +42,9 @@ public partial class SelectScenes : VBoxContainer
 		InitVoteBar(voteBarColors);
 		InitCards(_selectAmount, type, randomSeed);
 
-		SignalManager.Instance.ShowSelectAnimation += OnShowSelectAnimationReceipt;
 		_isInit = true;
 	}
+
 	private void InitCards(int selectAmount, string type, int randomSeed)
 	{
 		List<CardModel> cardsData = new List<CardModel>();
@@ -86,26 +85,24 @@ public partial class SelectScenes : VBoxContainer
 			}
 		}
 	}
+
+	bool isOnVoteTimeCountdownTrigger = false;
 	public override void _Process(double delta)
 	{
 		Size = new Vector2(960, 720);
 		Position = new Vector2(0, 0);
 		if (!_isInit) { return; }
-		if (_voteTimeCountdown <= 0)
+		if (_voteTimeCountdown <= 0 && !isOnVoteTimeCountdownTrigger)
 		{
 			OnVoteTimeCountdown();
-			return;
+			isOnVoteTimeCountdownTrigger = true;
 		}
-		DisplayVotingTime(delta);
-		UpdateVoteBarSize();
-		UpdateSelectCard();
+			DisplayVotingTime(delta);
+			UpdateVoteBarSize();
+			UpdateSelectCard();
 	}
-
-	bool isOnVoteTimeCountdownTrigger = false;
 	public void OnVoteTimeCountdown()
 	{
-		if (isOnVoteTimeCountdownTrigger) { return; }
-
 		string carryData = null;
 		int maxVoteCount = -1;
 		int count = 0;
@@ -120,11 +117,10 @@ public partial class SelectScenes : VBoxContainer
 			count++;
 		}
 
-		isOnVoteTimeCountdownTrigger = true;
 		EmitSignalByType(_type, carryData);
 	}
 
-	private async void EmitSignalByType(string type, string carryData)
+	private void EmitSignalByType(string type, string carryData)
 	{
 		GD.Print($"Emit signal,{type}?");
 		if(string.IsNullOrEmpty(carryData)) { return; }
@@ -134,9 +130,6 @@ public partial class SelectScenes : VBoxContainer
 		{
 			case "buff":
 				SignalManager.Instance.EmitSelectBuffSignal(carryData, _parentGroupName);
-				// stuck until animation display success
-				await ToSignal(SignalManager.Instance, SignalManager.SignalName.ShowSelectAnimation);
-				await Task.Delay(1000);
 				break;
 			case "character":
 				SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
@@ -147,13 +140,7 @@ public partial class SelectScenes : VBoxContainer
 		if (_nextProgressIndex != -1)
 		{
 			SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, _nextProgressIndex);
-			// SignalManager.Instance.ShowSelectAnimation -= OnShowSelectAnimationReceipt;
 		}
-	}
-
-	private void OnShowSelectAnimationReceipt(string animation)
-	{
-		_animationSprite2D.Play(animation);
 	}
 
 	public void UpdateSelectCard()
