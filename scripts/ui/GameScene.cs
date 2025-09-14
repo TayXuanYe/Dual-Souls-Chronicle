@@ -199,34 +199,12 @@ public partial class GameScene : Control
 	{
 		if (_player1DataPanel is PlayerDataPanel player1DataPanelScript)
 		{
-			player1DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].CharacterName;
-			if (CharacterDataManager.Instance.Characters["IsInViewport1"].IsAssignRole())
-			{
-				string hpAmount = CharacterDataManager.Instance.Characters["IsInViewport1"].Hp.ToString();
-				string hpLimit = CharacterDataManager.Instance.Characters["IsInViewport1"].HpLimit.ToString();
-				player1DataPanelScript.HPLabel.Text = $"{hpAmount}/{hpLimit}";
-				player1DataPanelScript.AttackLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].Attack.ToString();
-				player1DataPanelScript.DefenseLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].Defense.ToString();
-
-				var buffs = CharacterDataManager.Instance.Characters["IsInViewport1"].Buff;
-				player1DataPanelScript.BuffLabel.Text = string.Join(", ", buffs.Select(b => b.Name));
-			}
+			player1DataPanelScript.UpdatePlayerDataDisplay(CharacterDataManager.Instance.Characters["IsInViewport1"]);
 		}
 
 		if (_player2DataPanel is PlayerDataPanel player2DataPanelScript)
 		{
-			player2DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].CharacterName;
-			if (CharacterDataManager.Instance.Characters["IsInViewport2"].IsAssignRole())
-			{
-				string hpAmount = CharacterDataManager.Instance.Characters["IsInViewport2"].Hp.ToString();
-				string hpLimit = CharacterDataManager.Instance.Characters["IsInViewport2"].HpLimit.ToString();
-				player2DataPanelScript.HPLabel.Text = $"{hpAmount}/{hpLimit}";
-				player2DataPanelScript.AttackLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].Attack.ToString();
-				player2DataPanelScript.DefenseLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].Defense.ToString();
-
-				var buffs = CharacterDataManager.Instance.Characters["IsInViewport2"].Buff;
-				player2DataPanelScript.BuffLabel.Text = string.Join(", ", buffs.Select(b => b.Name));
-			}
+			player2DataPanelScript.UpdatePlayerDataDisplay(CharacterDataManager.Instance.Characters["IsInViewport2"]);
 		}
 	}
 
