@@ -83,6 +83,7 @@ public partial class CardsDataManager : Node
 	private string parentGroup2SelectBuffCardId;
 	public void OnSelectBuffSignalReceipt(string buffId, string parentGroupName)
 	{
+		// assign the selected buff card id
 		switch (parentGroupName)
 		{
 			case "IsInViewport1":
@@ -93,15 +94,19 @@ public partial class CardsDataManager : Node
 				break;
 		}
 		
+		// if any one of them are empty or null return cause select progress not yet done
 		if (string.IsNullOrEmpty(parentGroup1SelectBuffCardId) || string.IsNullOrEmpty(parentGroup2SelectBuffCardId))
 		{
 			return;
 		}
 
+		// if both select same card, both didn't get buff
 		if (parentGroup1SelectBuffCardId == parentGroup2SelectBuffCardId)
 		{
 			parentGroup1SelectBuffCardId = null;
 			parentGroup2SelectBuffCardId = null;
+			// signal select buff fail
+			SignalManager.Instance.EmitShowSelectAnimationSignal("scramble");
 			return;
 		}
 		
@@ -112,6 +117,7 @@ public partial class CardsDataManager : Node
 				// signal add buff
 				SignalManager.Instance.EmitAddBuffCharacterSignal(buffId, parentGroupName);
 				BuffCards[i] = (BuffCards[i].card, true);
+				SignalManager.Instance.EmitShowSelectAnimationSignal("getBuff");
 				break;
 			}
 		}

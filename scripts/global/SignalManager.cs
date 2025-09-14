@@ -11,6 +11,8 @@ public partial class SignalManager : Node
 	[Signal]
 	public delegate void SelectBuffEventHandler(string buffId, string parentGroupName);
 	[Signal]
+	public delegate void ShowSelectAnimationEventHandler(string animation);
+	[Signal]
 	public delegate void AddBuffCharacterEventHandler(string buffId, string parentGroupName);
 	[Signal]
 	public delegate void RemoveBuffCharacterEventHandler(string buffId, string parentGroupName);
@@ -44,6 +46,11 @@ public partial class SignalManager : Node
 	public void EmitSelectBuffSignal(string buffId, string parentGroupName)
 	{
 		EmitSignal(SignalName.SelectBuff, buffId, parentGroupName);
+	}
+
+	public void EmitShowSelectAnimationSignal(string animation)
+	{
+		EmitSignal(SignalName.ShowSelectAnimation, animation);
 	}
 
 	public void EmitAddBuffCharacterSignal(string buffId, string parentGroupName)

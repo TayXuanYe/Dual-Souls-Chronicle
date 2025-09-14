@@ -36,6 +36,8 @@ public partial class SelectScenes : VBoxContainer
 		InitVoteBar(voteBarColors);
 		InitCards(_selectAmount, type, randomSeed);
 
+		SignalManager.Instance.ShowSelectAnimation += OnShowSelectAnimationReceipt;
+
 		_isInit = true;
 	}
 	private void InitCards(int selectAmount, string type, int randomSeed)
@@ -124,16 +126,33 @@ public partial class SelectScenes : VBoxContainer
 		{
 			case "buff":
 				SignalManager.Instance.EmitSelectBuffSignal(carryData, _parentGroupName);
+				// stuck until animation display success
+				await ToSignal(SignalManager.Instance, SignalManager.SignalName.ShowSelectAnimation);
 				await Task.Delay(1000);
-				// show select buff
-				//based on the selection justify which animation show
 				break;
 			case "character":
 				SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
 				break;
 		}
-		if(_nextProgressIndex != -1)
+		
+		// if didn't have next Index will be -1
+		if (_nextProgressIndex != -1)
 			SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, _nextProgressIndex);
+	}
+
+	private void OnShowSelectAnimationReceipt(string animation)
+	{
+		switch (animation)
+		{
+			case "scramble":
+				// show animation
+				// delay
+				break;
+			case "getBuff":
+				break;
+			default:
+				break;
+		}
 	}
 
 	public void UpdateSelectCard()
