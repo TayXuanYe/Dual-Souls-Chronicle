@@ -40,7 +40,7 @@ animations = [{
 "speed": 1.0
 }]
 
-[node name="SelectScenes" type="VBoxContainer" node_paths=PackedStringArray("_votingTimeLabel", "_cardContainer", "_voteBarContainer")]
+[node name="SelectScenes" type="VBoxContainer" node_paths=PackedStringArray("_votingTimeLabel", "_cardContainer", "_voteBarContainer", "_animationSprite2D", "_voteTimer")]
 clip_contents = true
 anchors_preset = 10
 anchor_right = 1.0
@@ -54,6 +54,8 @@ _cardScene = ExtResource("2_kyaow")
 _votingTimeLabel = NodePath("MarginContainer/VotingTimeLabel")
 _cardContainer = NodePath("MarginContainer3/CardContainer")
 _voteBarContainer = NodePath("MarginContainer2/VoteBarContainer")
+_animationSprite2D = NodePath("AnimatedSprite2D")
+_voteTimer = NodePath("Timer")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -98,3 +100,6 @@ z_index = 10
 position = Vector2(0, -328)
 sprite_frames = SubResource("SpriteFrames_4rnxj")
 centered = false
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true

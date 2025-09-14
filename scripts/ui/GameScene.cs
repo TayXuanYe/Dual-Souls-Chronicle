@@ -45,17 +45,14 @@ public partial class GameScene : Control
 				if (keyEvent.Keycode == Key.Z)
 				{
 					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 1);
-					GD.Print("KEY PRESS Z");
 				}
 				if (keyEvent.Keycode == Key.X)
 				{
 					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 2);
-					GD.Print("KEY PRESS X");
 				}
 				if (keyEvent.Keycode == Key.C)
 				{
 					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 3);
-					GD.Print("KEY PRESS C");
 				}
 			}
 			if (NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2") == "IsInViewport2")
@@ -63,17 +60,14 @@ public partial class GameScene : Control
 				if (keyEvent.Keycode == Key.J)
 				{
 					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 1);
-					GD.Print("KEY PRESS J");
 				}
 				if (keyEvent.Keycode == Key.K)
 				{
 					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 2);
-					GD.Print("KEY PRESS K");
 				}
 				if (keyEvent.Keycode == Key.L)
 				{
 					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 3);
-					GD.Print("KEY PRESS L");
 				}
 			}
 		}

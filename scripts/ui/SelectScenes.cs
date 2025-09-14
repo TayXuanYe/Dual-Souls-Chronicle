@@ -11,7 +11,8 @@ public partial class SelectScenes : VBoxContainer
 	[Export] private HBoxContainer _cardContainer;
 	[Export] private HBoxContainer _voteBarContainer;
 	[Export] private AnimatedSprite2D _animationSprite2D;
-	
+	[Export] private Timer _voteTimer;
+
 	private List<(Node node, VoteBar script)> _voteBarList = new List<(Node node, VoteBar script)>();
 	private List<(Node node, Card script)> _cardList = new List<(Node node, Card script)>();
 	private float _width = 960;
@@ -26,6 +27,7 @@ public partial class SelectScenes : VBoxContainer
 	public override void _Ready()
 	{
 		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
+		SignalManager.Instance.UpdateVote += OnUpdateVoteSignalReceipt;
 	}
 
 	public void Init(double voteTime, int selectAmount, string[] voteBarColors, string type, int randomSeed, int nextProgressIndex)
@@ -34,6 +36,10 @@ public partial class SelectScenes : VBoxContainer
 		if (voteBarColors.Length != selectAmount) { return; }
 
 		_voteTimeCountdown = voteTime;
+		_voteTimer.Timeout += OnVoteTimerTimeout;
+		_voteTimer.WaitTime = voteTime;
+		_voteTimer.Start();
+
 		_voteTotalCount = 0;
 		_selectAmount = selectAmount;
 		_type = type;
@@ -86,23 +92,19 @@ public partial class SelectScenes : VBoxContainer
 		}
 	}
 
-	bool isOnVoteTimeCountdownTrigger = false;
 	public override void _Process(double delta)
 	{
 		Size = new Vector2(960, 720);
 		Position = new Vector2(0, 0);
 		if (!_isInit) { return; }
-		if (_voteTimeCountdown <= 0 && !isOnVoteTimeCountdownTrigger)
-		{
-			OnVoteTimeCountdown();
-			isOnVoteTimeCountdownTrigger = true;
-		}
-			DisplayVotingTime(delta);
-			UpdateVoteBarSize();
-			UpdateSelectCard();
+		DisplayVotingTime(_voteTimer.TimeLeft); 
+		UpdateVoteBarSize();
+		UpdateSelectCard();
 	}
-	public void OnVoteTimeCountdown()
+	public void OnVoteTimerTimeout()
 	{
+		_voteTimer.Stop();
+
 		string carryData = null;
 		int maxVoteCount = -1;
 		int count = 0;
@@ -126,21 +128,21 @@ public partial class SelectScenes : VBoxContainer
 		if(string.IsNullOrEmpty(carryData)) { return; }
 		GD.Print($"Emit signal,{type}");
 		
-		switch (type)
-		{
-			case "buff":
-				SignalManager.Instance.EmitSelectBuffSignal(carryData, _parentGroupName);
-				break;
-			case "character":
-				SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
-				break;
-		}
+		// switch (type)
+		// {
+		// 	case "buff":
+		// 		SignalManager.Instance.EmitSelectBuffSignal(carryData, _parentGroupName);
+		// 		break;
+		// 	case "character":
+		// 		SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
+		// 		break;
+		// }
 
-		// if didn't have next Index will be -1
-		if (_nextProgressIndex != -1)
-		{
-			SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, _nextProgressIndex);
-		}
+		// // if didn't have next Index will be -1
+		// if (_nextProgressIndex != -1)
+		// {
+		// 	SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, _nextProgressIndex);
+		// }
 	}
 
 	public void UpdateSelectCard()
@@ -162,17 +164,13 @@ public partial class SelectScenes : VBoxContainer
 		_cardList[maxCountIndex].script.IsSelect = true;
 	}
 
-	public void UpdateVoteCount(Dictionary<int, int> voteCounts)
+	public void OnUpdateVoteSignalReceipt(string id, int voteId)
 	{
-		if(!_isInit) { return; }
-
-		for (int i = 0; i < _selectAmount; i++)
+		if(id == _parentGroupName)
 		{
-			if (voteCounts.TryGetValue(i + 1, out int value))
-			{
-				_voteBarList[i].script.VoteCount += value;
-				_voteTotalCount += value;
-			}
+			if (voteId < 1 || voteId > _selectAmount) { return; }
+			_voteTotalCount++;
+			_voteBarList[voteId - 1].script.VoteCount++;
 		}
 	}
 
