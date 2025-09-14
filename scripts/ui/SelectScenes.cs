@@ -10,6 +10,7 @@ public partial class SelectScenes : VBoxContainer
 	[Export] private Label _votingTimeLabel;
 	[Export] private HBoxContainer _cardContainer;
 	[Export] private HBoxContainer _voteBarContainer;
+	[Export] private AnimatedSprite2D _animationSprite2D;
 	
 	private List<(Node node, VoteBar script)> _voteBarList = new List<(Node node, VoteBar script)>();
 	private List<(Node node, Card script)> _cardList = new List<(Node node, Card script)>();
@@ -142,17 +143,7 @@ public partial class SelectScenes : VBoxContainer
 
 	private void OnShowSelectAnimationReceipt(string animation)
 	{
-		switch (animation)
-		{
-			case "scramble":
-				// show animation
-				// delay
-				break;
-			case "getBuff":
-				break;
-			default:
-				break;
-		}
+		_animationSprite2D.Play(animation);
 	}
 
 	public void UpdateSelectCard()

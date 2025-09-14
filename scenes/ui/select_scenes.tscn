@@ -14,7 +14,7 @@ fill_to = Vector2(0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_cfmu5"]
 font_size = 24
 
-[node name="SelectScenes" type="VBoxContainer" node_paths=PackedStringArray("_votingTimeLabel", "_cardContainer", "_voteBarContainer")]
+[node name="SelectScenes" type="VBoxContainer" node_paths=PackedStringArray("_votingTimeLabel", "_cardContainer", "_voteBarContainer", "_animation")]
 clip_contents = true
 anchors_preset = 10
 anchor_right = 1.0
@@ -28,6 +28,7 @@ _cardScene = ExtResource("2_kyaow")
 _votingTimeLabel = NodePath("MarginContainer/VotingTimeLabel")
 _cardContainer = NodePath("MarginContainer3/CardContainer")
 _voteBarContainer = NodePath("MarginContainer2/VoteBarContainer")
+_animation = NodePath("AnimatedSprite2D")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -66,3 +67,7 @@ theme_override_constants/margin_top = 30
 layout_mode = 2
 theme_override_constants/separation = 100
 alignment = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -328)
+centered = false
