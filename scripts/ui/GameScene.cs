@@ -211,13 +211,15 @@ public partial class GameScene : Control
 	// function change to next scene (select, level) while receive signal
 	private void OnNextProgressSignalReceipt(string id, int index)
 	{
+		GD.Print($"Signal RECEIPT NEX PROGRESS, {index},{id}:{_parentGroupName}");
 		if (id == _parentGroupName)
 		{
+			GD.Print($"TRY REMOVE");
 			// try remove node name game_scene
 			Node nodeToRemove = GetNodeOrNull("game_scene");
 			if (nodeToRemove != null)
 			{
-				nodeToRemove.QueueFree();
+				// nodeToRemove.QueueFree();
 			}
 
 			var nodeData = GamaProgressManager.Instance.GetProgress(index);

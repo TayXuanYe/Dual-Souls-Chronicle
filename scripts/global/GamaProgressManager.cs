@@ -86,7 +86,7 @@ public partial class GamaProgressManager : Node
 		if (node is SelectScenes script)
 		{
 			string[] colors = ["#66CCFF", "#FF6666", "#66CC66"];
-			script.Init(60, 3, colors, "character", seed, nextIndex);
+			script.Init(10, 3, colors, "character", seed, nextIndex);
 		}
 
 		return node;

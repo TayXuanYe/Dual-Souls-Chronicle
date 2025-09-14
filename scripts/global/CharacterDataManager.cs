@@ -51,6 +51,7 @@ public partial class CharacterDataManager : Node
 
     private void OnSelectCharacterSignalReceipt(string role, string groupName)
     {
+        GD.Print($"SELECT CHARACTER SIGNAL RECEIPT, {role};{groupName}");
         if (!Characters.ContainsKey(groupName)) { return; }
         var characterDto = Characters[groupName];
         CharacterModel.Role roleEnum;

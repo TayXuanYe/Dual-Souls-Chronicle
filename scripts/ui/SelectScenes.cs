@@ -23,6 +23,12 @@ public partial class SelectScenes : VBoxContainer
 	private bool _isInit = false;
 	private int _nextProgressIndex;
 
+	public override void _Ready()
+	{
+		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
+	}
+
+
 	public void Init(double voteTime, int selectAmount, string[] voteBarColors, string type, int randomSeed, int nextProgressIndex)
 	{
 		if (_isInit) { return; }
@@ -38,7 +44,6 @@ public partial class SelectScenes : VBoxContainer
 		InitCards(_selectAmount, type, randomSeed);
 
 		SignalManager.Instance.ShowSelectAnimation += OnShowSelectAnimationReceipt;
-
 		_isInit = true;
 	}
 	private void InitCards(int selectAmount, string type, int randomSeed)
@@ -121,7 +126,9 @@ public partial class SelectScenes : VBoxContainer
 
 	private async void EmitSignalByType(string type, string carryData)
 	{
+		GD.Print($"Emit signal,{type}?");
 		if(string.IsNullOrEmpty(carryData)) { return; }
+		GD.Print($"Emit signal,{type}");
 		
 		switch (type)
 		{
@@ -135,10 +142,13 @@ public partial class SelectScenes : VBoxContainer
 				SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
 				break;
 		}
-		
+
 		// if didn't have next Index will be -1
 		if (_nextProgressIndex != -1)
+		{
 			SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, _nextProgressIndex);
+			// SignalManager.Instance.ShowSelectAnimation -= OnShowSelectAnimationReceipt;
+		}
 	}
 
 	private void OnShowSelectAnimationReceipt(string animation)
