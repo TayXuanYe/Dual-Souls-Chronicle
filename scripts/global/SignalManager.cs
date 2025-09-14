@@ -22,6 +22,8 @@ public partial class SignalManager : Node
 	public delegate void SluggishnessCharacterEventHandler(string characterId);
 	[Signal]
 	public delegate void NextProgressEventHandler(string id, int index);
+	[Signal]
+	public delegate void UpdateVoteEventHandler(string id, int voteId);
 
 	public override void _Ready()
 	{
@@ -76,5 +78,10 @@ public partial class SignalManager : Node
 	public void EmitNextProgressSignal(string id, int index)
 	{
 		EmitSignal(SignalName.NextProgress, id, index);
+	}
+
+	public void EmitUpdateVoteSignal(string id, int voteId)
+	{
+		EmitSignal(SignalName.UpdateVote, id, voteId);
 	}
 }

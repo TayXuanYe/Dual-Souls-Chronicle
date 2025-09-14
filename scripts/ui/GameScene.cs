@@ -40,22 +40,21 @@ public partial class GameScene : Control
 	{
 		if (@event is InputEventKey keyEvent && keyEvent.Pressed)
 		{
-			Dictionary<int, int> votingData = new Dictionary<int, int>();
 			if (NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2") == "IsInViewport1")
 			{
 				if (keyEvent.Keycode == Key.Z)
 				{
-					votingData.Add(1, 1);
+					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 1);
 					GD.Print("KEY PRESS Z");
 				}
 				if (keyEvent.Keycode == Key.X)
 				{
-					votingData.Add(2, 1);
+					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 2);
 					GD.Print("KEY PRESS X");
 				}
 				if (keyEvent.Keycode == Key.C)
 				{
-					votingData.Add(3, 1);
+					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 3);
 					GD.Print("KEY PRESS C");
 				}
 			}
@@ -63,24 +62,19 @@ public partial class GameScene : Control
 			{
 				if (keyEvent.Keycode == Key.J)
 				{
-					votingData.Add(1, 1);
+					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 1);
 					GD.Print("KEY PRESS J");
 				}
 				if (keyEvent.Keycode == Key.K)
 				{
-					votingData.Add(2, 1);
+					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 2);
 					GD.Print("KEY PRESS K");
 				}
 				if (keyEvent.Keycode == Key.L)
 				{
-					votingData.Add(3, 1);
+					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, 3);
 					GD.Print("KEY PRESS L");
 				}
-			}
-
-			if (_currentScene is SelectScenes script)
-			{
-				script.UpdateVoteCount(votingData);
 			}
 		}
 	}
@@ -121,19 +115,13 @@ public partial class GameScene : Control
 				var result = JustifyAndConvertVoteMessageValid(messageText);
 				if (result.isValid)
 				{
-					votingData.Add(result.data, 1);
+					SignalManager.Instance.EmitUpdateVoteSignal(_parentGroupName, result.data);
 				}
 			}
 			else
 			{
 				SignalManager.Instance.EmitChatSignal(messageText, _parentGroupName);
 			}
-		}
-
-		// is select page found if found update vote
-		if (_currentScene is SelectScenes script)
-		{
-			script.UpdateVoteCount(votingData);
 		}
 	}
 	private (bool isValid, int data) JustifyAndConvertVoteMessageValid(string message)
@@ -211,7 +199,7 @@ public partial class GameScene : Control
 	// function change to next scene (select, level) while receive signal
 	private void OnNextProgressSignalReceipt(string id, int index)
 	{
-		GD.Print($"Signal RECEIPT NEX PROGRESS, {index},{id}:{_parentGroupName}");
+		GD.Print($"Signal RECEIPT NEXT PROGRESS, {index},{id}:{_parentGroupName}");
 		if (id == _parentGroupName)
 		{
 			GD.Print($"TRY REMOVE");
@@ -219,7 +207,8 @@ public partial class GameScene : Control
 			Node nodeToRemove = GetNodeOrNull("game_scene");
 			if (nodeToRemove != null)
 			{
-				// nodeToRemove.QueueFree();
+			GD.Print($"REMOVe success");
+				nodeToRemove.QueueFree();
 			}
 
 			var nodeData = GamaProgressManager.Instance.GetProgress(index);
