@@ -24,6 +24,8 @@ public partial class SignalManager : Node
 	public delegate void NextProgressEventHandler(string id, int index);
 	[Signal]
 	public delegate void UpdateVoteEventHandler(string id, int voteId);
+	[Signal]
+	public delegate void RequestForIntiEventHandler(int index, Node node);
 
 	public override void _Ready()
 	{
@@ -83,5 +85,10 @@ public partial class SignalManager : Node
 	public void EmitUpdateVoteSignal(string id, int voteId)
 	{
 		EmitSignal(SignalName.UpdateVote, id, voteId);
+	}
+
+	public void EmitRequestForInitSignal(int index, Node node)
+	{
+		EmitSignal(SignalName.RequestForInti, index, node);
 	}
 }

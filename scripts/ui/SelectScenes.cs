@@ -11,13 +11,12 @@ public partial class SelectScenes : VBoxContainer
 	[Export] private HBoxContainer _cardContainer;
 	[Export] private HBoxContainer _voteBarContainer;
 	[Export] private AnimatedSprite2D _animationSprite2D;
-	[Export] private Timer _voteTimer;
+	private Timer _voteTimer;
 
 	private List<(Node node, VoteBar script)> _voteBarList = new List<(Node node, VoteBar script)>();
 	private List<(Node node, Card script)> _cardList = new List<(Node node, Card script)>();
 	private float _width = 960;
 	private int _voteTotalCount;
-	private double _voteTimeCountdown;
 	private string _parentGroupName;
 	private int _selectAmount;
 	string _type;
@@ -28,15 +27,30 @@ public partial class SelectScenes : VBoxContainer
 	{
 		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
 		SignalManager.Instance.UpdateVote += OnUpdateVoteSignalReceipt;
+		if (_voteTimer != null)
+		{
+			_voteTimer.Timeout += OnVoteTimerTimeout;
+		}
+		else
+		{
+			_voteTimer = new Timer();
+			AddChild(_voteTimer);
+		}
 	}
 
 	public void Init(double voteTime, int selectAmount, string[] voteBarColors, string type, int randomSeed, int nextProgressIndex)
 	{
-		if (_isInit) { return; }
 		if (voteBarColors.Length != selectAmount) { return; }
 
-		_voteTimeCountdown = voteTime;
-		_voteTimer.Timeout += OnVoteTimerTimeout;
+		if (_voteTimer != null)
+		{
+			_voteTimer.Timeout += OnVoteTimerTimeout;
+		}
+		else
+		{
+			_voteTimer = new Timer();
+			AddChild(_voteTimer);
+		}
 		_voteTimer.WaitTime = voteTime;
 		_voteTimer.Start();
 
@@ -53,6 +67,7 @@ public partial class SelectScenes : VBoxContainer
 
 	private void InitCards(int selectAmount, string type, int randomSeed)
 	{
+		GD.Print($"Init cards, type:{type}, selectAmount:{selectAmount}, randomSeed:{randomSeed}");
 		List<CardModel> cardsData = new List<CardModel>();
 		switch (type)
 		{
@@ -97,8 +112,8 @@ public partial class SelectScenes : VBoxContainer
 		Size = new Vector2(960, 720);
 		Position = new Vector2(0, 0);
 		if (!_isInit) { return; }
-		DisplayVotingTime(_voteTimer.TimeLeft); 
-		UpdateVoteBarSize();
+		UpdateVotingTimeLabel(); 
+		UpdateVoteBarSize();	
 		UpdateSelectCard();
 	}
 	public void OnVoteTimerTimeout()
@@ -128,21 +143,21 @@ public partial class SelectScenes : VBoxContainer
 		if(string.IsNullOrEmpty(carryData)) { return; }
 		GD.Print($"Emit signal,{type}");
 		
-		// switch (type)
-		// {
-		// 	case "buff":
-		// 		SignalManager.Instance.EmitSelectBuffSignal(carryData, _parentGroupName);
-		// 		break;
-		// 	case "character":
-		// 		SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
-		// 		break;
-		// }
+		switch (type)
+		{
+			case "buff":
+				SignalManager.Instance.EmitSelectBuffSignal(carryData, _parentGroupName);
+				break;
+			case "character":
+				SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
+				break;
+		}
 
-		// // if didn't have next Index will be -1
-		// if (_nextProgressIndex != -1)
-		// {
-		// 	SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, _nextProgressIndex);
-		// }
+		// if didn't have next Index will be -1
+		if (_nextProgressIndex != -1)
+		{
+			SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, _nextProgressIndex);
+		}
 	}
 
 	public void UpdateSelectCard()
@@ -201,23 +216,18 @@ public partial class SelectScenes : VBoxContainer
 		}
 	}
 
-	private void DisplayVotingTime(double delta)
+	private void UpdateVotingTimeLabel()
 	{
-		if (_voteTimeCountdown < 0)
-		{
-			_votingTimeLabel.Text = $"Voting Time: 0s";
-			return;
-		}
-		_votingTimeLabel.Text = $"Voting Time: {_voteTimeCountdown.ToString("F0")}s";
+		double timeLeft = _voteTimer.TimeLeft;
+		_votingTimeLabel.Text = $"Voting Time: {Math.Floor(timeLeft)}s";
 
-		if (_voteTimeCountdown <= 5f)
+		if (timeLeft <= 5f)
 		{
-			if (Math.Floor(_voteTimeCountdown) % 2 == 0)
-				_votingTimeLabel.Modulate = new Color("#FF0000");
-			else
-				_votingTimeLabel.Modulate = new Color("#FFFFFF");
+			_votingTimeLabel.Modulate = Math.Floor(timeLeft) % 2 == 0 ? new Color("#FF0000") : new Color("#FFFFFF");
 		}
-
-		_voteTimeCountdown -= delta;
+		else
+		{
+			_votingTimeLabel.Modulate = new Color("#FFFFFF");
+		}
 	}
 }

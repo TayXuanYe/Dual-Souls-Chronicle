@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://diry06uq7l28b"]
+[gd_scene load_steps=9 format=3 uid="uid://diry06uq7l28b"]
 
 [ext_resource type="Script" uid="uid://bu22shg14awid" path="res://scripts/ui/GameScene.cs" id="1_ko4ld"]
 [ext_resource type="PackedScene" uid="uid://b4vdglmsxapvs" path="res://scenes/ui/dialogue.tscn" id="3_nwe1t"]
+[ext_resource type="PackedScene" uid="uid://cffu67hiaehcy" path="res://scripts/ui/container.tscn" id="4_7tw07"]
 [ext_resource type="PackedScene" uid="uid://c83dcfq0gssyu" path="res://scenes/ui/player_data_panel.tscn" id="4_ucfjb"]
 
 [sub_resource type="Gradient" id="Gradient_cfmu5"]
@@ -15,7 +16,7 @@ fill_to = Vector2(1, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nwe1t"]
 
-[node name="Game-scene" type="Control" node_paths=PackedStringArray("_player1DialogDisplayVBox", "_player2DialogDisplayVBox", "_player1DataPanel", "_player2DataPanel")]
+[node name="Game-scene" type="Control" node_paths=PackedStringArray("_player1DialogDisplayVBox", "_player2DialogDisplayVBox", "_player1DataPanel", "_player2DataPanel", "_containerNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +30,7 @@ _player1DialogDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContain
 _player2DialogDisplayVBox = NodePath("VBoxContainer/HBoxContainer2/MarginContainer4/PLayer2ChartDisplayPanel/Player2ChartDisplayVBox")
 _player1DataPanel = NodePath("VBoxContainer/HBoxContainer2/MarginContainer2/Player1DataPanel")
 _player2DataPanel = NodePath("VBoxContainer/HBoxContainer2/MarginContainer3/Player2DataPanel")
+_containerNode = NodePath("Node")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -114,3 +116,5 @@ offset_bottom = 350.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 2
+
+[node name="Node" parent="." instance=ExtResource("4_7tw07")]

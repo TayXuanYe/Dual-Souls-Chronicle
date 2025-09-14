@@ -13,6 +13,7 @@ public partial class GameScene : Control
 	[Export] private VBoxContainer _player2DialogDisplayVBox;
 	[Export] private Panel _player1DataPanel;
 	[Export] private Panel _player2DataPanel;
+	[Export] private Container _containerNode;
 
 	private string _parentGroupName;
 	private long _pollingIntervalMillis = 0;
@@ -193,26 +194,24 @@ public partial class GameScene : Control
 	// function change to next scene (select, level) while receive signal
 	private void OnNextProgressSignalReceipt(string id, int index)
 	{
-		GD.Print($"Signal RECEIPT NEXT PROGRESS, {index},{id}:{_parentGroupName}");
-		if (id == _parentGroupName)
+		if (id != _parentGroupName)
 		{
-			GD.Print($"TRY REMOVE");
-			// try remove node name game_scene
-			Node nodeToRemove = GetNodeOrNull("game_scene");
-			if (nodeToRemove != null)
-			{
-			GD.Print($"REMOVe success");
-				nodeToRemove.QueueFree();
-			}
-
-			var nodeData = GamaProgressManager.Instance.GetProgress(index);
-			Node node = nodeData.node;
-			node.Name = "game_scene";
-			_currentScene = node;
-			AddChild(node);
-			MoveChild(node, 1);
+			return;
 		}
-		SignalManager.Instance.EmitUpdateAllPlayerDataSignal();
+		
+		GD.Print($"Signal RECEIPT NEXT PROGRESS, {index},{id}:{_parentGroupName}");
+
+		var nodeData = GamaProgressManager.Instance.GetProgress(index);
+		PackedScene nextScenePacked = nodeData.packedScene;
+		
+		if (nextScenePacked != null)
+		{
+			_containerNode.ChangeScene(nextScenePacked, index);
+		}
+		else
+		{
+			GD.PrintErr("Next scene is invalid or null. Cannot change scene.");
+		}
 	}
 	
 }

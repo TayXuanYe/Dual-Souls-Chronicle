@@ -15,6 +15,7 @@ public partial class GamaProgressManager : Node
 		}
 		Instance = this;
 		LoadGameProgress();
+		SignalManager.Instance.RequestForInti += OnRequestForInitSignalReceipt;
 	}
 
 	private void LoadGameProgress()
@@ -49,68 +50,67 @@ public partial class GamaProgressManager : Node
 		// success scene
 	}
 
-	// this for select scene
-	public (bool IsValid, Node node) GetProgress(int index)
+	public (bool IsValid, PackedScene packedScene, string type, int nextIndex) GetProgress(int index)
 	{
 		if (!progressDict.ContainsKey(index))
 		{
-			return (false, null);
+			return (false, null, null, -1);
 		}
+
 		int nextIndex = index + 1;
 		if (!progressDict.ContainsKey(nextIndex))
 		{
 			nextIndex = -1;
 		}
+
 		var data = progressDict[index];
-		Node node = null;
+		PackedScene packedScene = null;
+
 		switch (data.type)
 		{
 			case "SelectCharacter":
-				node = InitSelectCharacterScene(data.resourcesPath, index, nextIndex);
+				packedScene = GD.Load<PackedScene>(data.resourcesPath);
 				break;
 			case "SelectBuff":
-				node = InitSelectBuffScene(data.resourcesPath, index, nextIndex);
+				packedScene = GD.Load<PackedScene>(data.resourcesPath);
 				break;
 			case "Level":
-				node = InitLevelScene(data.resourcesPath, nextIndex);
+				packedScene = GD.Load<PackedScene>(data.resourcesPath);
 				break;
 		}
 
-		bool isValid = node != null;
-		return (isValid, node);
-	}
-
-	private Node InitSelectCharacterScene(string resourcesPath, int seed, int nextIndex)
-	{
-		Node node = GD.Load<PackedScene>(resourcesPath).Instantiate();
-		if (node is SelectScenes script)
-		{
-			string[] colors = ["#66CCFF", "#FF6666", "#66CC66"];
-			script.Init(10, 3, colors, "character", seed, nextIndex);
-		}
-
-		return node;
-	}
-
-	private Node InitSelectBuffScene(string resourcesPath, int seed, int nextIndex)
-	{
-		Node node = GD.Load<PackedScene>(resourcesPath).Instantiate();
-		if (node is SelectScenes script)
-		{
-			string[] colors = ["#66CCFF", "#FF6666", "#66CC66"];
-			script.Init(20, 3, colors, "buff", seed, nextIndex);
-		}
-
-		return node;
+		bool isValid = packedScene != null;
+		return (isValid, packedScene, data.type, nextIndex);
 	}
 	
-	private Node InitLevelScene(string resourcesPath, int nextIndex)
+	private void OnRequestForInitSignalReceipt(int index, Node node)
 	{
-		Node node = GD.Load<PackedScene>(resourcesPath).Instantiate();
-		if (node is Level script)
+		var nodeData = GetProgress(index);
+		if (nodeData.IsValid)
 		{
-			script.Init(nextIndex);
+			switch (nodeData.type)
+			{
+				case "SelectCharacter":
+					if (node is SelectScenes selectScenesScript1)
+					{
+						string[] colors = ["#66CCFF", "#FF6666", "#66CC66"];
+						selectScenesScript1.Init(60, 3, colors, "character", index, nodeData.nextIndex);
+					}
+					break;
+				case "SelectBuff":
+					if (node is SelectScenes selectScenesScript2)
+					{
+						string[] colors = ["#66CCFF", "#FF6666", "#66CC66"];
+						selectScenesScript2.Init(20, 3, colors, "buff", index, nodeData.nextIndex);
+					}
+					break;
+				case "Level":
+					if (node is Level levelScript)
+					{
+						levelScript.Init(nodeData.nextIndex);
+					}
+					break;
+			}
 		}
-		return node;
 	}
 }
