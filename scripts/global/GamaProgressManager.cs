@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class GamaProgressManager : Node
 {
 	public static GamaProgressManager Instance { get; set; }
-	private Dictionary<int, (string type, string resourcesPath)> progressList = new Dictionary<int, (string type, string resources)>();
+	private Dictionary<int, (string type, string resourcesPath)> progressDict = new Dictionary<int, (string type, string resources)>();
 	public override void _Ready()
 	{
 		if (Instance != null)
@@ -20,32 +20,28 @@ public partial class GamaProgressManager : Node
 	private void LoadGameProgress()
 	{
 		// select character
-		progressList.Add(0, ("SelectCharacter", "res://scenes/ui/select_scenes.tscn"));
+		progressDict.Add(0, ("SelectCharacter", "res://scenes/ui/select_scenes.tscn"));
 
 		// level 1
-
+		progressDict.Add(1, ("Level", "res://scenes/levels/level1.tscn"));
 		// select buff
-		progressList.Add(2, ("SelectBuff", "res://scenes/ui/select_scenes.tscn"));
-		// select rest
+		progressDict.Add(2, ("SelectBuff", "res://scenes/ui/select_scenes.tscn"));
 
 		// level 2
-
+		progressDict.Add(3, ("Level", "res://scenes/levels/level2.tscn"));
 		// select buff
-		// select rest
+		progressDict.Add(4, ("SelectBuff", "res://scenes/ui/select_scenes.tscn"));
 
 		// level 3 (boss)
 
 		// select boss buff
-		// select rest
 
 		// level 4 
 
 		// select buff
-		// select rest
 
 		// level 5
 		// select buff
-		// select rest
 
 		// level 6 (final boss)
 
@@ -56,49 +52,65 @@ public partial class GamaProgressManager : Node
 	// this for select scene
 	public (bool IsValid, Node node) GetProgress(int index)
 	{
-		if (index >= progressList.Count)
+		if (!progressDict.ContainsKey(index))
 		{
 			return (false, null);
 		}
-
-		var data = progressList[index];
+		int nextIndex = index + 1;
+		if (!progressDict.ContainsKey(nextIndex))
+		{
+			nextIndex = -1;
+		}
+		var data = progressDict[index];
 		Node node = null;
 		switch (data.type)
 		{
 			case "SelectCharacter":
-				node = InitSelectCharacterScene(data.resourcesPath, index);
+				node = InitSelectCharacterScene(data.resourcesPath, index, nextIndex);
 				break;
 			case "SelectBuff":
-				node = InitSelectBuffScene(data.resourcesPath, index);
+				node = InitSelectBuffScene(data.resourcesPath, index, nextIndex);
 				break;
-			// Add other cases as needed
+			case "Level":
+				node = InitLevelScene(data.resourcesPath, nextIndex);
+				break;
 		}
 
 		bool isValid = node != null;
 		return (isValid, node);
 	}
 
-	private Node InitSelectCharacterScene(string resourcesPath, int seed)
+	private Node InitSelectCharacterScene(string resourcesPath, int seed, int nextIndex)
 	{
 		Node node = GD.Load<PackedScene>(resourcesPath).Instantiate();
 		if (node is SelectScenes script)
 		{
 			string[] colors = ["#66CCFF", "#FF6666", "#66CC66"];
-			script.Init(60, 3, colors, "character", seed);
+			script.Init(60, 3, colors, "character", seed, nextIndex);
 		}
 
 		return node;
 	}
 
-	private Node InitSelectBuffScene(string resourcesPath, int seed)
+	private Node InitSelectBuffScene(string resourcesPath, int seed, int nextIndex)
 	{
 		Node node = GD.Load<PackedScene>(resourcesPath).Instantiate();
 		if (node is SelectScenes script)
 		{
 			string[] colors = ["#66CCFF", "#FF6666", "#66CC66"];
-			script.Init(20, 3, colors, "buff", seed);
+			script.Init(20, 3, colors, "buff", seed, nextIndex);
 		}
 
+		return node;
+	}
+	
+	private Node InitLevelScene(string resourcesPath, int nextIndex)
+	{
+		Node node = GD.Load<PackedScene>(resourcesPath).Instantiate();
+		if (node is Level script)
+		{
+			script.Init(nextIndex);
+		}
 		return node;
 	}
 }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Threading.Tasks;
 
 public partial class SelectScenes : VBoxContainer
 {
@@ -20,19 +20,23 @@ public partial class SelectScenes : VBoxContainer
 	private int _selectAmount;
 	string _type;
 	private bool _isInit = false;
+	private int _nextProgressIndex;
 
-	public void Init(double voteTime,int selectAmount, string[] voteBarColors, string type, int randomSeed)
+	public void Init(double voteTime, int selectAmount, string[] voteBarColors, string type, int randomSeed, int nextProgressIndex)
 	{
 		if (_isInit) { return; }
-		if(voteBarColors.Length != selectAmount) { return; }
+		if (voteBarColors.Length != selectAmount) { return; }
 
 		_voteTimeCountdown = voteTime;
 		_voteTotalCount = 0;
 		_selectAmount = selectAmount;
 		_type = type;
+		_nextProgressIndex = nextProgressIndex;
 
 		InitVoteBar(voteBarColors);
 		InitCards(_selectAmount, type, randomSeed);
+
+		SignalManager.Instance.ShowSelectAnimation += OnShowSelectAnimationReceipt;
 
 		_isInit = true;
 	}
@@ -78,6 +82,8 @@ public partial class SelectScenes : VBoxContainer
 	}
 	public override void _Process(double delta)
 	{
+		Size = new Vector2(960, 720);
+		Position = new Vector2(0, 0);
 		if (!_isInit) { return; }
 		if (_voteTimeCountdown <= 0)
 		{
@@ -108,12 +114,11 @@ public partial class SelectScenes : VBoxContainer
 			count++;
 		}
 
-		//signal id temp use print
 		isOnVoteTimeCountdownTrigger = true;
 		EmitSignalByType(_type, carryData);
 	}
 
-	private void EmitSignalByType(string type, string carryData)
+	private async void EmitSignalByType(string type, string carryData)
 	{
 		if(string.IsNullOrEmpty(carryData)) { return; }
 		
@@ -121,9 +126,31 @@ public partial class SelectScenes : VBoxContainer
 		{
 			case "buff":
 				SignalManager.Instance.EmitSelectBuffSignal(carryData, _parentGroupName);
+				// stuck until animation display success
+				await ToSignal(SignalManager.Instance, SignalManager.SignalName.ShowSelectAnimation);
+				await Task.Delay(1000);
 				break;
 			case "character":
 				SignalManager.Instance.EmitSelectCharacterSignal(carryData, _parentGroupName);
+				break;
+		}
+		
+		// if didn't have next Index will be -1
+		if (_nextProgressIndex != -1)
+			SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, _nextProgressIndex);
+	}
+
+	private void OnShowSelectAnimationReceipt(string animation)
+	{
+		switch (animation)
+		{
+			case "scramble":
+				// show animation
+				// delay
+				break;
+			case "getBuff":
+				break;
+			default:
 				break;
 		}
 	}
@@ -147,15 +174,17 @@ public partial class SelectScenes : VBoxContainer
 		_cardList[maxCountIndex].script.IsSelect = true;
 	}
 
-	public void UpdateVoteCount(int[] voteCounts)
+	public void UpdateVoteCount(Dictionary<int, int> voteCounts)
 	{
 		if(!_isInit) { return; }
-		if(voteCounts.Length != _selectAmount) { return; }
 
-		for (int i = 0; i < voteCounts.Length; i++)
+		for (int i = 0; i < _selectAmount; i++)
 		{
-			_voteBarList[i].script.VoteCount = voteCounts[i];
-			_voteTotalCount += voteCounts[i];
+			if (voteCounts.TryGetValue(i + 1, out int value))
+			{
+				_voteBarList[i].script.VoteCount += value;
+				_voteTotalCount += value;
+			}
 		}
 	}
 

@@ -20,7 +20,72 @@ public partial class GameScene : Control
 	private Queue<(Node node, Dialogue script)> _dialogueInstants1 = new Queue<(Node node, Dialogue script)>();
 	private Queue<(Node node, Dialogue script)> _dialogueInstants2 = new Queue<(Node node, Dialogue script)>();
 	private int _selectionAmount = 3;
+	public override void _Ready()
+	{
+		Size = new Vector2(960, 720);
 
+		SignalManager.Instance.DisplayDialog += OnDisplayDialog;
+		SignalManager.Instance.UpdateAllPlayerData += OnUpdateAllPlayerDataSignalReceipt;
+		SignalManager.Instance.NextProgress += OnNextProgressSignalReceipt;
+		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
+
+		// spawn first scene
+		SignalManager.Instance.EmitNextProgressSignal(_parentGroupName, 0);
+
+		_ = StartGetChartMessageAsync();
+	}
+
+	// Simulate user input for testing
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+		{
+			Dictionary<int, int> votingData = new Dictionary<int, int>();
+			if (NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2") == "IsInViewport1")
+			{
+				if (keyEvent.Keycode == Key.Z)
+				{
+					votingData.Add(1, 1);
+					GD.Print("KEY PRESS Z");
+				}
+				if (keyEvent.Keycode == Key.X)
+				{
+					votingData.Add(2, 1);
+					GD.Print("KEY PRESS X");
+				}
+				if (keyEvent.Keycode == Key.C)
+				{
+					votingData.Add(3, 1);
+					GD.Print("KEY PRESS C");
+				}
+			}
+			if (NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2") == "IsInViewport2")
+			{
+				if (keyEvent.Keycode == Key.J)
+				{
+					votingData.Add(1, 1);
+					GD.Print("KEY PRESS J");
+				}
+				if (keyEvent.Keycode == Key.K)
+				{
+					votingData.Add(2, 1);
+					GD.Print("KEY PRESS K");
+				}
+				if (keyEvent.Keycode == Key.L)
+				{
+					votingData.Add(3, 1);
+					GD.Print("KEY PRESS L");
+				}
+			}
+
+			if (_currentScene is SelectScenes script)
+			{
+				script.UpdateVoteCount(votingData);
+			}
+		}
+	}
+
+	// Get chart from live room and process data...
 	private async Task StartGetChartMessageAsync()
 	{
 		while (true)
@@ -45,7 +110,6 @@ public partial class GameScene : Control
 			}
 		}
 	}
-
 	private void ProcessChartResponse(LiveChatMessageListResponse response)
 	{
 		Dictionary<int, int> votingData = new Dictionary<int, int>();
@@ -69,11 +133,9 @@ public partial class GameScene : Control
 		// is select page found if found update vote
 		if (_currentScene is SelectScenes script)
 		{
-			var votesData = votingData.OrderBy(pair => pair.Key).Select(pair => pair.Value).ToArray();
-			script.UpdateVoteCount(votesData);
+			script.UpdateVoteCount(votingData);
 		}
 	}
-
 	private (bool isValid, int data) JustifyAndConvertVoteMessageValid(string message)
 	{
 		message = message.Replace(" ", "");
@@ -92,6 +154,7 @@ public partial class GameScene : Control
 		return (false, -1);
 	}
 
+	// This for display dialog using signal
 	private int maxDialogAmount = 5;
 	public void OnDisplayDialog(string message, string parentGroupName)
 	{
@@ -131,58 +194,40 @@ public partial class GameScene : Control
 		}
 	}
 
-	private int sceneIndex = 0;
-	public override void _Ready()
-	{
-		Size = new Vector2(960, 720);
-
-		SignalManager.Instance.DisplayDialog += OnDisplayDialog;
-		SignalManager.Instance.UpdateAllPlayerData += OnUpdateAllPlayerDataSignalReceipt;
-		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
-
-		var nodeData = GamaProgressManager.Instance.GetProgress(sceneIndex++);
-		Node node = nodeData.node;
-		_currentScene = node;
-		AddChild(node);
-		MoveChild(node, 1);
-
-		SignalManager.Instance.EmitUpdateAllPlayerDataSignal();
-
-		_ = StartGetChartMessageAsync();
-	}
-
+	// This update user panel data by using signal
 	private void OnUpdateAllPlayerDataSignalReceipt()
 	{
 		if (_player1DataPanel is PlayerDataPanel player1DataPanelScript)
 		{
-			player1DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].CharacterName;
-			if (CharacterDataManager.Instance.Characters["IsInViewport1"].IsAssignRole())
-			{
-				string hpAmount = CharacterDataManager.Instance.Characters["IsInViewport1"].Hp.ToString();
-				string hpLimit = CharacterDataManager.Instance.Characters["IsInViewport1"].HpLimit.ToString();
-				player1DataPanelScript.HPLabel.Text = $"{hpAmount}/{hpLimit}";
-				player1DataPanelScript.AttackLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].Attack.ToString();
-				player1DataPanelScript.DefenseLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport1"].Defense.ToString();
-
-				var buffs = CharacterDataManager.Instance.Characters["IsInViewport1"].Buff;
-				player1DataPanelScript.BuffLabel.Text = string.Join(", ", buffs.Select(b => b.Name));
-			}
+			player1DataPanelScript.UpdatePlayerDataDisplay(CharacterDataManager.Instance.Characters["IsInViewport1"]);
 		}
 
 		if (_player2DataPanel is PlayerDataPanel player2DataPanelScript)
 		{
-			player2DataPanelScript.LiveRoomNameLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].CharacterName;
-			if (CharacterDataManager.Instance.Characters["IsInViewport2"].IsAssignRole())
-			{
-				string hpAmount = CharacterDataManager.Instance.Characters["IsInViewport2"].Hp.ToString();
-				string hpLimit = CharacterDataManager.Instance.Characters["IsInViewport2"].HpLimit.ToString();
-				player2DataPanelScript.HPLabel.Text = $"{hpAmount}/{hpLimit}";
-				player2DataPanelScript.AttackLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].Attack.ToString();
-				player2DataPanelScript.DefenseLabel.Text = CharacterDataManager.Instance.Characters["IsInViewport2"].Defense.ToString();
-
-				var buffs = CharacterDataManager.Instance.Characters["IsInViewport2"].Buff;
-				player2DataPanelScript.BuffLabel.Text = string.Join(", ", buffs.Select(b => b.Name));
-			}
+			player2DataPanelScript.UpdatePlayerDataDisplay(CharacterDataManager.Instance.Characters["IsInViewport2"]);
 		}
 	}
+
+	// function change to next scene (select, level) while receive signal
+	private void OnNextProgressSignalReceipt(string id, int index)
+	{
+		if (id == _parentGroupName)
+		{
+			// try remove node name game_scene
+			Node nodeToRemove = GetNodeOrNull("game_scene");
+			if (nodeToRemove != null)
+			{
+				nodeToRemove.QueueFree();
+			}
+
+			var nodeData = GamaProgressManager.Instance.GetProgress(index);
+			Node node = nodeData.node;
+			node.Name = "game_scene";
+			_currentScene = node;
+			AddChild(node);
+			MoveChild(node, 1);
+		}
+		SignalManager.Instance.EmitUpdateAllPlayerDataSignal();
+	}
+	
 }

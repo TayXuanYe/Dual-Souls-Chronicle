@@ -5,7 +5,7 @@ public partial class LoadingScene : Control
 {
 	[Export] private Label _viewport1ReadyLabel;
 	[Export] private Label _viewport2ReadyLabel;
-	private string _parrentGroupName;
+	private string _parentGroupName;
 
 	public override void _Process(double delta)
 	{
@@ -31,7 +31,7 @@ public partial class LoadingScene : Control
 
 	public override void _Ready()
 	{
-		_parrentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
+		_parentGroupName = NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2");
 	}
 
 	public override void _Input(InputEvent @event)
@@ -43,7 +43,7 @@ public partial class LoadingScene : Control
 			var mainNode = GetNode<Main>("/root/Loader/Main");
 			if (YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport1") && YoutubeManager.Instance.IsYoutubeManagerRegistered("IsInViewport2"))
 			{
-				mainNode.RedirectTo(_parrentGroupName, "GamePage");
+				mainNode.RedirectTo(_parentGroupName, "GamePage");
 			}
 		}
 	}

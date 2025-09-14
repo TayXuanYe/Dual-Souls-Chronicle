@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Intrinsics;
 
-public partial class Level1 : Level
+public partial class Level2 : Level
 {
-	[Export] private PackedScene _slimeScene = GD.Load<PackedScene>("res://scenes/entity/character/mage.tscn");
+	[Export] private PackedScene _slimeScene = GD.Load<PackedScene>("res://scenes/entity/enemy/geo_slime.tscn");
 	private async void Process()
 	{
 		while (true)
@@ -37,7 +37,7 @@ public partial class Level1 : Level
 	{
 		if (CharacterDataManager.Instance.Characters["IsInViewport1"].Hp == 0 && CharacterDataManager.Instance.Characters["IsInViewport2"].Hp == 0)
 		{
-			SignalManager.Instance.EmitNextProgressSignal(NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2"),_nextIndex);
+			SignalManager.Instance.EmitNextProgressSignal(NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2"),1);
 		}
 
 		bool allEnemyKill = true;
@@ -50,7 +50,9 @@ public partial class Level1 : Level
 		}
 		if (allEnemyKill)
 		{
-			SignalManager.Instance.EmitNextProgressSignal(NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2"),_failSceneIndex);
+			SignalManager.Instance.EmitNextProgressSignal(NodeUtility.GetParentNodeGroup(this, "IsInViewport1", "IsInViewport2"),-1);
+
+
 		}
 
 	}

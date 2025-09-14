@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using System.Linq;
 
 public partial class PlayerDataPanel : Panel
 {
@@ -13,5 +13,17 @@ public partial class PlayerDataPanel : Panel
 		HPLabel.Text = "???/???";
 		AttackLabel.Text = "???";
 		DefenseLabel.Text = "???";
+	}
+
+	public void UpdatePlayerDataDisplay(CharacterModel characterModel)
+	{
+		LiveRoomNameLabel.Text = characterModel.CharacterName;
+		if (characterModel.IsAssignRole())
+		{
+			HPLabel.Text = $"{characterModel.Hp}/{characterModel.HpLimit}";
+			AttackLabel.Text = characterModel.Attack.ToString();
+			DefenseLabel.Text = characterModel.Defense.ToString();
+			BuffLabel.Text = string.Join(", ", characterModel.Buff.Select(b => b.Name));
+		}
 	}
 }

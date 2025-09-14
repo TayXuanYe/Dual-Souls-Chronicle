@@ -11,6 +11,8 @@ public partial class SignalManager : Node
 	[Signal]
 	public delegate void SelectBuffEventHandler(string buffId, string parentGroupName);
 	[Signal]
+	public delegate void ShowSelectAnimationEventHandler(string animation);
+	[Signal]
 	public delegate void AddBuffCharacterEventHandler(string buffId, string parentGroupName);
 	[Signal]
 	public delegate void RemoveBuffCharacterEventHandler(string buffId, string parentGroupName);
@@ -18,6 +20,8 @@ public partial class SignalManager : Node
 	public delegate void UpdateAllPlayerDataEventHandler();
 	[Signal]
 	public delegate void SluggishnessCharacterEventHandler(string characterId);
+	[Signal]
+	public delegate void NextProgressEventHandler(string id, int index);
 
 	public override void _Ready()
 	{
@@ -44,6 +48,11 @@ public partial class SignalManager : Node
 		EmitSignal(SignalName.SelectBuff, buffId, parentGroupName);
 	}
 
+	public void EmitShowSelectAnimationSignal(string animation)
+	{
+		EmitSignal(SignalName.ShowSelectAnimation, animation);
+	}
+
 	public void EmitAddBuffCharacterSignal(string buffId, string parentGroupName)
 	{
 		EmitSignal(SignalName.AddBuffCharacter, buffId, parentGroupName);
@@ -62,5 +71,10 @@ public partial class SignalManager : Node
 	public void EmitSluggishnessCharacterSignal(string characterId)
 	{
 		EmitSignal(SignalName.SluggishnessCharacter, characterId);
+	}
+
+	public void EmitNextProgressSignal(string id, int index)
+	{
+		EmitSignal(SignalName.NextProgress, id, index);
 	}
 }
